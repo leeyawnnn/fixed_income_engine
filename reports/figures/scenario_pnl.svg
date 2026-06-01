@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="760" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="840" height="760" fill="white"/>
+<text x="86" y="34" font-size="20" font-weight="700" fill="#111">Scenario P&amp;L (one-glance portfolio risk)</text>
+<text x="86" y="56" font-size="13" fill="#666">Change in portfolio value under standard curve moves  -  green = gain, red = loss</text>
+<line x1="522.0" y1="84" x2="522.0" y2="676" stroke="#333"/>
+<text x="522.0" y="694" text-anchor="middle" font-size="11" fill="#555">0</text>
+<rect x="522.0" y="103.7" width="50.1" height="59.2" rx="2" fill="#2ca02c" opacity="0.88"/>
+<text x="238" y="137.3" text-anchor="end" font-size="12.5">Parallel +25bp</text>
+<text x="579.1" y="137.3" text-anchor="start" font-size="11.5" fill="#333">+14,583</text>
+<rect x="522.0" y="202.4" width="218.3" height="59.2" rx="2" fill="#2ca02c" opacity="0.88"/>
+<rect x="522.0" y="202.4" width="218.3" height="59.2" rx="2" fill="none" stroke="#111" stroke-width="1.5"/>
+<text x="238" y="236.0" text-anchor="end" font-size="12.5">Parallel +100bp</text>
+<text x="747.3" y="236.0" text-anchor="start" font-size="11.5" fill="#333">+63,557  (best)</text>
+<rect x="475.1" y="301.1" width="46.9" height="59.2" rx="2" fill="#d62728" opacity="0.88"/>
+<text x="238" y="334.7" text-anchor="end" font-size="12.5">Parallel -25bp</text>
+<text x="468.1" y="334.7" text-anchor="end" font-size="11.5" fill="#333">-13,650</text>
+<rect x="387.2" y="399.7" width="134.8" height="59.2" rx="2" fill="#d62728" opacity="0.88"/>
+<text x="238" y="433.3" text-anchor="end" font-size="12.5">Steepener -/+25bp</text>
+<text x="380.2" y="433.3" text-anchor="end" font-size="11.5" fill="#333">-39,242</text>
+<rect x="522.0" y="498.4" width="133.7" height="59.2" rx="2" fill="#2ca02c" opacity="0.88"/>
+<text x="238" y="532.0" text-anchor="end" font-size="12.5">Flattener +/-25bp</text>
+<text x="662.7" y="532.0" text-anchor="start" font-size="11.5" fill="#333">+38,933</text>
+<rect x="308.8" y="597.1" width="213.2" height="59.2" rx="2" fill="#d62728" opacity="0.88"/>
+<rect x="308.8" y="597.1" width="213.2" height="59.2" rx="2" fill="none" stroke="#111" stroke-width="1.5"/>
+<text x="238" y="630.7" text-anchor="end" font-size="12.5">Butterfly +25/-12.5bp</text>
+<text x="301.8" y="630.7" text-anchor="end" font-size="11.5" fill="#333">-62,067  (worst)</text>
+<text x="522.0" y="742" text-anchor="middle" font-size="12.5" fill="#333">P&amp;L (USD)  -  black outline = best / worst case</text>
+</svg>

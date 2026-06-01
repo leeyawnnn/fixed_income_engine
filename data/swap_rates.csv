@@ -1,0 +1,9 @@
+instrument,tenor_years,rate
+deposit,0.5,0.0530
+swap,1,0.0525
+swap,2,0.0510
+swap,3,0.0498
+swap,5,0.0485
+swap,7,0.0482
+swap,10,0.0485
+swap,30,0.0495
