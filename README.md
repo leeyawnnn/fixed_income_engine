@@ -1,8 +1,8 @@
 # fixed-income-engine
 
-A C++20 fixed-income analytics and yield-curve construction engine — the math
-behind a rates trading desk: bond pricing, yield-curve bootstrapping, parametric
-curve fitting, interest-rate-swap valuation under OIS discounting, and rate
+A C++20 fixed income analytics and yield curve construction engine the math
+behind a rates trading desk: bond pricing, yield curve bootstrapping, parametric
+curve fitting, interest rate swap valuation under OIS discounting, and rate
 sensitivities (duration, convexity, DV01, key-rate DV01, scenario P&L).
 
 Every numerical method has a closed-form-checkable test. The suite has **68 test
@@ -337,23 +337,7 @@ data/         sample market data (treasury_yields.csv, swap_rates.csv,
               portfolio.json)
 ```
 
-## Roadmap (all phases complete)
 
-| Phase | Deliverable | |
-|------:|-------------|:--:|
-| 0  | Skeleton: CMake + Eigen + Catch2 | ✅ |
-| 1  | Dates and day-count conventions | ✅ |
-| 2  | Cashflows and bond pricing | ✅ |
-| 3  | Yield-to-maturity solver (Newton–Raphson + bisection) | ✅ |
-| 4  | Duration, convexity, DV01 | ✅ |
-| 5  | Curve abstraction (linear / log-linear interpolation) | ✅ |
-| 6  | Bootstrapping a zero curve | ✅ |
-| 7  | Nelson–Siegel–Svensson fitting (Levenberg–Marquardt) | ✅ |
-| 8  | Interest-rate-swap pricing (OIS discounting) | ✅ |
-| 9  | Curve sensitivities (DV01, key-rate DV01) | ✅ |
-| 10 | Scenario analysis (parallel / steepen / flatten / butterfly) | ✅ |
-| 11 | CLI demo (`curve_demo`) | ✅ |
-| 12 | README write-up | ✅ |
 
 ## Reference reading
 
