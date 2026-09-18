@@ -89,6 +89,7 @@ endif()
 add_library(fi
     src/version.cpp
     src/money.cpp
+    src/portfolio.cpp
     src/date.cpp
     src/day_count.cpp
     src/bond.cpp
@@ -139,6 +140,7 @@ if(FI_BUILD_TESTS)
     add_executable(fi_tests
         tests/test_smoke.cpp
         tests/test_money.cpp
+        tests/test_portfolio.cpp
         tests/test_date.cpp
         tests/test_day_count.cpp
         tests/test_bond.cpp
@@ -166,4 +168,7 @@ endif()
 if(FI_BUILD_APPS)
     add_executable(curve_demo apps/curve_demo.cpp)
     target_link_libraries(curve_demo PRIVATE fi::fi)
+
+    add_executable(fi_report apps/fi_report.cpp)
+    target_link_libraries(fi_report PRIVATE fi::fi)
 endif()

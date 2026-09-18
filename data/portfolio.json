@@ -1,7 +1,24 @@
 {
-  "valuation_date": "2024-01-02",
+  "valuation_date": "2025-12-31",
+  "currency": "USD",
   "swaps": [
-    { "notional": 10000000, "fixed_rate": 0.050, "direction": "payer",    "tenor_years": 5,  "fixed_freq": 2, "float_freq": 4 },
-    { "notional": 5000000,  "fixed_rate": 0.045, "direction": "receiver", "tenor_years": 10, "fixed_freq": 2, "float_freq": 4 }
+    {
+      "id": "USD-5Y-PAYER",
+      "notional": 10000000.00,
+      "fixed_rate": 0.040,
+      "direction": "payer",
+      "tenor_years": 5,
+      "fixed_freq": 2,
+      "float_freq": 4
+    },
+    {
+      "id": "USD-10Y-RECEIVER",
+      "notional": 5000000.00,
+      "fixed_rate": 0.045,
+      "direction": "receiver",
+      "tenor_years": 10,
+      "fixed_freq": 2,
+      "float_freq": 4
+    }
   ]
 }
