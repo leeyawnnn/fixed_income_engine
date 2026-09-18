@@ -87,7 +87,7 @@ endif()
 # Library target
 # ---------------------------------------------------------------------------
 add_library(fi
-    src/placeholder.cpp
+    src/version.cpp
     src/date.cpp
     src/day_count.cpp
     src/bond.cpp

@@ -9,8 +9,10 @@
 
 namespace fi {
 
-// Analytic interest-rate risk measures for a fixed-coupon bond, all consistent
-// with the Phase 2/3 discounting P = Σ c·(1 + y/m)^(−m·τ):
+// Analytic interest-rate risk measures for a fixed-coupon bond. All are taken
+// against the same yield-based discounting Bond::price_from_yield uses,
+// P = Σ c·(1 + y/m)^(−m·τ), so they are exact derivatives of that price, not
+// of a curve-discounted price:
 //
 //   Macaulay duration   D_mac = (Σ τ·PV) / P                      (years)
 //   Modified duration   D_mod = D_mac / (1 + y/m)                 dP/dy = −D_mod·P

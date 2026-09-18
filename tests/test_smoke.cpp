@@ -1,10 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "fi/version.hpp"
+#include <string>
 
-namespace fi {
-const char* library_version() noexcept;
-}
+#include "fi/version.hpp"
 
 TEST_CASE("library reports its version", "[smoke]") {
     REQUIRE(std::string(fi::library_version()) == "0.1.0");

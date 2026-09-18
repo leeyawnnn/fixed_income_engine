@@ -12,8 +12,9 @@ namespace fi {
 // project's money convention.
 //
 // Bonds only need fixed cashflows, so a plain struct is the right tool (no
-// inheritance). Floating/forward-rate legs in the swap phases are computed from
-// the curve rather than stored as a cashflow variant.
+// inheritance). Floating legs are never materialised as cashflows: their
+// coupons are projected off the curve at valuation time, so there is nothing
+// fixed to store.
 struct Cashflow {
     Date date;
     double amount;
