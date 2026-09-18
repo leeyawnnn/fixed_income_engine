@@ -3,8 +3,10 @@
 #include <vector>
 
 #include "fi/cashflow.hpp"
+#include "fi/curve.hpp"
 #include "fi/date.hpp"
 #include "fi/day_count.hpp"
+#include "fi/solver.hpp"
 
 namespace fi {
 
@@ -62,5 +64,55 @@ private:
     DayCount day_count_;
     std::vector<Cashflow> cashflows_;
 };
+
+// --- Settlement quantities ---------------------------------------------------
+
+// Where a settlement date sits in its coupon period.
+struct AccrualPeriod {
+    Date period_start;
+    Date period_end;            // the next coupon date
+    double accrued = 0.0;       // currency, on the bond's day count
+    double days_accrued = 0.0;  // in year-fraction terms
+    double days_in_period = 0.0;
+};
+
+// The coupon period containing `settlement` and the interest accrued into it.
+// Throws std::invalid_argument if settlement is outside [issue, maturity).
+//
+// Bonds quote *clean*: the price on the screen excludes accrued interest, so
+// it does not sawtooth down by a coupon on every payment date. What actually
+// changes hands is the dirty price, clean + accrued. Everything discounted in
+// this library is a dirty price, because that is what the cashflows are worth;
+// the clean price is a quoting convention laid on top.
+AccrualPeriod accrual(const Bond& bond, const Date& settlement);
+
+double accrued_interest(const Bond& bond, const Date& settlement);
+
+// Dirty price is PV of the remaining cashflows; clean is dirty minus accrued.
+double dirty_price(const Bond& bond, double yield, const Date& settlement);
+double clean_price(const Bond& bond, double yield, const Date& settlement);
+
+// --- Spread to a curve -------------------------------------------------------
+
+// Z-spread: the constant continuously-compounded spread z added to every point
+// of the curve that makes the curve-discounted PV equal `target_dirty_price`.
+//
+//   PV(z) = sum_k c_k * DF(t_k) * exp(-z * t_k)
+//
+// Unlike a yield spread it does not assume a flat curve, and unlike an
+// asset-swap spread it involves no swap: it is the parallel move in *zero*
+// rates the bond is paying you over the risk-free curve. Solved by safeguarded
+// Newton over [-0.5, 1.0].
+//
+// Throws std::invalid_argument if the bond has no cashflows after settlement.
+SolverResult z_spread(const Bond& bond, double target_dirty_price,
+                      const Date& settlement, const Curve& discount,
+                      const SolverConfig& cfg = {});
+
+// PV of the bond's remaining cashflows off `discount`, with a constant spread
+// added to the curve's zero rates. The dirty price at spread == 0 is the
+// curve's own valuation of the bond.
+double price_from_curve(const Bond& bond, const Date& settlement, const Curve& discount,
+                        double spread = 0.0);
 
 }  // namespace fi
