@@ -17,11 +17,19 @@ endif()
 
 option(FI_BUILD_TESTS "Build the test suite" ON)
 option(FI_BUILD_APPS  "Build the demo applications" ON)
+option(FI_WERROR      "Treat compiler warnings as errors" OFF)
+option(FI_OFFLINE     "Require system-installed dependencies; never fetch over the network" OFF)
 
 if(MSVC)
     add_compile_options(/W4)
+    if(FI_WERROR)
+        add_compile_options(/WX)
+    endif()
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
+    if(FI_WERROR)
+        add_compile_options(-Werror)
+    endif()
 endif()
 
 # ---------------------------------------------------------------------------
@@ -29,19 +37,41 @@ endif()
 # ---------------------------------------------------------------------------
 include(FetchContent)
 
-# Eigen — linear algebra (header-only; we only need the headers, so skip its
-# tests/blas/lapack machinery to keep configure fast.)
-FetchContent_Declare(
-    Eigen
-    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-    GIT_TAG 3.4.0
-    GIT_SHALLOW TRUE
-)
-set(EIGEN_BUILD_DOC OFF CACHE BOOL "" FORCE)
-set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
-set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "" FORCE)
-set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(Eigen)
+# Dependencies resolve in two steps: use a system-installed copy when one is
+# present, otherwise download a *pinned release tarball* verified by SHA-256.
+#
+# Pinned tarballs rather than `GIT_REPOSITORY`: a git clone at configure time
+# needs the git protocol to a specific host, which fails behind restrictive
+# corporate proxies and in locked-down CI networks, and a tag is mutable while
+# a content hash is not. FI_OFFLINE=ON forbids the download path entirely and
+# requires the dependency to already be installed.
+
+# --- Eigen: header-only linear algebra (the NSS normal equations). ----------
+# Eigen is hosted on GitLab and has no GitHub mirror (verified 2026-09-18:
+# https://github.com/libeigen/eigen returns 404), so the GitLab release tarball
+# is the only pinnable official source.
+find_package(Eigen3 3.3 QUIET NO_MODULE)
+if(TARGET Eigen3::Eigen)
+    message(STATUS "fi: using system Eigen3 ${Eigen3_VERSION}")
+elseif(FI_OFFLINE)
+    message(FATAL_ERROR
+        "fi: FI_OFFLINE=ON but Eigen3 was not found. Install it first "
+        "(apt: libeigen3-dev, brew: eigen, dnf: eigen3-devel) or re-run with "
+        "-DFI_OFFLINE=OFF to fetch a pinned tarball.")
+else()
+    message(STATUS "fi: system Eigen3 not found; fetching pinned 3.4.0 tarball")
+    set(EIGEN_BUILD_DOC OFF CACHE BOOL "" FORCE)
+    set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+    set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "" FORCE)
+    set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+    FetchContent_Declare(
+        Eigen3
+        URL      https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz
+        URL_HASH SHA256=8586084f71f9bde545ee7fa6d00288b264a2b7ac3607b974e54d13e7162c1c72
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    )
+    FetchContent_MakeAvailable(Eigen3)
+endif()
 
 # ---------------------------------------------------------------------------
 # Library target
@@ -70,16 +100,27 @@ add_library(fi::fi ALIAS fi)
 # Tests
 # ---------------------------------------------------------------------------
 if(FI_BUILD_TESTS)
-    FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG v3.5.4
-        GIT_SHALLOW TRUE
-    )
-    FetchContent_MakeAvailable(Catch2)
+    find_package(Catch2 3 QUIET)
+    if(TARGET Catch2::Catch2WithMain)
+        message(STATUS "fi: using system Catch2 ${Catch2_VERSION}")
+    elseif(FI_OFFLINE)
+        message(FATAL_ERROR
+            "fi: FI_OFFLINE=ON but Catch2 v3 was not found. Install it first "
+            "(brew: catch2, vcpkg/conan: catch2) or configure with "
+            "-DFI_BUILD_TESTS=OFF.")
+    else()
+        message(STATUS "fi: system Catch2 not found; fetching pinned v3.5.4 tarball")
+        FetchContent_Declare(
+            Catch2
+            URL      https://github.com/catchorg/Catch2/archive/refs/tags/v3.5.4.tar.gz
+            URL_HASH SHA256=b7754b711242c167d8f60b890695347f90a1ebc95949a045385114165d606dbb
+            DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        )
+        FetchContent_MakeAvailable(Catch2)
+        list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+    endif()
 
     enable_testing()
-    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
     include(CTest)
     include(Catch)
 
