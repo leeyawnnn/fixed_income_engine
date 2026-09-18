@@ -54,7 +54,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_1">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="290.761156" y="476.159375" transform="rotate(-0 290.761156 476.159375)">-$75,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="290.761156" y="476.298437" transform="rotate(-0 290.761156 476.298437)">-$75,000</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 349.36077 75.6
       </g>
      </g>
      <g id="text_2">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="349.36077" y="476.159375" transform="rotate(-0 349.36077 476.159375)">-$50,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="349.36077" y="476.298437" transform="rotate(-0 349.36077 476.298437)">-$50,000</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 407.960385 75.6
       </g>
      </g>
      <g id="text_3">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="407.960385" y="476.159375" transform="rotate(-0 407.960385 476.159375)">-$25,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="407.960385" y="476.298437" transform="rotate(-0 407.960385 476.298437)">-$25,000</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 466.56 75.6
       </g>
      </g>
      <g id="text_4">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="466.56" y="475.840625" transform="rotate(-0 466.56 475.840625)">$0</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="466.56" y="476.298437" transform="rotate(-0 466.56 476.298437)">$0</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,7 +114,7 @@ L 525.159615 75.6
       </g>
      </g>
      <g id="text_5">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="525.159615" y="476.159375" transform="rotate(-0 525.159615 476.159375)">$25,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="525.159615" y="476.298437" transform="rotate(-0 525.159615 476.298437)">$25,000</text>
      </g>
     </g>
     <g id="xtick_6">
@@ -129,7 +129,7 @@ L 583.75923 75.6
       </g>
      </g>
      <g id="text_6">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="583.75923" y="476.159375" transform="rotate(-0 583.75923 476.159375)">$50,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="583.75923" y="476.298437" transform="rotate(-0 583.75923 476.298437)">$50,000</text>
      </g>
     </g>
     <g id="xtick_7">
@@ -144,11 +144,11 @@ L 642.358844 75.6
       </g>
      </g>
      <g id="text_7">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="642.358844" y="476.159375" transform="rotate(-0 642.358844 476.159375)">$75,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="642.358844" y="476.298437" transform="rotate(-0 642.358844 476.298437)">$75,000</text>
      </g>
     </g>
     <g id="text_8">
-     <text style="fill: #1a1a1a; font: 12px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="466.56" y="490.900937" transform="rotate(-0 466.56 490.900937)">P&amp;L versus base (USD)</text>
+     <text style="fill: #1a1a1a; font: 12px 'DejaVu Sans', sans-serif; text-anchor: middle" x="466.56" y="491.49625" transform="rotate(-0 466.56 491.49625)">P&amp;L versus base (USD)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
@@ -164,7 +164,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_9">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="428.916741" transform="rotate(-0 234.92 428.916741)">Parallel -25bp</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="429.145647" transform="rotate(-0 234.92 429.145647)">Parallel -25bp</text>
      </g>
     </g>
     <g id="ytick_2">
@@ -174,7 +174,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_10">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="366.23817" transform="rotate(-0 234.92 366.23817)">Parallel +25bp</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="366.467076" transform="rotate(-0 234.92 366.467076)">Parallel +25bp</text>
      </g>
     </g>
     <g id="ytick_3">
@@ -184,7 +184,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_11">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="303.643973" transform="rotate(-0 234.92 303.643973)">Flattener (+25/-25bp)</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="303.788504" transform="rotate(-0 234.92 303.788504)">Flattener (+25/-25bp)</text>
      </g>
     </g>
     <g id="ytick_4">
@@ -194,7 +194,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_12">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="240.965402" transform="rotate(-0 234.92 240.965402)">Steepener (-25/+25bp)</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="241.109933" transform="rotate(-0 234.92 241.109933)">Steepener (-25/+25bp)</text>
      </g>
     </g>
     <g id="ytick_5">
@@ -204,7 +204,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_13">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="178.202455" transform="rotate(-0 234.92 178.202455)">Parallel +100bp</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="178.431362" transform="rotate(-0 234.92 178.431362)">Parallel +100bp</text>
      </g>
     </g>
     <g id="ytick_6">
@@ -214,7 +214,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_14">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="115.608259" transform="rotate(-0 234.92 115.608259)">Butterfly (belly +25/wings -12.5bp)</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="234.92" y="115.75279" transform="rotate(-0 234.92 115.75279)">Butterfly (belly +25/wings -12.5bp)</text>
      </g>
     </g>
    </g>
@@ -282,56 +282,59 @@ L 691.2 461.7
 " style="fill: none; stroke: #6b6b6b; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_15">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="433.434126" y="427.673069" transform="rotate(-0 433.434126 427.673069)">-10,719</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: end" x="433.434126" y="427.829866" transform="rotate(-0 433.434126 427.829866)">-10,719</text>
    </g>
    <g id="text_16">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="502.084684" y="364.994498" transform="rotate(-0 502.084684 364.994498)">+11,743</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: start" x="502.084684" y="365.151295" transform="rotate(-0 502.084684 365.151295)">+11,743</text>
    </g>
    <g id="text_17">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="564.770497" y="302.315926" transform="rotate(-0 564.770497 302.315926)">+38,486</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: start" x="564.770497" y="302.472723" transform="rotate(-0 564.770497 302.472723)">+38,486</text>
    </g>
    <g id="text_18">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="367.623993" y="239.637355" transform="rotate(-0 367.623993 239.637355)">-38,795</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: end" x="367.623993" y="239.794152" transform="rotate(-0 367.623993 239.794152)">-38,795</text>
    </g>
    <g id="text_19">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="598.115459" y="176.958783" transform="rotate(-0 598.115459 176.958783)">+52,712</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: start" x="598.115459" y="177.11558" transform="rotate(-0 598.115459 177.11558)">+52,712</text>
    </g>
    <g id="text_20">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="303.635862" y="114.280212" transform="rotate(-0 303.635862 114.280212)">-66,094</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: end" x="303.635862" y="114.437009" transform="rotate(-0 303.635862 114.437009)">-66,094</text>
    </g>
    <g id="patch_11">
-    <path d="M 501.377636 387.23852 
-Q 485.930285 390.241518 470.482934 393.244516 
+    <path d="M 501.367955 387.823904 
+Q 485.933397 390.565678 470.49884 393.307453 
 " style="fill: none; stroke: #6b6b6b; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="text_21">
     <g id="patch_12">
-     <path d="M 506.840276 390.842277 
-L 684.213401 390.842277 
-Q 687.363401 390.842277 687.363401 387.692277 
-L 687.363401 350.287433 
-Q 687.363401 347.137433 684.213401 347.137433 
-L 506.840276 347.137433 
-Q 503.690276 347.137433 503.690276 350.287433 
-L 503.690276 387.692277 
-Q 503.690276 390.842277 506.840276 390.842277 
+     <path d="M 506.840276 391.557917 
+L 708.554182 391.557917 
+Q 711.704182 391.557917 711.704182 388.407917 
+L 711.704182 349.463511 
+Q 711.704182 346.313511 708.554182 346.313511 
+L 506.840276 346.313511 
+Q 503.690276 346.313511 503.690276 349.463511 
+L 503.690276 388.407917 
+Q 503.690276 391.557917 506.840276 391.557917 
 z
 " style="fill: #ffffff; stroke: #d9d9d9; stroke-width: 0.7; stroke-linejoin: miter"/>
     </g>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(506.840276 356.892589)">Base PV $8,771 — near flat, so these</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(506.840276 366.559996)">are close to the whole position. Gains on a</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(506.840276 376.131214)">sell-off and on a flattening, losses on a</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(506.840276 385.810714)">steepening: a short-duration 5s10s flattener.</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(506.840276 356.302105)">Base PV $8,771 — near flat, so these</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(506.840276 366.380136)">are close to the whole position. Gains on a</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(506.840276 376.458167)">sell-off and on a flattening, losses on a</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(506.840276 386.536199)">steepening: a short-duration 5s10s flattener.</text>
    </g>
   </g>
   <g id="text_22">
-   <text style="fill: #1a1a1a; font: 600 15px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="24.3" transform="rotate(-0 64.8 24.3)">The book gains on a sell-off and on a flattening</text>
+   <text style="fill: #1a1a1a; font: 600 15px 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="24.3" transform="rotate(-0 64.8 24.3)">The book gains on a sell-off and on a flattening</text>
   </g>
   <g id="text_23">
-   <text style="fill: #6b6b6b; font: 11px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="45.9" transform="rotate(-0 64.8 45.9)">P&amp;L under the standard curve scenarios, 2025-12-31 · sorted by magnitude · hatched bars are losses</text>
+   <text style="fill: #6b6b6b; font: 11px 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="44.82" transform="rotate(-0 64.8 44.82)">P&amp;L under the standard curve scenarios, 2025-12-31 · sorted by magnitude · hatched bars are losses</text>
   </g>
   <g id="text_24">
-   <text style="fill: #6b6b6b; font: italic 8px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="528.12" transform="rotate(-0 64.8 528.12)">Source: US Treasury Daily Par Yield Curve Rates (CMT), as of 2025-12-31. Computed by fi_report from data/treasury_par_yields_2025.csv.</text>
+   <text style="fill: #6b6b6b; font: italic 8px 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="529.2" transform="rotate(-0 64.8 529.2)">fi_report.</text>
+  </g>
+  <g id="text_25">
+   <text style="fill: #6b6b6b; font: italic 8px 'DejaVu Sans', sans-serif; text-anchor: start" x="64.8" y="518.4" transform="rotate(-0 64.8 518.4)">Source: US Treasury par yield curve rates (CMT), 2025-12-31, from data/treasury_par_yields_2025.csv. Computed by</text>
   </g>
  </g>
  <defs>

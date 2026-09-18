@@ -54,7 +54,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_1">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="174.498299" y="476.159375" transform="rotate(-0 174.498299 476.159375)">-$4,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="174.498299" y="476.298437" transform="rotate(-0 174.498299 476.298437)">-$4,000</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 281.649149 75.6
       </g>
      </g>
      <g id="text_2">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="281.649149" y="476.159375" transform="rotate(-0 281.649149 476.159375)">-$2,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="281.649149" y="476.298437" transform="rotate(-0 281.649149 476.298437)">-$2,000</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 388.8 75.6
       </g>
      </g>
      <g id="text_3">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="388.8" y="475.840625" transform="rotate(-0 388.8 475.840625)">$0</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="388.8" y="476.298437" transform="rotate(-0 388.8 476.298437)">$0</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 495.950851 75.6
       </g>
      </g>
      <g id="text_4">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="495.950851" y="476.159375" transform="rotate(-0 495.950851 476.159375)">$2,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="495.950851" y="476.298437" transform="rotate(-0 495.950851 476.298437)">$2,000</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,11 +114,11 @@ L 603.101701 75.6
       </g>
      </g>
      <g id="text_5">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="603.101701" y="476.159375" transform="rotate(-0 603.101701 476.159375)">$4,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="603.101701" y="476.298437" transform="rotate(-0 603.101701 476.298437)">$4,000</text>
      </g>
     </g>
     <g id="text_6">
-     <text style="fill: #1a1a1a; font: 12px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="388.8" y="490.900937" transform="rotate(-0 388.8 490.900937)">Key-rate DV01 (USD per basis point)</text>
+     <text style="fill: #1a1a1a; font: 12px 'DejaVu Sans', sans-serif; text-anchor: middle" x="388.8" y="491.49625" transform="rotate(-0 388.8 491.49625)">Key-rate DV01 (USD per basis point)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
@@ -134,7 +134,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_7">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="105.342341" transform="rotate(-0 79.4 105.342341)">1M</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="105.571247" transform="rotate(-0 79.4 105.571247)">1M</text>
      </g>
     </g>
     <g id="ytick_2">
@@ -144,7 +144,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_8">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="133.155336" transform="rotate(-0 79.4 133.155336)">2M</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="133.384243" transform="rotate(-0 79.4 133.384243)">2M</text>
      </g>
     </g>
     <g id="ytick_3">
@@ -154,7 +154,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_9">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="160.968332" transform="rotate(-0 79.4 160.968332)">3M</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="161.197238" transform="rotate(-0 79.4 161.197238)">3M</text>
      </g>
     </g>
     <g id="ytick_4">
@@ -164,7 +164,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_10">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="188.781327" transform="rotate(-0 79.4 188.781327)">4M</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="189.010233" transform="rotate(-0 79.4 189.010233)">4M</text>
      </g>
     </g>
     <g id="ytick_5">
@@ -174,7 +174,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_11">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="216.594322" transform="rotate(-0 79.4 216.594322)">6M</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="216.823228" transform="rotate(-0 79.4 216.823228)">6M</text>
      </g>
     </g>
     <g id="ytick_6">
@@ -184,7 +184,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_12">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="244.407317" transform="rotate(-0 79.4 244.407317)">1Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="244.636224" transform="rotate(-0 79.4 244.636224)">1Y</text>
      </g>
     </g>
     <g id="ytick_7">
@@ -194,7 +194,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_13">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="272.220313" transform="rotate(-0 79.4 272.220313)">2Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="272.449219" transform="rotate(-0 79.4 272.449219)">2Y</text>
      </g>
     </g>
     <g id="ytick_8">
@@ -204,7 +204,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_14">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="300.033308" transform="rotate(-0 79.4 300.033308)">3Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="300.262214" transform="rotate(-0 79.4 300.262214)">3Y</text>
      </g>
     </g>
     <g id="ytick_9">
@@ -214,7 +214,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_15">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="327.846303" transform="rotate(-0 79.4 327.846303)">5Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="328.075209" transform="rotate(-0 79.4 328.075209)">5Y</text>
      </g>
     </g>
     <g id="ytick_10">
@@ -224,7 +224,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_16">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="355.659298" transform="rotate(-0 79.4 355.659298)">7Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="355.888204" transform="rotate(-0 79.4 355.888204)">7Y</text>
      </g>
     </g>
     <g id="ytick_11">
@@ -234,7 +234,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_17">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="383.472293" transform="rotate(-0 79.4 383.472293)">10Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="383.7012" transform="rotate(-0 79.4 383.7012)">10Y</text>
      </g>
     </g>
     <g id="ytick_12">
@@ -244,7 +244,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_18">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="411.285289" transform="rotate(-0 79.4 411.285289)">20Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="411.514195" transform="rotate(-0 79.4 411.514195)">20Y</text>
      </g>
     </g>
     <g id="ytick_13">
@@ -254,11 +254,11 @@ L -3.5 0
       </g>
      </g>
      <g id="text_19">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="439.098284" transform="rotate(-0 79.4 439.098284)">30Y</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="79.4" y="439.32719" transform="rotate(-0 79.4 439.32719)">30Y</text>
      </g>
     </g>
     <g id="text_20">
-     <text style="fill: #1a1a1a; font: 12px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="55.437188" y="268.65" transform="rotate(-90 55.437188 268.65)">Curve node</text>
+     <text style="fill: #1a1a1a; font: 12px 'DejaVu Sans', sans-serif; text-anchor: middle" x="54.071562" y="268.65" transform="rotate(-90 54.071562 268.65)">Curve node</text>
     </g>
    </g>
    <g id="patch_3">
@@ -386,52 +386,58 @@ L 691.2 461.7
 " style="fill: none; stroke: #6b6b6b; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_21">
-    <text style="fill: #e69f00; font: 600 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="418.882872" y="454.915769" transform="rotate(-0 418.882872 454.915769)">Parallel DV01 $450/bp</text>
+    <text style="fill: #e69f00; font: 600 9px 'DejaVu Sans', sans-serif; text-anchor: start" x="418.882872" y="454.699206" transform="rotate(-0 418.882872 454.699206)">Parallel DV01 $450/bp</text>
    </g>
    <g id="text_22">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="620.8" y="326.746069" transform="rotate(-0 620.8 326.746069)">$4,181</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: start" x="620.8" y="326.759428" transform="rotate(-0 620.8 326.759428)">$4,181</text>
    </g>
    <g id="text_23">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="365.021871" y="354.415626" transform="rotate(-0 365.021871 354.415626)">-$295</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: end" x="365.021871" y="354.572423" transform="rotate(-0 365.021871 354.572423)">-$295</text>
    </g>
    <g id="text_24">
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="190.255244" y="382.372059" transform="rotate(-0 190.255244 382.372059)">-$3,557</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif; text-anchor: end" x="190.255244" y="382.385418" transform="rotate(-0 190.255244 382.385418)">-$3,557</text>
    </g>
    <g id="patch_18">
-    <path d="M 280.146648 176.092678 
-Q 344.633169 199.439722 409.11969 222.786765 
+    <path d="M 289.335809 176.057025 
+Q 349.244899 199.37736 409.153988 222.697695 
 " style="fill: none; stroke: #6b6b6b; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="text_25">
     <g id="patch_19">
-     <path d="M 115.565331 175.062769 
-L 341.455487 175.062769 
-Q 344.605487 175.062769 344.605487 171.912769 
-L 344.605487 142.883269 
-Q 344.605487 139.733269 341.455487 139.733269 
-L 115.565331 139.733269 
-Q 112.415331 139.733269 112.415331 142.883269 
-L 112.415331 171.912769 
-Q 112.415331 175.062769 115.565331 175.062769 
+     <path d="M 115.565331 174.981207 
+L 367.237674 174.981207 
+Q 370.387674 174.981207 370.387674 171.831207 
+L 370.387674 142.964832 
+Q 370.387674 139.814832 367.237674 139.814832 
+L 115.565331 139.814832 
+Q 112.415331 139.814832 112.415331 142.964832 
+L 112.415331 171.831207 
+Q 112.415331 174.981207 115.565331 174.981207 
 z
 " style="fill: #ffffff; stroke: #d9d9d9; stroke-width: 0.7; stroke-linejoin: miter"/>
     </g>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(115.565331 150.05655)">Buckets sum to $449.51/bp against a parallel</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(115.565331 160.54605)">DV01 of $449.51/bp — a residual of 6.0e-06%.</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(115.565331 170.031207)">The gap is the second-order cross term between nodes.</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(115.565331 149.803425)">Buckets sum to $449.51/bp against a parallel</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(115.565331 159.881457)">DV01 of $449.51/bp — a residual of 6.0e-06%.</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(115.565331 169.959488)">The gap is the second-order cross term between nodes.</text>
    </g>
    <g id="text_26">
-    <text style="fill: #6b6b6b; font: italic 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="93.6576" y="448.1865" transform="rotate(-0 93.6576 448.1865)">10 of 13 buckets carry under $100/bp and are left unlabelled</text>
+    <text style="fill: #6b6b6b; font: italic 9px 'DejaVu Sans', sans-serif; text-anchor: start" x="93.6576" y="448.1865" transform="rotate(-0 93.6576 448.1865)">10 of 13 buckets carry under $100/bp and are left unlabelled</text>
    </g>
   </g>
   <g id="text_27">
-   <text style="fill: #1a1a1a; font: 600 15px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="24.3" transform="rotate(-0 86.4 24.3)">The risk is a 5s10s curve position, not a duration view</text>
+   <text style="fill: #1a1a1a; font: 600 15px 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="24.3" transform="rotate(-0 86.4 24.3)">The risk is a 5s10s curve position, not a duration view</text>
   </g>
   <g id="text_28">
-   <text style="fill: #6b6b6b; font: 11px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="45.9" transform="rotate(-0 86.4 45.9)">Key-rate DV01 by curve node, 2025-12-31 · $10mm 5Y payer at 4.00% and $5mm 10Y receiver at 4.50% · hatched bars lose when that tenor rises</text>
+   <text style="fill: #6b6b6b; font: 11px 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="44.82" transform="rotate(-0 86.4 44.82)">Key-rate DV01 by curve node, 2025-12-31 · $10mm 5Y payer at 4.00% and $5mm 10Y receiver at 4.50% ·</text>
   </g>
   <g id="text_29">
-   <text style="fill: #6b6b6b; font: italic 8px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="528.12" transform="rotate(-0 86.4 528.12)">Source: US Treasury Daily Par Yield Curve Rates (CMT), as of 2025-12-31. Computed by fi_report from data/treasury_par_yields_2025.csv.</text>
+   <text style="fill: #6b6b6b; font: 11px 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="58.86" transform="rotate(-0 86.4 58.86)">hatched bars lose when that tenor rises</text>
+  </g>
+  <g id="text_30">
+   <text style="fill: #6b6b6b; font: italic 8px 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="529.2" transform="rotate(-0 86.4 529.2)">fi_report.</text>
+  </g>
+  <g id="text_31">
+   <text style="fill: #6b6b6b; font: italic 8px 'DejaVu Sans', sans-serif; text-anchor: start" x="86.4" y="518.4" transform="rotate(-0 86.4 518.4)">Source: US Treasury par yield curve rates (CMT), 2025-12-31, from data/treasury_par_yields_2025.csv. Computed by</text>
   </g>
  </g>
  <defs>

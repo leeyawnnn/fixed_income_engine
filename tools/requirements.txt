@@ -1,0 +1,7 @@
+# Pinned so the committed figures regenerate byte for byte. Figure output
+# depends on the renderer's text layout and path construction, so an unpinned
+# matplotlib would make CI's staleness check fail on a version bump rather than
+# on a real change. Bump these deliberately, regenerate, and commit the diff.
+matplotlib==3.8.2
+numpy==1.26.2
+ruff==0.16.8

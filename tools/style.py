@@ -25,6 +25,7 @@ fail when a committed figure no longer matches its data.
 from __future__ import annotations
 
 import pathlib
+import textwrap
 
 import matplotlib
 
@@ -69,10 +70,16 @@ TICK_SIZE = 10
 ANNOTATION_SIZE = 9
 SOURCE_SIZE = 8
 
-# A fallback chain rather than one family: DejaVu Sans always ships with
-# matplotlib, so the figures look the same on a CI runner with no fonts
-# installed as they do on a developer machine.
-FONT_STACK = ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"]
+# One family, and deliberately the one matplotlib bundles.
+#
+# A nicer stack -- Helvetica Neue, then Helvetica, then Arial -- resolves to
+# Helvetica Neue on macOS and to DejaVu Sans on a Linux CI runner, and because
+# `svg.fonttype: none` writes text as text rather than outlines, the two
+# machines lay it out with different metrics and produce different SVGs. CI
+# checks that the committed figures regenerate byte for byte, so that check
+# would fail for a reason that has nothing to do with the data. DejaVu Sans
+# ships with matplotlib and therefore resolves identically everywhere.
+FONT_STACK = ["DejaVu Sans"]
 
 
 def apply_rcparams() -> None:
@@ -132,14 +139,38 @@ def new_figure(rows: int = 1, cols: int = 1, *, left: float = LEFT, **kwargs):
     return fig, axes
 
 
+SUBTITLE_WRAP = 104
+
+
 def titles(fig, title: str, subtitle: str, *, left: float = LEFT) -> None:
-    """Title states the finding; subtitle carries sample, period and units."""
+    """Title states the finding; subtitle carries sample, period and units.
+
+    The subtitle wraps for the same reason the source footer does: it usually
+    carries the position and conventions, which do not fit one line in a font
+    this wide.
+    """
     fig.text(left, 0.955, title, fontsize=TITLE_SIZE, fontweight="semibold", color=INK)
-    fig.text(left, 0.915, subtitle, fontsize=SUBTITLE_SIZE, color=MUTED)
+    for index, line in enumerate(textwrap.wrap(subtitle, SUBTITLE_WRAP)):
+        fig.text(left, 0.917 - index * 0.026, line, fontsize=SUBTITLE_SIZE, color=MUTED)
+
+
+# DejaVu Sans is wide, and a one-line provenance footer runs off the canvas.
+# Wrapping at a fixed character count keeps it inside the figure without having
+# to measure text.
+SOURCE_WRAP = 118
 
 
 def source_footer(fig, source: str, *, left: float = LEFT) -> None:
-    fig.text(left, 0.022, source, fontsize=SOURCE_SIZE, style="italic", color=MUTED)
+    lines = textwrap.wrap(source, SOURCE_WRAP)
+    for index, line in enumerate(reversed(lines)):
+        fig.text(
+            left,
+            0.020 + index * 0.020,
+            line,
+            fontsize=SOURCE_SIZE,
+            style="italic",
+            color=MUTED,
+        )
 
 
 def horizontal_grid_only(ax) -> None:
@@ -262,6 +293,6 @@ def save(fig, name: str) -> pathlib.Path:
 def source_line(as_of: str, extra: str = "") -> str:
     tail = f" {extra}" if extra else ""
     return (
-        f"Source: US Treasury Daily Par Yield Curve Rates (CMT), as of {as_of}. "
-        f"Computed by fi_report from data/treasury_par_yields_2025.csv.{tail}"
+        f"Source: US Treasury par yield curve rates (CMT), {as_of}, from "
+        f"data/treasury_par_yields_2025.csv. Computed by fi_report.{tail}"
     )

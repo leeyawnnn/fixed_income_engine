@@ -49,7 +49,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_1">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="126.261818" y="475.840625" transform="rotate(-0 126.261818 475.840625)">−200</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="126.261818" y="476.298437" transform="rotate(-0 126.261818 476.298437)">−200</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -59,7 +59,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_2">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="193.516364" y="475.840625" transform="rotate(-0 193.516364 475.840625)">−150</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="193.516364" y="476.298437" transform="rotate(-0 193.516364 476.298437)">−150</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -69,7 +69,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_3">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="260.770909" y="475.840625" transform="rotate(-0 260.770909 475.840625)">−100</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="260.770909" y="476.298437" transform="rotate(-0 260.770909 476.298437)">−100</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -79,7 +79,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_4">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="328.025455" y="475.840625" transform="rotate(-0 328.025455 475.840625)">−50</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="328.025455" y="476.298437" transform="rotate(-0 328.025455 476.298437)">−50</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -89,7 +89,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_5">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="395.28" y="475.840625" transform="rotate(-0 395.28 475.840625)">0</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="395.28" y="476.298437" transform="rotate(-0 395.28 476.298437)">0</text>
      </g>
     </g>
     <g id="xtick_6">
@@ -99,7 +99,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_6">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="462.534545" y="475.840625" transform="rotate(-0 462.534545 475.840625)">50</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="462.534545" y="476.298437" transform="rotate(-0 462.534545 476.298437)">50</text>
      </g>
     </g>
     <g id="xtick_7">
@@ -109,7 +109,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_7">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="529.789091" y="475.840625" transform="rotate(-0 529.789091 475.840625)">100</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="529.789091" y="476.298437" transform="rotate(-0 529.789091 476.298437)">100</text>
      </g>
     </g>
     <g id="xtick_8">
@@ -119,7 +119,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_8">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="597.043636" y="475.840625" transform="rotate(-0 597.043636 475.840625)">150</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="597.043636" y="476.298437" transform="rotate(-0 597.043636 476.298437)">150</text>
      </g>
     </g>
     <g id="xtick_9">
@@ -129,11 +129,11 @@ L 0 3.5
       </g>
      </g>
      <g id="text_9">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="664.298182" y="475.840625" transform="rotate(-0 664.298182 475.840625)">200</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: middle" x="664.298182" y="476.298437" transform="rotate(-0 664.298182 476.298437)">200</text>
      </g>
     </g>
     <g id="text_10">
-     <text style="fill: #1a1a1a; font: 12px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="395.28" y="490.582187" transform="rotate(-0 395.28 490.582187)">Parallel shift in zero rates (basis points)</text>
+     <text style="fill: #1a1a1a; font: 12px 'DejaVu Sans', sans-serif; text-anchor: middle" x="395.28" y="491.49625" transform="rotate(-0 395.28 491.49625)">Parallel shift in zero rates (basis points)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
@@ -154,7 +154,7 @@ L -3.5 0
       </g>
      </g>
      <g id="text_11">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="464.554111" transform="rotate(-0 92.36 464.554111)">-$100,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="464.623642" transform="rotate(-0 92.36 464.623642)">-$100,000</text>
      </g>
     </g>
     <g id="ytick_2">
@@ -169,7 +169,7 @@ L 691.2 378.255783
       </g>
      </g>
      <g id="text_12">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="381.98547" transform="rotate(-0 92.36 381.98547)">-$50,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="382.055002" transform="rotate(-0 92.36 382.055002)">-$50,000</text>
      </g>
     </g>
     <g id="ytick_3">
@@ -184,7 +184,7 @@ L 691.2 295.687143
       </g>
      </g>
      <g id="text_13">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="299.257455" transform="rotate(-0 92.36 299.257455)">$0</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="299.486361" transform="rotate(-0 92.36 299.486361)">$0</text>
      </g>
     </g>
     <g id="ytick_4">
@@ -199,7 +199,7 @@ L 691.2 213.118502
       </g>
      </g>
      <g id="text_14">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="216.84819" transform="rotate(-0 92.36 216.84819)">$50,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="216.917721" transform="rotate(-0 92.36 216.917721)">$50,000</text>
      </g>
     </g>
     <g id="ytick_5">
@@ -214,11 +214,11 @@ L 691.2 130.549862
       </g>
      </g>
      <g id="text_15">
-      <text style="fill: #1a1a1a; font: 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="134.279549" transform="rotate(-0 92.36 134.279549)">$100,000</text>
+      <text style="fill: #1a1a1a; font: 10px 'DejaVu Sans', sans-serif; text-anchor: end" x="92.36" y="134.349081" transform="rotate(-0 92.36 134.349081)">$100,000</text>
      </g>
     </g>
     <g id="text_16">
-     <text style="fill: #1a1a1a; font: 12px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="40.409687" y="268.65" transform="rotate(-90 40.409687 268.65)">Portfolio P&amp;L</text>
+     <text style="fill: #1a1a1a; font: 12px 'DejaVu Sans', sans-serif; text-anchor: middle" x="34.540937" y="268.65" transform="rotate(-90 34.540937 268.65)">Portfolio P&amp;L</text>
     </g>
    </g>
    <g id="line2d_20">
@@ -306,13 +306,13 @@ L 691.2 461.7
 " style="fill: none; stroke: #6b6b6b; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_17">
-    <text style="fill: #d55e00; font: 600 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="670.298182" y="149.759441" transform="rotate(-0 670.298182 149.759441)">Duration only</text>
+    <text style="fill: #d55e00; font: 600 10px 'DejaVu Sans', sans-serif; text-anchor: start" x="670.298182" y="149.944598" transform="rotate(-0 670.298182 149.944598)">Duration only</text>
    </g>
    <g id="text_18">
-    <text style="fill: #0072b2; font: 600 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="670.298182" y="101.201679" transform="rotate(-0 670.298182 101.201679)">Actual reprice</text>
+    <text style="fill: #0072b2; font: 600 10px 'DejaVu Sans', sans-serif; text-anchor: start" x="670.298182" y="101.375898" transform="rotate(-0 670.298182 101.375898)">Actual reprice</text>
    </g>
    <g id="text_19">
-    <text style="fill: #009e73; font: 600 10px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="670.298182" y="90.277549" transform="rotate(-0 670.298182 90.277549)">+ convexity</text>
+    <text style="fill: #009e73; font: 600 10px 'DejaVu Sans', sans-serif; text-anchor: start" x="670.298182" y="90.462705" transform="rotate(-0 670.298182 90.462705)">+ convexity</text>
    </g>
    <g id="patch_5">
     <path d="M 126.261818 441.028618 
@@ -328,37 +328,43 @@ L 128.261818 391.043289
 " style="fill: none; stroke: #1a1a1a; stroke-linecap: round"/>
    </g>
    <g id="patch_6">
-    <path d="M 225.43346 376.473054 
-Q 177.71649 394.547289 129.999519 412.621525 
+    <path d="M 233.310652 376.633725 
+Q 181.672853 394.676311 130.035054 412.718898 
 " style="fill: none; stroke: #6b6b6b; stroke-width: 0.9; stroke-linecap: round"/>
    </g>
    <g id="text_20">
     <g id="patch_7">
-     <path d="M 180.065455 375.414918 
-L 368.121861 375.414918 
-Q 371.271861 375.414918 371.271861 372.264918 
-L 371.271861 343.908168 
-Q 371.271861 340.758168 368.121861 340.758168 
-L 180.065455 340.758168 
-Q 176.915455 340.758168 176.915455 343.908168 
-L 176.915455 372.264918 
-Q 176.915455 375.414918 180.065455 375.414918 
+     <path d="M 180.065455 375.62473 
+L 392.97733 375.62473 
+Q 396.12733 375.62473 396.12733 372.47473 
+L 396.12733 343.608355 
+Q 396.12733 340.458355 392.97733 340.458355 
+L 180.065455 340.458355 
+Q 176.915455 340.458355 176.915455 343.608355 
+L 176.915455 372.47473 
+Q 176.915455 375.62473 180.065455 375.62473 
 z
 " style="fill: #ffffff; stroke: #d9d9d9; stroke-width: 0.7; stroke-linejoin: miter"/>
     </g>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(180.065455 350.24473)">At -200bp duration alone overstates the</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(180.065455 360.625949)">gain by $36,470 (68.3%).</text>
-    <text style="fill: #1a1a1a; font: 9px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif" transform="translate(180.065455 370.401636)">One convexity term removes 90% of that error.</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(180.065455 350.446949)">At -200bp duration alone overstates the</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(180.065455 360.52498)">gain by $36,470 (68.3%).</text>
+    <text style="fill: #1a1a1a; font: 9px 'DejaVu Sans', sans-serif" transform="translate(180.065455 370.603011)">One convexity term removes 90% of that error.</text>
    </g>
   </g>
   <g id="text_21">
-   <text style="fill: #1a1a1a; font: 600 15px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="24.3" transform="rotate(-0 99.36 24.3)">One convexity term removes 88% to 99% of duration's error</text>
+   <text style="fill: #1a1a1a; font: 600 15px 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="24.3" transform="rotate(-0 99.36 24.3)">One convexity term removes 88% to 99% of duration's error</text>
   </g>
   <g id="text_22">
-   <text style="fill: #6b6b6b; font: 11px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="45.9" transform="rotate(-0 99.36 45.9)">Actual repricing against first- and second-order predictions, 2025-12-31 · $10mm 5Y payer and $5mm 10Y receiver · duration alone is off by 4% at 25bp and by 68% at -200bp</text>
+   <text style="fill: #6b6b6b; font: 11px 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="44.82" transform="rotate(-0 99.36 44.82)">Actual repricing against first- and second-order predictions, 2025-12-31 · $10mm 5Y payer and $5mm 10Y</text>
   </g>
   <g id="text_23">
-   <text style="fill: #6b6b6b; font: italic 8px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="528.12" transform="rotate(-0 99.36 528.12)">Source: US Treasury Daily Par Yield Curve Rates (CMT), as of 2025-12-31. Computed by fi_report from data/treasury_par_yields_2025.csv.</text>
+   <text style="fill: #6b6b6b; font: 11px 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="58.86" transform="rotate(-0 99.36 58.86)">receiver · duration alone is off by 4% at 25bp and by 68% at -200bp</text>
+  </g>
+  <g id="text_24">
+   <text style="fill: #6b6b6b; font: italic 8px 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="529.2" transform="rotate(-0 99.36 529.2)">fi_report.</text>
+  </g>
+  <g id="text_25">
+   <text style="fill: #6b6b6b; font: italic 8px 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="518.4" transform="rotate(-0 99.36 518.4)">Source: US Treasury par yield curve rates (CMT), 2025-12-31, from data/treasury_par_yields_2025.csv. Computed by</text>
   </g>
  </g>
  <defs>
