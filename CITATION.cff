@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+title: fixed-income-engine
+message: >-
+  If you use this software or its results, please cite it using the metadata
+  below.
+type: software
+authors:
+  - given-names: Lyonn
+    family-names: Lie
+    alias: leeyawnnn
+repository-code: "https://github.com/leeyawnnn/fixed_income_engine"
+abstract: >-
+  A C++20 fixed income analytics library: yield curve bootstrapping from market
+  instruments under three interpolation schemes, Nelson-Siegel-Svensson curve
+  fitting, interest rate swap valuation with separate discount and projection
+  curves, and rate risk including duration, convexity, DV01, key-rate DV01 and
+  bucketed hedging. Validated against published US Treasury par yield curve
+  rates.
+keywords:
+  - fixed-income
+  - yield-curve
+  - bootstrapping
+  - interest-rate-swaps
+  - nelson-siegel
+  - quantitative-finance
+  - cpp20
+license: Apache-2.0
+version: 0.1.0
+references:
+  - type: article
+    authors:
+      - family-names: Hagan
+        given-names: Patrick S.
+      - family-names: West
+        given-names: Graeme
+    title: Interpolation Methods for Curve Construction
+    journal: Applied Mathematical Finance
+    volume: 13
+    issue: 2
+    start: 89
+    end: 129
+    year: 2006
+    doi: 10.1080/13504860500396032

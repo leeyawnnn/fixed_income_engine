@@ -1,0 +1,40 @@
+fixed-income-engine
+Copyright 2025 Lyonn Lie
+
+This product includes software developed under the Apache License, Version 2.0.
+See LICENSE for the full text.
+
+--------------------------------------------------------------------------------
+Redistributed data
+--------------------------------------------------------------------------------
+
+data/treasury_par_yields_2025.csv
+    US Treasury Daily Par Yield Curve Rates (CMT), published by the US
+    Department of the Treasury.
+    https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve
+    A work of the US Government, not subject to copyright protection in the
+    United States (17 U.S.C. 105). Redistributed unmodified apart from column
+    reordering and a provenance header.
+
+data/sofr_overnight_2025.csv
+    SOFR (Secured Overnight Financing Rate) overnight fixing, retrieved from
+    FRED (Federal Reserve Bank of St. Louis). SOFR is published by the Federal
+    Reserve Bank of New York, which is the rate administrator and the source of
+    the data. Use is subject to the New York Fed's Terms of Use for Select Rate
+    Data and to FRED's terms of use.
+    https://fred.stlouisfed.org/series/SOFR
+    https://www.newyorkfed.org/markets/reference-rates/terms-of-use-for-select-rate-data
+
+--------------------------------------------------------------------------------
+Build-time dependencies (not redistributed)
+--------------------------------------------------------------------------------
+
+These are downloaded at configure time from pinned, hash-verified release
+tarballs. No copy of either is included in this repository.
+
+Eigen 3.4.0        Mozilla Public License 2.0 (with some modules under
+                   Apache-2.0 and BSD; see the upstream COPYING files)
+                   https://gitlab.com/libeigen/eigen
+
+Catch2 v3.5.4      Boost Software License 1.0
+                   https://github.com/catchorg/Catch2
