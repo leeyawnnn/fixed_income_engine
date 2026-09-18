@@ -515,9 +515,10 @@ def figure_duration_convexity() -> pathlib.Path:
     style.horizontal_grid_only(ax)
     style.titles(
         fig,
-        "Duration is fine for 25bp and wrong for 200bp",
+        "One convexity term removes about 90% of duration's error",
         f"Actual repricing against first- and second-order predictions, {AS_OF} · "
-        "\\$10mm 5Y payer and \\$5mm 10Y receiver",
+        "\\$10mm 5Y payer and \\$5mm 10Y receiver · "
+        "duration alone is off by 4% at 25bp and by 68% at -200bp",
         left=0.115,
     )
     style.source_footer(fig, style.source_line(AS_OF), left=0.115)

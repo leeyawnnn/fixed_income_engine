@@ -352,10 +352,10 @@ z
    </g>
   </g>
   <g id="text_21">
-   <text style="fill: #1a1a1a; font: 600 15px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="24.3" transform="rotate(-0 99.36 24.3)">Duration is fine for 25bp and wrong for 200bp</text>
+   <text style="fill: #1a1a1a; font: 600 15px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="24.3" transform="rotate(-0 99.36 24.3)">One convexity term removes about 90% of duration's error</text>
   </g>
   <g id="text_22">
-   <text style="fill: #6b6b6b; font: 11px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="45.9" transform="rotate(-0 99.36 45.9)">Actual repricing against first- and second-order predictions, 2025-12-31 · $10mm 5Y payer and $5mm 10Y receiver</text>
+   <text style="fill: #6b6b6b; font: 11px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="45.9" transform="rotate(-0 99.36 45.9)">Actual repricing against first- and second-order predictions, 2025-12-31 · $10mm 5Y payer and $5mm 10Y receiver · duration alone is off by 4% at 25bp and by 68% at -200bp</text>
   </g>
   <g id="text_23">
    <text style="fill: #6b6b6b; font: italic 8px 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="99.36" y="528.12" transform="rotate(-0 99.36 528.12)">Source: US Treasury Daily Par Yield Curve Rates (CMT), as of 2025-12-31. Computed by fi_report from data/treasury_par_yields_2025.csv.</text>
