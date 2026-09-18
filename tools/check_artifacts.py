@@ -41,6 +41,19 @@ SKIP_VALUES = {"iterations"}
 # 1.783e-11 is meaningless; both being far below a basis point is the claim.
 NEGLIGIBLE = 1e-6
 
+# Files compared on relative error instead of printed precision, with the
+# reason each one needs it.
+#
+# nss_params.csv: Nelson-Siegel-Svensson's decay scales are weakly identified.
+# Near the optimum the objective is flat in lambda1 and lambda2 by construction
+# - that is what convergence means - so a 1e-16 difference in libm moves the
+# argmin by several parts per million. Measured across macOS and Linux:
+# lambda2 16.64772752 against 16.64772430, while the fit those parameters
+# produce is identical to every printed digit, RMSE 2.1015 bp on both. The fit
+# is reproducible; the parameterisation of it is not, and asserting the latter
+# to eight decimal places would be asserting something untrue.
+RELATIVE_TOLERANCE = {"nss_params.csv": 1e-4}
+
 FILES = [
     "bucket_hedge.csv",
     "curve_nodes.csv",
@@ -84,7 +97,7 @@ def tolerance_for(printed: str) -> float:
     return 1.5 * (10.0 ** -len(fraction)) if fraction else 1.5
 
 
-def compare_cell(expected: str, actual: str) -> str | None:
+def compare_cell(expected: str, actual: str, relative: float | None) -> str | None:
     if expected == actual:
         return None
     try:
@@ -95,7 +108,11 @@ def compare_cell(expected: str, actual: str) -> str | None:
     if abs(a) < NEGLIGIBLE and abs(b) < NEGLIGIBLE:
         return None
 
-    tol = max(tolerance_for(expected), 1e-9 * abs(a))
+    tol = (
+        relative * abs(a)
+        if relative is not None
+        else max(tolerance_for(expected), 1e-9 * abs(a))
+    )
     if abs(a - b) <= tol:
         return None
     return f"{expected} != {actual} (differs by {abs(a - b):.3g}, tolerance {tol:.3g})"
@@ -110,6 +127,7 @@ def compare_file(name: str, fresh_dir: pathlib.Path) -> list[str]:
     if len(want) != len(got):
         return [f"{name}: {len(want)} rows committed, {len(got)} regenerated"]
 
+    relative = RELATIVE_TOLERANCE.get(name)
     problems = []
     for index, (wrow, grow) in enumerate(zip(want, got, strict=True), start=1):
         if len(wrow) != len(grow):
@@ -118,7 +136,7 @@ def compare_file(name: str, fresh_dir: pathlib.Path) -> list[str]:
         if wrow and wrow[0] in SKIP_VALUES:
             continue
         for wcell, gcell in zip(wrow, grow, strict=True):
-            if problem := compare_cell(wcell, gcell):
+            if problem := compare_cell(wcell, gcell, relative):
                 problems.append(f"{name} row {index}: {problem}")
     return problems
 

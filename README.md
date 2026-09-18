@@ -255,6 +255,15 @@ RMSE 2.10 bp, worst tenor 4.21 bp at 20Y —
 multi-start sweep over the decay scales because NSS is non-convex in λ₁ and λ₂
 and a single rule-of-thumb start stalls in a poor local minimum.
 
+The *fit* reproduces across platforms; the *parameters* do not. Near the optimum
+the objective is flat in λ₁ and λ₂ — that is what convergence means — so a
+last-bit difference between Apple's and GNU's `exp` moves the argmin by parts
+per million: λ₂ comes out 16.64772752 on macOS and 16.64772430 on Linux, from
+42 iterations instead of 44. Every fitted yield and the RMSE are identical to
+the last printed digit. So the λ's are reported but should not be read as
+identified to eight decimals, and CI compares them on relative error while
+holding the fitted curve to its printed precision.
+
 **Cross-scheme agreement.** All three interpolation schemes reprice the same
 market and produce zero curves that agree exactly at every node by construction
 and to within 11.5 bp anywhere off-node. Where they disagree is documented
@@ -343,6 +352,13 @@ independent of which instruments happened to be quoted that day.
 liquidity weighting, no notional rounding to tradeable sizes, no constraint that
 you cannot trade $-105.49 of a 30Y swap. It is the least-squares answer to a
 linear problem, which is the right first step and not a trade ticket.
+
+**The NSS decay scales are weakly identified.** λ₁ and λ₂ enter the model
+non-linearly and the objective is flat in them near the optimum, so the fitted
+values move by parts per million between platforms while the curve they produce
+does not. Do not read those two numbers as estimates with eight significant
+figures; if I needed stable parameters rather than a stable curve I would fix
+the λ's to conventional values and fit only the β's, which is what many desks do.
 
 **Performance is unmeasured.** There is no benchmark in this repository and I
 make no speed claims. The bootstrap rebuilds a curve object inside every solver
