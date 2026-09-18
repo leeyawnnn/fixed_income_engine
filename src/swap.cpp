@@ -73,6 +73,17 @@ double Swap::pv(const Curve& discount, const Curve& projection) const {
     return direction_ == SwapDirection::Payer ? floating - fixed : fixed - floating;
 }
 
+Swap::LegBreakdown Swap::legs(const Curve& discount, const Curve& projection) const {
+    const double sign = direction_ == SwapDirection::Payer ? -1.0 : 1.0;
+    LegBreakdown breakdown;
+    breakdown.fixed = sign * fixed_leg_pv(discount);
+    breakdown.floating = -sign * floating_leg_pv(discount, projection);
+    breakdown.annuity = annuity(discount);
+    breakdown.par_rate = par_rate(discount, projection);
+    breakdown.rate_offset = fixed_rate_ - breakdown.par_rate;
+    return breakdown;
+}
+
 double Swap::par_rate(const Curve& discount, const Curve& projection) const {
     const double floating = floating_leg_pv(discount, projection);
     return floating / (notional_ * annuity(discount));

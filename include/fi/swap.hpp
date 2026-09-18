@@ -49,6 +49,30 @@ public:
         return par_rate(discount, discount);
     }
 
+    // PV01: value of one basis point on the fixed rate, i.e. notional * annuity
+    // * 1e-4. Always positive.
+    //
+    // PV01 and DV01 are routinely conflated and are not the same number. PV01
+    // moves the *coupon* and holds the curve still; DV01 moves the *curve* and
+    // holds the coupon still. They are close for a par swap, because there the
+    // two moves hit almost the same cashflows, and they separate as the swap
+    // goes off-market.
+    double pv01(const Curve& discount) const {
+        return notional_ * annuity(discount) * 1e-4;
+    }
+
+    // PV split into its legs, signed from the holder's view, which is what a
+    // valuation report shows. fixed + floating == pv().
+    struct LegBreakdown {
+        double fixed = 0.0;
+        double floating = 0.0;
+        double annuity = 0.0;  // per unit notional
+        double par_rate = 0.0;
+        double rate_offset = 0.0;  // fixed_rate - par_rate
+    };
+    LegBreakdown legs(const Curve& discount, const Curve& projection) const;
+    LegBreakdown legs(const Curve& discount) const { return legs(discount, discount); }
+
     double notional() const noexcept { return notional_; }
     double fixed_rate() const noexcept { return fixed_rate_; }
     SwapDirection direction() const noexcept { return direction_; }
