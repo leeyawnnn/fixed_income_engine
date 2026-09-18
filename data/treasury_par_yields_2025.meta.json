@@ -1,0 +1,22 @@
+{
+  "dataset": "US Treasury Daily Par Yield Curve Rates (CMT)",
+  "publisher": "US Department of the Treasury",
+  "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/2025/all?type=daily_treasury_yield_curve&field_tdr_date_value=2025&page&_format=csv",
+  "landing_page": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve",
+  "units": "percent per annum, par yield (CMT)",
+  "year": 2025,
+  "first_date": "2025-01-02",
+  "last_date": "2025-12-31",
+  "observations": 249,
+  "retrieved_utc": "2026-09-18T15:03:47+00:00",
+  "produced_by": "python3 scripts/fetch_treasury_curve.py --year 2025",
+  "git_commit": "da0c93eb935f10218e306f5fefdf88dcd1cf2c51",
+  "sha256": "a3a39ab457f5330fc48938dd46d07030e5fa746b40ec3e21039a6ac945528d77",
+  "licence": "US Government work, not subject to domestic copyright (17 USC 105)",
+  "notes": [
+    "Par yields, not zero rates and not observed trade yields.",
+    "Interpolated by Treasury with a monotone convex spline from 2021-12-06; a quasi-cubic Hermite spline before that date.",
+    "The 1.5-month constant maturity series begins 2025-02-18; earlier cells are empty and are left empty here.",
+    "Published around 15:30 ET on US business days."
+  ]
+}

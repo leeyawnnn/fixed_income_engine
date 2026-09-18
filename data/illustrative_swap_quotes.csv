@@ -1,0 +1,17 @@
+# ILLUSTRATIVE QUOTES - NOT MARKET DATA. Hand-written, not observed anywhere.
+#
+# These exist only to exercise the deposit-plus-par-swap bootstrap path, which
+# no free data source covers: there is no publicly redistributable USD SOFR
+# swap curve (see data/README.md). Every headline number in the README is
+# bootstrapped from data/treasury_par_yields_2025.csv instead, which is real.
+#
+# Do not read any of these levels as a market observation.
+instrument,tenor_years,rate
+deposit,0.5,0.0530
+swap,1,0.0525
+swap,2,0.0510
+swap,3,0.0498
+swap,5,0.0485
+swap,7,0.0482
+swap,10,0.0485
+swap,30,0.0495

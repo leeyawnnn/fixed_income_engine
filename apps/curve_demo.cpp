@@ -1,6 +1,6 @@
 // curve_demo — end-to-end driver for the fixed-income engine.
 //
-//   curve_demo [--quotes data/swap_rates.csv] [--portfolio data/portfolio.json]
+//   curve_demo [--quotes data/illustrative_swap_quotes.csv] [--portfolio data/portfolio.json]
 //
 // Loads market quotes, bootstraps a zero curve, fits Nelson-Siegel-Svensson,
 // prices the portfolio, and runs the standard scenario set. Writes curve.csv
@@ -56,7 +56,7 @@ Date add_tenor(const Date& ref, double tenor_years) {
 }
 
 struct Args {
-    std::string quotes = "data/swap_rates.csv";
+    std::string quotes = "data/illustrative_swap_quotes.csv";
     std::string portfolio = "data/portfolio.json";
 };
 
@@ -96,9 +96,15 @@ int main(int argc, char** argv) {
         std::vector<BootstrapInstrument> instruments;
         std::istringstream in(read_file(args.quotes));
         std::string line;
-        std::getline(in, line);  // header
+        bool header_seen = false;
         while (std::getline(in, line)) {
-            if (line.empty()) continue;
+            // Data files carry provenance headers, so skip comments and blanks
+            // and treat the first surviving line as the column header.
+            if (line.empty() || line[0] == '#') continue;
+            if (!header_seen) {
+                header_seen = true;
+                continue;
+            }
             std::stringstream ss(line);
             std::string kind, tenor_s, rate_s;
             std::getline(ss, kind, ',');

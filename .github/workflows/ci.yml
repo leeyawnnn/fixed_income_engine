@@ -67,7 +67,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure --timeout 60
 
       - name: Run the demo end to end
-        run: ./build/curve_demo --quotes data/swap_rates.csv --portfolio data/portfolio.json
+        run: ./build/curve_demo --quotes data/illustrative_swap_quotes.csv --portfolio data/portfolio.json
 
   offline-build:
     name: offline build (no network fetch)
