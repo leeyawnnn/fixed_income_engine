@@ -515,7 +515,7 @@ def figure_duration_convexity() -> pathlib.Path:
     style.horizontal_grid_only(ax)
     style.titles(
         fig,
-        "One convexity term removes about 90% of duration's error",
+        "One convexity term removes 88% to 99% of duration's error",
         f"Actual repricing against first- and second-order predictions, {AS_OF} · "
         "\\$10mm 5Y payer and \\$5mm 10Y receiver · "
         "duration alone is off by 4% at 25bp and by 68% at -200bp",

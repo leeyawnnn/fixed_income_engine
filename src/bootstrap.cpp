@@ -231,13 +231,15 @@ std::unique_ptr<Curve> bootstrap_curve(const Date& reference_date,
     // node is built from the discrete forwards on *both* sides, so adding the
     // 10Y node moves the curve back through 7Y and 5Y and the instruments
     // already bootstrapped stop repricing. Measured on the 2025-12-31 Treasury
-    // curve, a one-pass monotone convex bootstrap holds 1e-12 bp through 1Y,
-    // drifts to 0.02 bp by 3Y and 394 bp by 20Y, and the 30Y solve then fails
-    // outright.
+    // curve, a one-pass monotone convex bootstrap holds 1e-12 bp through the 2Y
+    // node, drifts to 0.009 bp by 3Y and 0.033 bp by 7Y, and ends at 1.58 bp
+    // once the 30Y node is added. Simply reading log-linear nodes back under
+    // monotone convex, which is the other thing one might try, leaves 0.25 bp.
+    // Both are orders of magnitude outside any usable tolerance.
     //
     // So each node is re-solved against the whole curve in Gauss-Seidel sweeps
-    // until every instrument reprices. Log-linear converges on the first sweep
-    // because it is already exact; monotone convex takes about fifteen.
+    // until every instrument reprices: log-linear needs none, linear-in-zero
+    // two, monotone convex four.
     constexpr int kMaxSweeps = 100;
     constexpr double kResidualTolerance = 1e-14;  // rate units, i.e. 1e-10 bp
 

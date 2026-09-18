@@ -1,347 +1,382 @@
 # fixed-income-engine
 
-A C++20 fixed income analytics and yield curve construction engine the math
-behind a rates trading desk: bond pricing, yield curve bootstrapping, parametric
-curve fitting, interest rate swap valuation under OIS discounting, and rate
-sensitivities (duration, convexity, DV01, key-rate DV01, scenario P&L).
+A C++20 library for the numerical core of a rates desk: building a discount
+curve from market instruments, valuing bonds and swaps off it, and measuring
+what happens to that value when rates move.
 
-Every numerical method has a closed-form-checkable test. The suite has **68 test
-cases / 245 assertions**, all green.
+Apache-2.0 · C++20 · CMake ≥ 3.20
 
-## Why this exists
+## Results
 
-Curve construction and rate risk are the numerical core of fixed income. This
-project implements them from first principles in production-style C++ — root
-finding, optimisation, and interpolation — with a closed-form-checkable test for
-every numerical method.
+Every number below is written by `./build/fi_report`, which reads published US
+Treasury par yields and produces the files under [`reports/`](reports/). CI
+reruns it and fails if any committed artifact changes, so nothing here can drift
+away from the code.
 
-## Building
+| | Result | Artifact |
+|---|---|---|
+| Bootstrap repricing | Worst residual **1.8×10⁻¹¹ bp** across 13 instruments × 3 interpolation schemes | [`repricing_residuals.csv`](reports/repricing_residuals.csv) |
+| Curve reproduces the market | Bootstrapped 5Y par rate **3.7300%**, 10Y **4.1800%** — the CMT quotes exactly | [`portfolio_valuation.csv`](reports/portfolio_valuation.csv) |
+| Nelson–Siegel–Svensson fit | **2.10 bp** RMSE over 13 tenors; worst tenor **4.21 bp** (20Y) | [`nss_fit.csv`](reports/nss_fit.csv) |
+| Key-rate decomposition | Buckets sum to **$449.5135/bp** against a parallel DV01 of **$449.5134/bp** — residual **6.0×10⁻⁶%** | [`key_rate_dv01.csv`](reports/key_rate_dv01.csv) |
+| Bucketed hedge | Worst bucket **$4,181/bp → $7.79/bp** using five benchmark swaps | [`bucket_hedge.csv`](reports/bucket_hedge.csv) |
+| Convexity | Duration alone is off by **4.3% at 25bp** and **68.3% at −200bp**; one convexity term removes **88–99%** of that | [`shift_attribution.csv`](reports/shift_attribution.csv) |
+| Tests | **96 cases / 3,472 assertions**, all passing | `ctest --test-dir build` |
 
-Requires a C++20 compiler and CMake ≥ 3.20. Eigen (linear algebra) and Catch2
-(testing) are fetched automatically via CMake `FetchContent`.
+The NSS figure is the one worth reading twice. A 2.10 bp RMSE is *worse* than
+the 0.81 bp this README used to claim, and the reason is that the old number was
+fitted to ten invented yields. Six parameters cannot interpolate thirteen real
+tenors, and 2.10 bp is what the model actually achieves on a real curve.
+
+## Quickstart
 
 ```sh
-cmake -S . -B build
-cmake --build build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
 ctest --test-dir build --output-on-failure
+
+./build/fi_report --out reports      # regenerate every artifact under reports/
+python3 tools/make_figures.py        # redraw every figure from those artifacts
 ```
 
-Run the demo (from the repo root, so the default `data/` paths resolve):
+Eigen and Catch2 are used if already installed, and otherwise downloaded from
+pinned, SHA-256-verified release tarballs. Behind a proxy that blocks them:
 
 ```sh
-./build/curve_demo --quotes data/swap_rates.csv --portfolio data/portfolio.json
+sudo apt-get install libeigen3-dev catch2   # or: brew install eigen catch2
+cmake -S . -B build -DFI_OFFLINE=ON
 ```
 
-## Concepts
+`-DFI_OFFLINE=ON` fails configure with an actionable message rather than
+reaching for the network. `-DFI_WERROR=ON` turns warnings into errors, which is
+how CI builds.
 
-### What a yield curve is, and why we *bootstrap* it
+A second binary, `curve_demo`, exercises the deposit-plus-par-swap bootstrap
+path against `data/illustrative_swap_quotes.csv`. Those quotes are hand-written
+and labelled as such, because no free USD swap curve exists to replace them.
 
-A discount curve answers one question: what is a dollar paid at future time *t*
-worth today? That present-value factor is the **discount factor** `DF(t)`; the
-**zero rate** `z(t)` is just its rate form, `DF(t) = exp(−z(t)·t)`.
+## What this is
 
-The market does not quote discount factors directly. It quotes *instruments* —
-cash deposits at the short end, futures/FRAs in the middle, and par swap rates at
-the long end — each of which is a *bundle* of cashflows across many dates. You
-cannot simply interpolate the quoted rates, because a 5-year par swap rate is not
-"the 5-year zero rate": it is the single fixed rate that makes a whole strip of
-semi-annual cashflows worth par. Reading it as a zero rate would misprice every
-cashflow before maturity.
+A yield curve answers one question: what is a dollar paid at future time *t*
+worth today? That present-value factor is the **discount factor** `DF(t)`, and
+the **zero rate** `z(t)` is just its rate form, `DF(t) = exp(−z(t)·t)`.
 
-**Bootstrapping** recovers the underlying zero curve so that, when you reprice
-each input instrument *off the curve you built*, you get its market quote back
-exactly. We do it maturity by maturity:
+The market does not quote discount factors. It quotes *instruments* — cash
+deposits at the short end, futures and FRAs in the middle, par swap rates or par
+bond yields at the long end — and each of those is a bundle of cashflows across
+many dates. A 5-year par rate is not "the 5-year zero rate": it is the single
+fixed rate that makes a whole strip of semiannual cashflows worth par. Reading
+it as a zero rate misprices every cashflow before maturity.
+
+**Bootstrapping** recovers the zero curve underneath, so that repricing each
+input instrument *off the curve you built* returns its market quote. Instrument
+by instrument, in maturity order:
 
 - a **deposit** gives a discount factor directly, `DF = 1/(1 + r·τ)`;
-- a **future/FRA** gives a forward, so `DF(end) = DF(start)/(1 + r·τ)`;
-- a **swap** is solved (safeguarded Newton) for the discount factor at its
-  maturity that makes its par rate equal the quote.
+- a **future or FRA** gives a forward, so `DF(end) = DF(start)/(1 + r·τ)`;
+- a **par swap or par bond** is solved for the discount factor at its maturity
+  that makes its par rate equal the quote, since `c·Σ α_j·DF(t_j) + DF(T) = 1`.
 
-Earlier instruments stay repriced exactly as longer ones are added, because node
-reproduction plus the locality of the interpolation means a new long node never
-disturbs discount factors at shorter tenors. With the curve in hand we can also
-fit a smooth **Nelson–Siegel–Svensson** form for a parametric, extrapolatable
-description of the term structure.
+That description is the textbook one, and it contains an assumption the textbook
+usually leaves implicit: that pinning a long node leaves the short end alone.
+With linear-in-zero or log-linear interpolation it holds, because a node only
+influences the two intervals touching it. With monotone convex interpolation it
+does not — a node's instantaneous forward is built from the discrete forwards on
+*both* sides, so adding the 10Y node moves the curve back through 7Y and 5Y.
+Measured on this data, a one-pass monotone convex bootstrap holds 10⁻¹² bp
+through the 2Y node, drifts to 0.009 bp by 3Y and 0.033 bp by 7Y, and ends at
+**1.58 bp** once 30Y is added — three orders of magnitude outside a usable
+tolerance. So the sequential pass is treated as what it really is, a starting
+guess, and every node is then re-solved against the whole curve in Gauss–Seidel
+sweeps until each instrument reprices. Log-linear needs no sweeps because it is
+already exact, linear-in-zero needs two, monotone convex needs four.
 
-### Why OIS discounting
+**Why OIS discounting.** Before 2008 a single LIBOR curve both projected
+floating coupons and discounted cashflows. The crisis ended that: LIBOR carried
+bank credit and liquidity risk, while a collateralised trade is funded at the
+overnight rate its CSA pays. The correct present value discounts collateralised
+cashflows on the near-risk-free OIS curve while still projecting floating
+coupons from the relevant forward curve, which is why a swap PV needs two curves
+in general. `Swap::pv(discount, projection)` takes both; the single-argument
+form is the single-curve case, which is what makes a bootstrapped swap reprice
+to zero. **This repository discounts on the Treasury curve, not an OIS curve**,
+because no free redistributable USD SOFR swap curve exists — see
+[`data/README.md`](data/README.md) for what was checked and why each candidate
+failed. The capability is there; the data is not.
 
-Before 2008, a single LIBOR curve was used both to *project* floating coupons and
-to *discount* cashflows. The crisis blew that up: LIBOR carried bank credit and
-liquidity risk, while collateralised (CSA) trades are funded at the overnight
-indexed swap (OIS) rate. The correct present value discounts collateralised
-cashflows on the (near risk-free) **OIS curve**, while floating coupons are still
-*projected* from the relevant forward/IBOR/SOFR curve. That is the post-2008
-standard, and it is why a swap PV needs two curves in general.
+**What a CMT rate actually is.** Treasury's Daily Par Yield Curve Rates are par
+yields on hypothetical securities, derived by fitting a curve through bid-side
+yields on the on-the-run issues and reading constant maturities off it — with a
+**monotone convex spline since 2021-12-06**, and a quasi-cubic Hermite spline
+before that. So bootstrapping CMTs gives a zero curve consistent with Treasury's
+own interpolation of a handful of on-the-run points, not one implied by the full
+cross-section of outstanding bond prices. A curve built from actual bond prices
+would disagree, most visibly wherever an individual issue trades special.
 
-The `Swap` class supports this directly: `pv(discount, projection)` takes a
-separate OIS discount curve and forward-projection curve. The single-argument
-`pv(curve)` is the legacy single-curve case (projection = discount), which is
-what the bootstrap produces and what makes bootstrapped swaps reprice to zero.
+## Method
 
-## Demo & worked example
+| Area | Source |
+|---|---|
+| Dates and day counts | [`date.hpp`](include/fi/date.hpp), [`day_count.hpp`](include/fi/day_count.hpp) |
+| Curves and interpolation | [`curve.hpp`](include/fi/curve.hpp), [`curve.cpp`](src/curve.cpp) |
+| Bootstrapping | [`bootstrap.hpp`](include/fi/bootstrap.hpp), [`bootstrap.cpp`](src/bootstrap.cpp) |
+| NSS fitting (Levenberg–Marquardt, Eigen) | [`nss.hpp`](include/fi/nss.hpp), [`nss.cpp`](src/nss.cpp) |
+| Bonds, accrued interest, Z-spread | [`bond.hpp`](include/fi/bond.hpp), [`bond.cpp`](src/bond.cpp) |
+| Swaps, PV01, leg breakdown | [`swap.hpp`](include/fi/swap.hpp), [`swap.cpp`](src/swap.cpp) |
+| Risk, key-rate DV01, bucketed hedging | [`risk.hpp`](include/fi/risk.hpp), [`risk.cpp`](src/risk.cpp) |
+| Money and the portfolio boundary | [`money.hpp`](include/fi/money.hpp), [`portfolio.hpp`](include/fi/portfolio.hpp) |
 
-```sh
-./build/curve_demo --quotes data/swap_rates.csv --portfolio data/portfolio.json
-```
+**Doubles inside, integers at the edges.** Discounting, root-finding and curve
+fitting are approximations of continuous mathematics, and `double` is the
+correct representation: the answer is uncertain in the fifth decimal for reasons
+that have nothing to do with floating point. A booked notional or a P&L figure
+in a report is not an approximation of anything — it is a specific number of
+cents. So `Money` holds an `int64_t` count of minor units with a currency tag,
+the minor-unit scale comes from a per-currency exponent rather than an assumed
+100 (JPY has none), `from_double` rounds half to even and says so, and there is
+no implicit conversion in either direction and no `operator*(double)`. The
+boundary runs through `SwapPosition::to_swap` and `value_portfolio`, and nowhere
+else.
 
-The inputs are deliberately small and readable:
+One visible consequence: portfolio totals are summed in minor units from the
+already-rounded rows, so a report's rows always add to its total. That total can
+differ from rounding the unrounded sum by up to half a minor unit per position,
+so [`portfolio_valuation.csv`](reports/portfolio_valuation.csv) prints both
+(`8771.15` and `8771.157724`) instead of picking one.
 
-- `data/swap_rates.csv` — the market quotes: a 6-month cash **deposit** plus
-  **par swap** rates at 1Y, 2Y, 3Y, 5Y, 7Y, 10Y and 30Y.
-- `data/portfolio.json` — the book to value: a **\$10mm 5Y payer** swap struck at
-  5.0% and a **\$5mm 10Y receiver** struck at 4.5%, valued **2024-01-02**.
+## Figures
 
-One command runs the whole pipeline: **bootstrap** the zero curve from the quotes
-→ **fit** Nelson–Siegel–Svensson → **price** the portfolio → run six **scenarios**.
-It prints the summary below and writes `curve.csv` and `scenarios_report.md`.
+All figures are SVG, regenerated by `python3 tools/make_figures.py` from the
+CSVs in `reports/`, and deterministic — unchanged input gives a byte-identical
+file.
 
-### Snapshot 1 — console output
+### The bootstrap closes
 
-```text
-Bootstrapped zero curve:
-   tenor   zero_rate    discount
-0.498630    0.053029    0.973905
-1.002740    0.051667    0.949510
-2.002740    0.050250    0.904261
-3.002740    0.049060    0.863023
-5.005479    0.047724    0.787508
-7.005479    0.047451    0.717186
-10.008219   0.047841    0.619524
-30.021918   0.049185    0.228406
+![Repricing residuals by instrument and interpolation scheme](reports/figures/repricing_residuals.svg)
 
-Nelson-Siegel-Svensson fit (RMSE 0.81 bp):
-  beta0 = 0.002828   beta1 = 0.051346
-  beta2 = -0.000000   beta3 = 0.132952
-  lambda1 = 3.915507  lambda2 = 17.218562
+Each marker is one instrument's curve-implied par yield minus its market quote,
+for each of the three interpolation schemes. Read the y-axis scale first: it is
+in units of 10⁻¹¹ basis points, and the shaded band is ±0.5 bp — already a tight
+market tolerance — drawn to the same scale. Every instrument reprices to the
+level of double rounding, which is the claim the rest of the engine rests on.
 
-Portfolio (2 swaps):
-  swap 1: PV = -65719.29
-  swap 2: PV = -137285.24
-  total PV = -203004.53
+### Interpolation is a free choice, and it shows up in the forwards
 
-Portfolio DV01 = 564.92 per 1bp
-Key-rate DV01 by node tenor ($/bp):
-     0.50y : 6.68
-     1.00y : 19.53
-     2.00y : 49.82
-     3.00y : 105.35
-     5.01y : 4016.10
-     7.01y : -278.22
-    10.01y : -3354.35
-    30.02y : 0.00
-Implied forward rates between nodes:
-  [0.000000, 0.498630] = 0.053029
-  [0.498630, 1.002740] = 0.050321
-  [1.002740, 2.002740] = 0.048828
-  [2.002740, 3.002740] = 0.046676
-  [3.002740, 5.005479] = 0.045722
-  [5.005479, 7.005479] = 0.046769
-  [7.005479, 10.008219] = 0.048750
-  [10.008219, 30.021918] = 0.049857
-```
+![Instantaneous forward curves under three interpolation schemes](reports/figures/forward_curves.svg)
 
-**How to read it.**
+The same 13 quotes, bootstrapped three ways, plotted as instantaneous forward
+rates. All three reprice the market identically and their zero curves are nearly
+indistinguishable — they differ by at most 11.5 bp anywhere off-node — and the
+forwards are not. Log-linear interpolation makes the forward a step function
+that jumps 89.6 bp at the 10Y node, linear-in-zero makes it sawtooth, and
+monotone convex ([Hagan–West 2006](#references)) is continuous —
+so the choice of interpolation is unconstrained by the data and entirely visible
+in the thing traders actually quote.
 
-- **`tenor`** — time to the node in years (Act/365 from the valuation date, so
-  1Y shows as 1.0027, etc.). One node per input instrument.
-- **`zero_rate`** — the continuously-compounded zero rate `z(t)` solved at that
-  node so the instrument reprices to its quote. `5.3%` at 6M easing to `~4.75%`
-  in the 5–7Y belly and back up to `4.92%` at 30Y.
-- **`discount`** — `DF(t) = exp(−z·t)`, the present value of \$1 paid at `t`. It
-  must start near 1 and fall monotonically: \$1 in 30Y is worth **\$0.228** today.
-- **`NSS fit`** — the six smooth-curve parameters. `RMSE 0.81 bp` means the
-  parametric curve reproduces the bootstrapped zeros to under one basis point.
-- **Portfolio PV** — both swaps have **negative** PV here: each pays/receives an
-  off-market fixed rate versus today's curve, so the book is underwater by
-  **−\$203,004.53**. (Sign is from the holder's view; a payer loses value when its
-  fixed rate sits above the prevailing par rate.)
-- **DV01 / key-rate DV01 / forwards** — the engine-computed risk and
-  market-expectation read-outs, visualised in **Snapshots 5 & 6**. The book's net
-  DV01 is **+\$565/bp**, made of **+\$4,016/bp at 5Y** and **−\$3,354/bp at 10Y**
-  (a 5s10s curve position); the implied forwards dip to **4.57%** around 3–5Y
-  before rising to **4.99%** by 30Y. These numbers are reproduced exactly by the
-  test suite's analytic checks.
+### Par, zero and forward
 
-### Snapshot 2 — the bootstrapped curve & NSS fit
+![Par, zero and forward curves](reports/figures/zero_curve.svg)
 
-![Bootstrapped zero curve and NSS fit](reports/figures/yield_curve.png)
+The market's par yields (dashed), the zero curve bootstrapped from them, and the
+forwards implied by that zero curve, with dots at the bootstrap nodes. Read the
+gap between par and zero at the long end: it is what the bootstrap recovers, and
+it is why a 30Y par yield of 4.84% corresponds to a 30Y zero of 4.97%. The
+forwards sit above both beyond the 2Y trough, which is what drags the zero curve
+up.
 
-*(PNG shown above; SVG source in `reports/figures/`. If images are blocked in
-your previewer, the same data is the text chart below.)*
+### The same curve as prices
 
-```text
-Zero rate by tenor  — bar length ∝ rate level
-note the 5–7Y dip ("the belly") and the rise back out to 30Y
+![Discount factors and implied zero rates](reports/figures/discount_factors.svg)
 
- 0.5y  ████████████████████████████   5.303%
- 1y    ███████████████████████        5.167%
- 2y    █████████████████              5.025%
- 3y    ████████████                   4.906%
- 5y    ███████                        4.772%
- 7y    ██████                         4.745%   <- belly (lowest)
-10y    ███████                        4.784%
-30y    █████████████                  4.919%
-```
+Discount factors on a log axis above, the zero rates implied by them below. Read
+the top panel as the multipliers every cashflow in a bond or swap is valued
+with: a dollar at 30 years is worth 22.5 cents today. The two panels are the
+same information in the two forms a desk uses, prices and rates.
 
-**How to read it.** The x-axis is tenor (years), the y-axis is the zero rate in
-percent. **Red dots** are the bootstrapped zero rates — one per market instrument
-— and the **blue line** is the curve between them. The shape is a mild *hump*
-(rates dip into the 5–7Y belly, then rise toward 30Y); this is exactly the shape
-NSS's two curvature terms are designed to capture, which is why the fit lands at
-0.81 bp RMSE. If you re-bootstrap with different quotes, the dots move and the
-line follows — that is the curve the whole engine prices off.
+### Where the risk sits
 
-**Why it matters.** This one curve feeds *every* valuation downstream — bonds,
-swaps, risk, scenarios. The callouts mark what a rates desk eyes first: the front
-(policy/cash level), the belly (cheapest part to fund), and the anchor for 30Y
-liabilities.
+![Key-rate DV01 by curve node](reports/figures/key_rate_dv01.svg)
 
-### Snapshot 3 — discount factors
+Each bar is the book's P&L for a 1 bp move in that one curve node, with the
+others held still; hatched bars lose when that tenor rises. Read the 5Y and 10Y
+bars against the dashed parallel DV01 line: +$4,181/bp against −$3,557/bp nets
+to +$450/bp, so this is a 5s10s curve position rather than a duration view. The
+buckets sum to the parallel DV01 to within 6×10⁻⁶%, and the gap is the
+second-order cross term between nodes, not an error.
 
-![Discount factor curve](reports/figures/discount_factors.png)
+### Where duration stops working
 
-```text
-Discount factor by tenor  — present value today of $1 received then
-a smooth monotone decline is the arbitrage-free sanity check
+![Actual P&L against duration-only and duration-plus-convexity predictions](reports/figures/duration_convexity.svg)
 
- 0.5y  █████████████████████████████  0.974
- 1y    ████████████████████████████   0.950
- 2y    ███████████████████████████    0.904
- 3y    ██████████████████████████     0.863
- 5y    ████████████████████████       0.788
- 7y    ██████████████████████         0.717
-10y    ███████████████████            0.620
-30y    ███████                        0.228
-```
+Actual repricing against the first-order (duration) and second-order (duration
+plus convexity) predictions across ±200 bp. Read the widening gap between the
+dashed line and the markers: duration alone is off by 4.3% at 25 bp and by 68.3%
+at −200 bp. One convexity term removes 88–99% of that error at every shift,
+which is why the second-order term earns its place and the third does not.
 
-**How to read it.** Same x-axis (tenor); the y-axis is the discount factor `DF(t)`
-— the present value of \$1 received at that tenor. It starts at ~1.0 and decays
-to ~0.23 at 30Y. This is the *same information* as Snapshot 2, expressed as
-prices instead of rates: every cashflow in a bond or swap is valued by reading
-its date off this curve and multiplying. The smooth monotonic decline is the
-sanity check that the bootstrap produced an arbitrage-free curve.
+### The book under standard scenarios
 
-**Why it matters.** These are the exact multipliers used to value every future
-cashflow — the swap PVs in Snapshot 1 are just sums of *(cashflow × DF)*.
+![Portfolio P&L by curve scenario](reports/figures/scenario_pnl.svg)
 
-### Snapshot 4 — scenario P&L
+P&L under the desk-standard curve moves, sorted by magnitude, each labelled with
+the shift it actually applies rather than a codename. Read the signs: gains on a
+sell-off and on a flattening, losses on a steepening and on a belly-led
+butterfly. That is the same position the key-rate chart shows, seen through
+moves a trader would actually quote.
 
-Shifting the curve and repricing the book gives the P&L under each standard
-scenario (written to `scenarios_report.md`):
+## Validation
 
-| Scenario | Base PV | Scenario PV | P&L |
-|---|---:|---:|---:|
-| Parallel +25bp | -203004.53 | -188421.41 | **+14583.13** |
-| Parallel +100bp | -203004.53 | -139447.59 | **+63556.95** |
-| Parallel -25bp | -203004.53 | -216654.68 | **-13650.14** |
-| Steepener (-25/+25bp) | -203004.53 | -242246.65 | **-39242.12** |
-| Flattener (+25/-25bp) | -203004.53 | -164071.36 | **+38933.18** |
-| Butterfly (belly +25/wings -12.5bp) | -203004.53 | -265071.70 | **-62067.17** |
+**Repricing.** Every bootstrap instrument is repriced off the curve it helped
+build. Across 13 instruments and 3 interpolation schemes the worst residual is
+1.8×10⁻¹¹ bp; the full table is
+[`repricing_residuals.csv`](reports/repricing_residuals.csv). This is internal
+consistency, but it is the specific consistency that matters: a curve that does
+not return the market is not a curve of that market.
 
-![Scenario P&L](reports/figures/scenario_pnl.png)
+**External check.** `tests/test_analytics.cpp` prices Hull's worked two-year bond
+(chapter 4: principal 100, 6% semiannual coupon, continuously compounded zeros
+of 5.0%, 5.8%, 6.4% and 6.8%) and reproduces all three of his published figures
+— price 98.39, yield 6.76%, two-year par yield 6.87%. This is the one number in
+the repository that the repository did not produce.
 
-```text
-Portfolio P&L by scenario  — bar length ∝ |P&L|;  (+) gain  (−) loss
+**Key-rate reconciliation.** Key-rate DV01s are supposed to decompose the
+parallel DV01 and do not do so exactly. A parallel shift moves the curve
+*between* nodes as well as at them; bumping one node reaches the interior only
+through that node's local influence. What is left over is the second-order cross
+term. Measured: $449.5135 against $449.5134, a residual of 6.0×10⁻⁶%. The
+number is reported rather than asserted to be zero.
 
-Parallel +25bp     +14,583  ███████
-Parallel +100bp    +63,557  ██████████████████████████████
-Parallel -25bp     -13,650  ██████
-Steepener -/+25bp  -39,242  ███████████████████
-Flattener +/-25bp  +38,933  ██████████████████
-Butterfly +25/-12  -62,067  █████████████████████████████
-```
+**NSS fit.** Six parameters against 13 tenors, so the fit cannot interpolate.
+RMSE 2.10 bp, worst tenor 4.21 bp at 20Y —
+[`nss_fit.csv`](reports/nss_fit.csv) has the per-tenor residuals. The fit uses a
+multi-start sweep over the decay scales because NSS is non-convex in λ₁ and λ₂
+and a single rule-of-thumb start stalls in a poor local minimum.
 
-**How to read it.** Each bar is the change in the book's value (**P&L = scenario
-PV − base PV**) when the curve is moved by that scenario; green = gain, red =
-loss. The story it tells:
+**Cross-scheme agreement.** All three interpolation schemes reprice the same
+market and produce zero curves that agree exactly at every node by construction
+and to within 11.5 bp anywhere off-node. Where they disagree is documented
+rather than hidden, because that disagreement is the modeller's free choice
+rather than anything the market fixed.
 
-- **Parallel +25/+100bp gain, −25bp loses** → the book is net **short duration**,
-  so it makes money when rates sell off (and the +100bp gain is ~4× the +25bp
-  gain, i.e. roughly linear in the shift — that is DV01 at work).
-- **Flattener gains, Steepener loses** → the book is **long the front / short the
-  back** of the curve; flattening the curve helps it, steepening hurts it. This is
-  precisely what the per-tenor key-rate DV01 profile predicts, and the sum of the
-  key-rate DV01s reconstructs the parallel DV01 (tested to 1e-6).
-- **Butterfly loses** → it is short the belly relative to the wings.
+**Closed-form checks.** Zero-coupon duration and convexity against their
+analytic values, analytic DV01 against a central finite difference to 1e-6,
+yield round-trips to 1e-9, a swap hedged by its own mirror returning notional
+1:1, and a 5y5y forward swap blending into the 10y par rate by annuity weights.
 
-In other words, the figure is a one-glance risk summary of the portfolio: its
-*sign* tells you which way the book is positioned, and its *magnitude* sizes the
-P&L for a desk-standard set of curve moves. The **best** and **worst** cases are outlined in black on the chart.
+## Limitations
 
-> Figures live in `reports/figures/` and are regenerated with
-> `python3 tools/make_figures.py`; `reports/RECHECK.md` embeds them alongside the
-> standards/spec compliance review.
+I would want a reader to know all of the following before trusting a number out
+of this.
 
-### Snapshot 5 — implied forward curve (what the market expects rates to do)
+**The NSS RMSE got worse when I fixed the data, and I published the worse
+number.** The 0.81 bp this README used to claim was a fit to ten yields I had
+invented. On 13 real CMT tenors the same code achieves 2.10 bp. Nothing was
+tuned to recover the nicer figure.
 
-![Implied forward rate curve](reports/figures/forward_curve.png)
+**CMT rates are Treasury's spline output, not bond prices.** I am bootstrapping
+a curve that has already been smoothed by somebody else's interpolator — monotone
+convex since 2021-12-06. The result is internally consistent and reproduces the
+CMT quotes exactly, but it is not the curve implied by the cross-section of
+traded Treasury prices, and it cannot show me an issue trading special. Doing
+this properly means starting from CUSIP-level prices, which are not free.
 
-**What it shows.** The dashed grey line is today's *spot* zero curve; the orange
-step line is the *forward* curve — the short rate the market locks in for each
-future window between curve nodes.
+**I discount on Treasuries, not OIS, and that is wrong in a way I can name.** A
+Treasury curve is not an OIS curve; the spread between them is the swap spread,
+which is a traded quantity, not noise. The engine takes separate discount and
+projection curves and would do the right thing given the data. I could not find
+free redistributable USD SOFR swap quotes — FRED's SOFR averages are
+backward-looking realised compounds, the ICE Swap Rate series now 404, and CME
+Term SOFR is licensed. So the gap is data, not capability, and everything in the
+Results table should be read as "on the Treasury curve".
 
-**How to read it.** Where forwards sit **below** spot, the market is pricing rate
-**cuts**; where they rise **above**, it expects rates to **climb back**. Here
-forwards fall to ≈4.57% around the 3–5Y window, then rise toward ≈4.99% by 30Y —
-near-term easing followed by normalisation.
+**Single currency, no cross-currency basis.** `Money` carries a currency tag and
+refuses to add across currencies, which is the right foundation, but there is no
+FX and no cross-currency basis anywhere in the engine.
 
-**Why it matters.** Forwards are what you actually lock in by trading the curve
-today, so a trader weighs their *own* view against this implied path to decide
-whether to pay or receive — the single most-watched read on "what's priced in."
+**No credit.** Every cashflow is treated as risk-free or fully collateralised.
+There is no CVA, DVA, FVA or default modelling. The Z-spread is the only
+credit-adjacent quantity here and it is a spread over a curve, not a hazard rate.
 
-### Snapshot 6 — portfolio key-rate DV01 (where the risk actually sits)
+**No calendars or holidays.** Supported: Act/360, Act/365 Fixed, and US (NASD)
+30/360. Schedules are generated by stepping whole months backwards from
+maturity, which handles end-of-month clamping correctly but does *not* apply any
+business-day convention — no Following, no Modified Following, no holiday
+calendar. A payment date that lands on a weekend stays on the weekend. For the
+par instruments here that is a sub-basis-point effect; for a real trade booked
+against a real settlement calendar it is not acceptable.
 
-![Portfolio key-rate DV01](reports/figures/key_rate_dv01.png)
+**Act/Act (ICMA) is missing, and the reason is structural.** ICMA needs to know
+which coupon period it is in, not just two dates, so it does not fit the
+`year_fraction(d1, d2, convention)` signature the rest of the library is built
+on. I use 30/360 for the par bond accrual, which gives exactly 0.5 for the
+regular semiannual periods a CMT rate describes — identical to ICMA for a
+regular period — so the approximation costs nothing *here*. It would cost
+something on a bond with a stub period.
 
-**What it shows.** Each bar is the book's P&L for a **+1bp move in that one tenor**
-of the curve, holding the others fixed — the standard "where is my risk"
-decomposition. Green = gains if that tenor rises, red = loses.
+**The short end of the CMT curve is treated as something it is not.** The 1, 2,
+3, 4 and 6 month constant maturities come from bills, which pay no coupon and
+are quoted on a coupon-equivalent basis. I bootstrap them as single-payment par
+instruments on 30/360. That is a simplification I would not make in production.
 
-**How to read it.** The book is **+≈$4,000/bp at 5Y** (the $10mm 5Y *payer* gains
-when 5Y rates rise) and **−≈$3,350/bp at 10Y** (the $5mm 10Y *receiver* loses when
-10Y rates rise). The boxed **net DV01 ≈ +$565/bp** is their sum — small next to
-the leg risks, so this is really a **5s10s curve** (front-vs-back) bet, not a big
-outright duration view.
+**No futures convexity adjustment.** `FuturesQuote` converts a futures rate to a
+forward with no adjustment at all. A futures contract is margined daily, so its
+implied rate exceeds the true forward by roughly ½σ²T₁T₂ under a Hull–White-type
+model; ignoring it overstates forwards at the long end of the futures strip. A
+proper treatment needs a short-rate volatility, which means a calibrated model,
+which is out of scope here. The code says so at the declaration; it is not
+silently applied.
 
-**Why it matters.** This is the report a swaps desk lives on: it says exactly which
-part of the curve to hedge and by how much. The per-bucket DV01s also sum to the
-parallel DV01 — a property the test suite verifies to 1e-6.
+**Monotone convex cannot represent negative forwards.** The Hagan–West
+positivity collar bounds node forwards into `[0, 2·min(adjacent discrete
+forwards)]`. Where the data implies a negative discrete forward — which happened
+in EUR and JPY for most of the 2010s — this scheme will not reproduce it. A test
+pins that behaviour so it is a documented limit rather than a surprise.
 
-## Design constraints
+**Key-rate DV01 buckets are curve nodes, not standard hedge buckets.** They fall
+where the input instruments fall. A desk would want a fixed bucket set
+independent of which instruments happened to be quoted that day.
 
-- **C++20**, CMake ≥ 3.20.
-- **Eigen** for linear algebra (the Levenberg–Marquardt normal equations in NSS).
-- **Catch2** for testing.
-- **Dates done properly** — `Date` wraps `std::chrono::year_month_day`; day-count
-  conventions (Act/360, Act/365, 30/360) are explicit; no naive integer offsets.
-- **Money discipline** — `double` is used only inside numerical computations
-  (pricing, solving, fitting); emitted/persisted money (reports, CSV) is written
-  at cent precision. (The brief asked for `int64_t` cents in persistent state;
-  since all monetary values here are derived from `double` PVs and only emitted,
-  never accumulated in storage, they are rendered at 2-dp cent granularity rather
-  than via a dedicated integer-cents type — the one documented deviation. See
-  `reports/RECHECK.md`.)
-- Solver tolerances/iterations are configurable (`SolverConfig`), never hardcoded
-  magic numbers. Plain-data types (`Cashflow`, instrument quotes) avoid
-  inheritance — a `std::variant` carries the bootstrap instrument set.
+**The hedge solve ignores everything except key rates.** No bid-offer, no
+liquidity weighting, no notional rounding to tradeable sizes, no constraint that
+you cannot trade $-105.49 of a 30Y swap. It is the least-squares answer to a
+linear problem, which is the right first step and not a trade ticket.
 
-## Repository layout
+**Performance is unmeasured.** There is no benchmark in this repository and I
+make no speed claims. The bootstrap rebuilds a curve object inside every solver
+iteration, which is clearly wasteful; I left it because correctness mattered
+more and because nothing here is on a hot path.
 
-```
-include/fi/   public headers (date, day_count, cashflow, bond, ytm_solver,
-              solver, curve, bootstrap, nss, swap, risk, scenario, json)
-src/          implementation
-tests/        Catch2 tests (one suite per module)
-apps/         curve_demo CLI
-data/         sample market data (treasury_yields.csv, swap_rates.csv,
-              portfolio.json)
-```
+## Data sources
 
+| Source | URL | As of | Licence / terms | Refresh |
+|---|---|---|---|---|
+| US Treasury Daily Par Yield Curve Rates (CMT) | [home.treasury.gov](https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve) | 2025-01-02 to 2025-12-31, 249 business days | US Government work, no domestic copyright (17 U.S.C. 105) | `python3 scripts/fetch_treasury_curve.py --year 2025` |
+| SOFR overnight fixing (reference only; no curve is built from it) | [fred.stlouisfed.org/series/SOFR](https://fred.stlouisfed.org/series/SOFR) | 2025-01-02 to 2025-12-31, 249 observations | FRED terms of use; SOFR published by the New York Fed | `python3 scripts/fetch_sofr.py --year 2025` |
+| `data/illustrative_swap_quotes.csv` | — hand-written, **not market data** | n/a | n/a | edit by hand |
 
+Each downloaded CSV has a `.meta.json` sibling carrying the source URL, UTC
+retrieval time, the git commit of the fetching code, the row count, the date
+span and a SHA-256 of the file. [`data/README.md`](data/README.md) has the full
+provenance notes and the snippet that verifies a file against its record.
 
-## Reference reading
+## References
 
-- Hull, *Options, Futures, and Other Derivatives* — chapter 4 (interest rates,
-  zero curves, bootstrapping).
-- Andersen & Piterbarg, *Interest Rate Modeling*, vol. 1 — the serious treatment
-  of curve construction and multi-curve / OIS discounting.
+- Hagan, P. S. and West, G. (2006). "Interpolation Methods for Curve
+  Construction." *Applied Mathematical Finance* 13(2), 89–129.
+  [doi:10.1080/13504860500396032](https://doi.org/10.1080/13504860500396032).
+  The monotone convex scheme in `src/curve.cpp` follows section 4, including the
+  four-region closed form for the forward deviation and the positivity collar.
+- Hull, J. C. *Options, Futures, and Other Derivatives*, chapter 4 (Interest
+  Rates). The worked two-year bond example used as the external validation in
+  `tests/test_analytics.cpp`.
+- Andersen, L. and Piterbarg, V. (2010). *Interest Rate Modeling*, volume 1. The
+  serious treatment of multi-curve construction and OIS discounting, and the
+  source for what a proper futures convexity adjustment would require.
+- US Department of the Treasury. "Treasury Yield Curve Methodology."
+  [home.treasury.gov](https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics/treasury-yield-curve-methodology)
+  — the documented change to a monotone convex spline on 2021-12-06.
+
+## Licence
+
+Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE); the latter records the
+licence and source of each redistributed dataset.
