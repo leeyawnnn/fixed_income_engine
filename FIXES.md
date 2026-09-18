@@ -136,7 +136,15 @@ changing anything. It now reads 96 / 3,472.
    SHA-256 recorded in each `.meta.json` described a file nobody would ever
    check out. Caught by verifying the checksums rather than trusting them.
 
-7. **A test of mine asserted a number I had guessed.** The convexity test
+7. **The figure pipeline could not have passed its own CI check.** The font
+   stack resolved to Helvetica Neue here and would resolve to DejaVu Sans on an
+   Ubuntu runner, and with `svg.fonttype: none` the text is laid out at render
+   time — so the two machines produce different SVGs and the staleness job would
+   have failed on a font rather than on the data. Fixed by using DejaVu Sans
+   alone (matplotlib bundles it) and pinning matplotlib, numpy and ruff in
+   `tools/requirements.txt`.
+
+8. **A test of mine asserted a number I had guessed.** The convexity test
    originally required duration's relative error to be under 1% at 25bp. It is
    1.17% on that book. Replaced with an assertion about the *shape* of the error
    — quadratic absolute error against a linear move, so relative error scales
