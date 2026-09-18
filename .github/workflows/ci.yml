@@ -131,7 +131,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - run: sudo apt-get update && sudo apt-get install -y libeigen3-dev clang-tidy
+      # Pinned: clang-tidy's default check set changes between releases, so an
+      # unpinned version turns an upgrade on the runner into a red build.
+      - run: sudo apt-get update && sudo apt-get install -y libeigen3-dev clang-tidy-18
 
       # clang-tidy needs the real compile commands, and the tests' generated
       # Catch2 headers must exist before it parses tests/*.cpp.
@@ -141,7 +143,7 @@ jobs:
           cmake --build build -j
 
       - name: Run clang-tidy
-        run: git ls-files 'src/*.cpp' 'apps/*.cpp' 'tests/*.cpp' | xargs clang-tidy -p build
+        run: git ls-files 'src/*.cpp' 'apps/*.cpp' 'tests/*.cpp' | xargs clang-tidy-18 -p build
 
   figures:
     name: artifacts and figures regenerate
@@ -166,15 +168,37 @@ jobs:
           cmake --build build -j
 
       # Every number in the README comes out of fi_report, and every figure is
-      # drawn from what it writes. Regenerating both and diffing against what is
-      # committed is what stops a stale claim surviving a push.
-      - name: Regenerate validation artifacts
-        run: ./build/fi_report --out reports
+      # drawn from what it writes. This regenerates both and compares against
+      # what is committed.
+      #
+      # The comparison is numeric with a tolerance, not `git diff`. The
+      # committed artifacts are produced on macOS against Apple's libm and
+      # regenerated here against glibc; they agree to about fifteen significant
+      # figures and disagree in the sixteenth, which is enough to move the last
+      # printed digit and to change a solver's iteration count. A byte-exact
+      # check fails on that and teaches everyone to ignore it.
+      - name: Regenerate artifacts into a scratch directory
+        run: ./build/fi_report --out "${RUNNER_TEMP}/fresh"
 
-      - name: Regenerate figures
+      - name: Fail if any committed number has moved
+        run: python3 tools/check_artifacts.py "${RUNNER_TEMP}/fresh"
+
+      # Figures embed those numbers, so they cannot be byte-compared either.
+      # What is checked is that every figure still renders from the committed
+      # artifacts, which is what breaks when a column is renamed or removed.
+      - name: Redraw every figure
         run: python tools/make_figures.py
 
-      - name: Fail if the committed artifacts are stale
+      - name: Fail if a figure failed to render
         run: |
-          git --no-pager diff --stat -- reports
-          git diff --exit-code -- reports
+          missing=0
+          for name in zero_curve discount_factors forward_curves \
+                      repricing_residuals key_rate_dv01 duration_convexity \
+                      scenario_pnl; do
+            path="reports/figures/${name}.svg"
+            if [ ! -s "${path}" ]; then
+              echo "missing or empty: ${path}"
+              missing=1
+            fi
+          done
+          exit "${missing}"
