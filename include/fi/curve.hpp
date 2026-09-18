@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 #include <vector>
 
@@ -37,6 +38,13 @@ public:
     // Continuously-compounded forward rate over [t1, t2].
     double forward_rate(double t1, double t2) const;
 
+    // Instantaneous forward f(t) = -d/dt ln DF(t). The default takes it
+    // numerically by central difference, which is enough to draw a curve;
+    // schemes that define f(t) analytically override it. The forward curve is
+    // where interpolation schemes visibly disagree, so this is the function
+    // worth plotting when comparing them.
+    virtual double instantaneous_forward(double t) const;
+
     // Year fraction from the reference date to `date` under the curve's convention.
     double time_to(const Date& date) const;
 
@@ -63,6 +71,24 @@ private:
     Date reference_date_;
     DayCount day_count_;
 };
+
+// Which interpolation a curve uses between its nodes. Every scheme here
+// reproduces the node zero rates exactly, so every one reprices the instruments
+// it was bootstrapped from; they differ in what happens *between* nodes, and
+// that difference is only really visible in the forward curve.
+enum class Interpolation : std::uint8_t {
+    LinearZero,         // linear in z(t)
+    LogLinearDiscount,  // linear in ln DF(t), i.e. piecewise-constant forwards
+    MonotoneConvex,     // Hagan-West monotone convex
+};
+
+const char* to_string(Interpolation scheme) noexcept;
+
+// Build a curve of the requested kind. Bootstrapping and bumping both go
+// through this so a curve can never silently change scheme.
+std::unique_ptr<Curve> make_curve(Interpolation scheme, Date reference_date,
+                                  DayCount day_count, std::vector<double> times,
+                                  std::vector<double> zeros);
 
 // Piecewise-linear in continuously-compounded zero rates between nodes.
 // Outside the node range, the nearest node's zero rate is held flat.
@@ -91,6 +117,50 @@ public:
 
 private:
     std::vector<double> log_df_;  // ln DF at each node
+};
+
+// Hagan-West monotone convex interpolation.
+//
+// Hagan, P. S. and West, G. (2006), "Interpolation Methods for Curve
+// Construction", Applied Mathematical Finance 13(2), 89-129, section 4.
+//
+// The scheme interpolates the *forward* curve rather than the zero curve. From
+// the node zeros it forms the discrete forward over each interval,
+//   fd_i = (z_i*t_i - z_{i-1}*t_{i-1}) / (t_i - t_{i-1}),
+// then instantaneous forwards at the nodes by interpolating those, then fits a
+// piecewise-quadratic to the deviation g = f - fd on each interval, switching
+// between four closed forms so the result stays monotone where the data is
+// monotone. Because every form integrates to zero over its interval, the node
+// zeros come back exactly - the same reason the simpler schemes reproduce their
+// nodes.
+//
+// The point of using it is what the other schemes do to forwards: linear-in-zero
+// interpolation produces forwards with a discontinuity at every node, and
+// log-linear produces forwards that are literally a step function. Both look
+// acceptable as zero curves and wrong as forward curves.
+//
+// It applies Hagan-West's positivity collar, which bounds each node forward into
+// [0, 2*min(adjacent discrete forwards)]. That guarantees non-negative forwards,
+// which also means this scheme cannot represent a curve whose data implies
+// negative forwards.
+class MonotoneConvexCurve : public Curve {
+public:
+    MonotoneConvexCurve(Date reference_date, DayCount day_count,
+                        std::vector<double> times, std::vector<double> zeros);
+
+    using Curve::discount;
+    double discount(double t) const override;
+    double instantaneous_forward(double t) const override;
+    std::unique_ptr<Curve> with_zero_rates(std::vector<double> zeros) const override;
+
+private:
+    void build_forwards();
+
+    // zt_[i] = z_i*t_i = -ln DF at node i, with zt_[0] = 0 at t = 0.
+    std::vector<double> grid_;  // 0, t_1, ..., t_n
+    std::vector<double> zt_;    // 0, z_1*t_1, ..., z_n*t_n
+    std::vector<double> fd_;    // fd_[i] over (grid_[i-1], grid_[i]], i >= 1
+    std::vector<double> f_;     // instantaneous forward at each grid point
 };
 
 }  // namespace fi
