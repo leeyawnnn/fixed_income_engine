@@ -8,10 +8,10 @@
   "first_date": "2025-01-02",
   "last_date": "2025-12-31",
   "observations": 249,
-  "retrieved_utc": "2026-09-18T15:03:48+00:00",
+  "retrieved_utc": "2026-09-18T15:04:31+00:00",
   "produced_by": "python3 scripts/fetch_sofr.py --year 2025",
-  "git_commit": "da0c93eb935f10218e306f5fefdf88dcd1cf2c51",
-  "sha256": "4038dee261f84ecd6e448c3535d45afd25acc4e158a1645e903df010376bbce5",
+  "git_commit": "b32496c8a64103945a596435809f4b868d8be185",
+  "sha256": "032f0de20e37f4b7aa4cb8f8c38a5d9cbbd82bd731f039732fb12cdf49a206fa",
   "licence": "FRED terms of use; SOFR is published by the New York Fed under its own terms of use for reference rates.",
   "notes": [
     "Overnight fixing only. Not a term structure and not an input to any curve in this repository.",

@@ -105,7 +105,10 @@ def main() -> None:
             f"# Source: {URL_TEMPLATE.format(series=args.series, start=start, end=end)}\n"
             f"# Regenerate: python3 scripts/fetch_sofr.py --year {args.year}\n"
         )
-        writer = csv.DictWriter(handle, fieldnames=["date", "sofr"])
+        # lineterminator defaults to CRLF; .gitattributes normalises CSVs to LF,
+        # so writing CRLF here would make the SHA-256 recorded in the
+        # .meta.json disagree with the file anyone checks out.
+        writer = csv.DictWriter(handle, fieldnames=["date", "sofr"], lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

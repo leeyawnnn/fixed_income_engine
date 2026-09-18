@@ -8,10 +8,10 @@
   "first_date": "2025-01-02",
   "last_date": "2025-12-31",
   "observations": 249,
-  "retrieved_utc": "2026-09-18T15:03:47+00:00",
+  "retrieved_utc": "2026-09-18T15:04:31+00:00",
   "produced_by": "python3 scripts/fetch_treasury_curve.py --year 2025",
-  "git_commit": "da0c93eb935f10218e306f5fefdf88dcd1cf2c51",
-  "sha256": "a3a39ab457f5330fc48938dd46d07030e5fa746b40ec3e21039a6ac945528d77",
+  "git_commit": "b32496c8a64103945a596435809f4b868d8be185",
+  "sha256": "f0335edd9b0847c24e6820436bb6a397705c482fa0ba86f7c5c2cec141686694",
   "licence": "US Government work, not subject to domestic copyright (17 USC 105)",
   "notes": [
     "Par yields, not zero rates and not observed trade yields.",

@@ -74,3 +74,16 @@ scale, SOFR fixed at **3.87%** on 2025-12-31 against a 1-month CMT of
 **3.74%** the same day. The engine supports the correct treatment — `Swap::pv`
 takes separate discount and projection curves — so what is missing is the data,
 not the capability.
+
+## Verifying a file against its provenance record
+
+```sh
+python3 - <<'PY'
+import hashlib, json, pathlib
+for meta in sorted(pathlib.Path("data").glob("*.meta.json")):
+    csv_path = meta.with_suffix("").with_suffix(".csv")
+    recorded = json.loads(meta.read_text())["sha256"]
+    actual = hashlib.sha256(csv_path.read_bytes()).hexdigest()
+    print(f"{csv_path.name}: {'ok' if recorded == actual else 'MISMATCH'}")
+PY
+```

@@ -164,7 +164,12 @@ def write_outputs(rows: list[dict[str, str]], year: int, out_path: pathlib.Path)
             "# Regenerate: python3 scripts/fetch_treasury_curve.py --year "
             f"{year}\n"
         )
-        writer = csv.DictWriter(handle, fieldnames=["date", *(t for t, _ in TENORS)])
+        # lineterminator defaults to CRLF; .gitattributes normalises CSVs to LF,
+        # so writing CRLF here would make the SHA-256 recorded in the
+        # .meta.json disagree with the file anyone checks out.
+        writer = csv.DictWriter(
+            handle, fieldnames=["date", *(t for t, _ in TENORS)], lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(rows)
 
