@@ -88,6 +88,7 @@ endif()
 # ---------------------------------------------------------------------------
 add_library(fi
     src/version.cpp
+    src/money.cpp
     src/date.cpp
     src/day_count.cpp
     src/bond.cpp
@@ -137,6 +138,7 @@ if(FI_BUILD_TESTS)
 
     add_executable(fi_tests
         tests/test_smoke.cpp
+        tests/test_money.cpp
         tests/test_date.cpp
         tests/test_day_count.cpp
         tests/test_bond.cpp
