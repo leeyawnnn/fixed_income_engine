@@ -1,0 +1,13 @@
+# Fitted Nelson-Siegel-Svensson parameters and fit quality.
+# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Regenerate:  ./build/fi_report --out reports
+parameter,value
+beta0,0.02630658
+beta1,0.01128328
+beta2,0.00000001
+beta3,0.07360968
+lambda1,0.83424012
+lambda2,16.64772752
+rmse_bp,2.1015
+iterations,44
+converged,1

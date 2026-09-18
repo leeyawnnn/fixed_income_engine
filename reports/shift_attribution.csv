@@ -1,0 +1,14 @@
+# Actual P&L under a parallel shift against the duration-only and duration-plus-convexity predictions.
+# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Regenerate:  ./build/fi_report --out reports
+shift_bp,actual_pnl,duration_only,duration_plus_convexity,duration_error,with_convexity_error
+-200,-53432.78,-89902.69,-57157.64,36469.91,3724.86
+-150,-47460.07,-67427.02,-49007.93,19966.94,1547.85
+-100,-36313.31,-44951.34,-36765.08,8638.03,451.77
+-50,-20373.49,-22475.67,-20429.11,2102.19,55.62
+-25,-10719.30,-11237.84,-10726.19,518.53,6.89
+25,11742.69,11237.84,11749.48,504.85,-6.79
+50,24468.23,22475.67,24522.24,1992.56,-54.00
+100,52711.72,44951.34,53137.61,7760.37,-425.89
+150,84429.34,67427.02,85846.11,17002.32,-1416.77
+200,119337.45,89902.69,122647.74,29434.76,-3310.29

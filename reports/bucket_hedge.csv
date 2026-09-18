@@ -1,0 +1,27 @@
+# Benchmark notionals that neutralise the book's key-rate exposure, and the exposure that survives.
+# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Regenerate:  ./build/fi_report --out reports
+hedge_tenor_months,notional
+24,-18994.63
+60,9959214.63
+84,-54905.04
+120,-5042625.59
+360,-105.49
+# residual key-rate DV01 after hedging
+tenor,node_years,residual_key_rate_dv01
+1M,0.084932,0.000000
+2M,0.161644,0.000000
+3M,0.246575,0.000000
+4M,0.328767,0.000000
+6M,0.495890,-0.455563
+1Y,1.000000,-1.351225
+2Y,2.000000,0.022611
+3Y,3.002740,-7.787148
+5Y,5.002740,0.294890
+7Y,7.005479,0.212851
+10Y,10.005479,0.152927
+20Y,20.013699,0.032462
+30Y,30.019178,0.088817
+WORST_BUCKET_BEFORE,,4181.0214
+WORST_BUCKET_AFTER,,7.787148
+RESIDUAL_DV01,,-8.789381

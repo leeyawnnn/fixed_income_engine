@@ -1,0 +1,43 @@
+# Bootstrap repricing check: curve-implied quote minus market quote, per instrument, per interpolation scheme.
+# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Regenerate:  ./build/fi_report --out reports
+scheme,instrument,tenor,market_quote_pct,implied_quote_pct,residual_bp
+linear-zero,UST par 1M,1M,3.7400,3.7400000000,1.874e-12
+linear-zero,UST par 2M,2M,3.6700,3.6700000000,3.678e-12
+linear-zero,UST par 3M,3M,3.6700,3.6700000000,0.000e+00
+linear-zero,UST par 4M,4M,3.6300,3.6300000000,0.000e+00
+linear-zero,UST par 6M,6M,3.5900,3.5900000000,4.163e-13
+linear-zero,UST par 1Y,1Y,3.4800,3.4800000000,-2.082e-13
+linear-zero,UST par 2Y,2Y,3.4700,3.4700000000,6.939e-14
+linear-zero,UST par 3Y,3Y,3.5500,3.5500000000,-2.082e-13
+linear-zero,UST par 5Y,5Y,3.7300,3.7300000000,6.939e-14
+linear-zero,UST par 7Y,7Y,3.9400,3.9400000000,6.939e-14
+linear-zero,UST par 10Y,10Y,4.1800,4.1800000000,-6.939e-14
+linear-zero,UST par 20Y,20Y,4.7900,4.7900000000,-1.388e-13
+linear-zero,UST par 30Y,30Y,4.8400,4.8400000000,-2.082e-13
+log-linear-df,UST par 1M,1M,3.7400,3.7400000000,-1.159e-11
+log-linear-df,UST par 2M,2M,3.6700,3.6700000000,-3.261e-12
+log-linear-df,UST par 3M,3M,3.6700,3.6700000000,0.000e+00
+log-linear-df,UST par 4M,4M,3.6300,3.6300000000,0.000e+00
+log-linear-df,UST par 6M,6M,3.5900,3.5900000000,4.163e-13
+log-linear-df,UST par 1Y,1Y,3.4800,3.4800000000,-2.082e-13
+log-linear-df,UST par 2Y,2Y,3.4700,3.4700000000,-3.469e-13
+log-linear-df,UST par 3Y,3Y,3.5500,3.5500000000,2.082e-13
+log-linear-df,UST par 5Y,5Y,3.7300,3.7300000000,0.000e+00
+log-linear-df,UST par 7Y,7Y,3.9400,3.9400000000,-1.388e-13
+log-linear-df,UST par 10Y,10Y,4.1800,4.1800000000,-1.388e-13
+log-linear-df,UST par 20Y,20Y,4.7900,4.7900000000,1.388e-13
+log-linear-df,UST par 30Y,30Y,4.8400,4.8400000000,2.776e-13
+monotone-convex,UST par 1M,1M,3.7400,3.7400000000,1.874e-12
+monotone-convex,UST par 2M,2M,3.6700,3.6700000000,3.678e-12
+monotone-convex,UST par 3M,3M,3.6700,3.6700000000,0.000e+00
+monotone-convex,UST par 4M,4M,3.6300,3.6300000000,0.000e+00
+monotone-convex,UST par 6M,6M,3.5900,3.5900000000,-1.874e-12
+monotone-convex,UST par 1Y,1Y,3.4800,3.4800000000,-2.082e-13
+monotone-convex,UST par 2Y,2Y,3.4700,3.4700000000,-1.943e-12
+monotone-convex,UST par 3Y,3Y,3.5500,3.5500000000,-1.249e-12
+monotone-convex,UST par 5Y,5Y,3.7300,3.7300000000,-1.811e-11
+monotone-convex,UST par 7Y,7Y,3.9400,3.9400000000,-5.412e-12
+monotone-convex,UST par 10Y,10Y,4.1800,4.1800000000,-5.065e-12
+monotone-convex,UST par 20Y,20Y,4.7900,4.7900000000,-6.661e-12
+monotone-convex,UST par 30Y,30Y,4.8400,4.8400000000,-6.939e-13

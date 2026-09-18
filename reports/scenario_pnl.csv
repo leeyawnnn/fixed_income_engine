@@ -1,0 +1,10 @@
+# Portfolio P&L under the standard curve scenarios.
+# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Regenerate:  ./build/fi_report --out reports
+scenario,base_pv,scenario_pv,pnl
+"Parallel +25.00bp",8771.16,20513.84,11742.69
+"Parallel +100.00bp",8771.16,61482.87,52711.72
+"Parallel -25.00bp",8771.16,-1948.14,-10719.30
+"Steepener (-25.00/+25.00bp)",8771.16,-30024.32,-38795.48
+"Flattener (+25.00/-25.00bp)",8771.16,47257.12,38485.96
+"Butterfly (belly +25.00/wings -12.50bp)",8771.16,-57323.19,-66094.35

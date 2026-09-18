@@ -1,0 +1,13 @@
+{
+  "produced_by": "./build/fi_report --out reports",
+  "engine_version": "0.1.0",
+  "curve_as_of": "2025-12-31",
+  "data_source": "data/treasury_par_yields_2025.csv (US Treasury Daily Par Yield Curve Rates, CMT)",
+  "instruments": 13,
+  "interpolation_schemes": ["linear-zero", "log-linear-df", "monotone-convex"],
+  "worst_repricing_residual_bp": 1.811e-11,
+  "nss_rmse_bp": 2.1015,
+  "portfolio_total_pv": "USD 8771.15",
+  "portfolio_dv01_per_bp": 449.51,
+  "key_rate_residual_pct_of_parallel": 0.000006
+}
