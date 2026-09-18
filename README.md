@@ -4,6 +4,8 @@ A C++20 library for the numerical core of a rates desk: building a discount
 curve from market instruments, valuing bonds and swaps off it, and measuring
 what happens to that value when rates move.
 
+[![ci](https://github.com/leeyawnnn/fixed_income_engine/actions/workflows/ci.yml/badge.svg)](https://github.com/leeyawnnn/fixed_income_engine/actions/workflows/ci.yml)
+
 Apache-2.0 · C++20 · CMake ≥ 3.20
 
 ## Results
