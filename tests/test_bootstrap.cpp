@@ -9,7 +9,6 @@
 using Catch::Approx;
 using fi::bootstrap_curve;
 using fi::BootstrapInstrument;
-using fi::Curve;
 using fi::Date;
 using fi::DayCount;
 using fi::DepositQuote;

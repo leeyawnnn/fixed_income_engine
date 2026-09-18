@@ -41,6 +41,7 @@ TEST_CASE("Levenberg-Marquardt recovers synthetic NSS parameters", "[nss]") {
     const NSSParams truth{0.05, -0.02, 0.02, 0.015, 1.5, 8.0};
 
     std::vector<double> ys;
+    ys.reserve(kTenors.size());
     for (double t : kTenors) ys.push_back(truth.yield(t));
 
     // Start from a perturbed (but ordered) guess.
@@ -60,6 +61,7 @@ TEST_CASE("Levenberg-Marquardt recovers synthetic NSS parameters", "[nss]") {
 TEST_CASE("Fit reproduces the input yields", "[nss]") {
     const NSSParams truth{0.04, -0.01, 0.025, 0.01, 2.0, 6.0};
     std::vector<double> ys;
+    ys.reserve(kTenors.size());
     for (double t : kTenors) ys.push_back(truth.yield(t));
 
     auto r = fit_nss(kTenors, ys, truth);  // start at the truth

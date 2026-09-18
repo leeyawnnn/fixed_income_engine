@@ -9,7 +9,6 @@
 #include "fi/portfolio.hpp"
 #include "treasury_fixture.hpp"
 
-using Catch::Approx;
 using namespace fi;
 
 namespace {

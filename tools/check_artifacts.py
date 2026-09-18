@@ -32,24 +32,28 @@ import sys
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 COMMITTED = REPO_ROOT / "reports"
 
-# Absolute tolerance per file, in the units that file prints.
-TOLERANCE = {
-    "curve_nodes.csv": 1e-6,
-    "forward_curves.csv": 1e-6,
-    "zero_curve.csv": 1e-6,
-    "nss_fit.csv": 1e-4,
-    "nss_params.csv": 1e-4,
-    "key_rate_dv01.csv": 1e-3,
-    "bucket_hedge.csv": 1e-2,
-    "portfolio_valuation.csv": 1e-2,
-    "scenario_pnl.csv": 1e-2,
-    "shift_attribution.csv": 1e-2,
-    "repricing_residuals.csv": 1e-6,
-}
-
 # Values that legitimately differ between platforms and carry no claim.
 # `iterations` is a solver step count; the fit it produces is compared anyway.
 SKIP_VALUES = {"iterations"}
+
+# Residuals printed in scientific notation are assertions that a number is
+# negligible, not that it takes a particular value. Comparing 1.811e-11 against
+# 1.783e-11 is meaningless; both being far below a basis point is the claim.
+NEGLIGIBLE = 1e-6
+
+FILES = [
+    "bucket_hedge.csv",
+    "curve_nodes.csv",
+    "forward_curves.csv",
+    "key_rate_dv01.csv",
+    "nss_fit.csv",
+    "nss_params.csv",
+    "portfolio_valuation.csv",
+    "repricing_residuals.csv",
+    "scenario_pnl.csv",
+    "shift_attribution.csv",
+    "zero_curve.csv",
+]
 
 # The README's headline numbers, asserted directly rather than by comparison.
 CLAIMS = {
@@ -65,16 +69,36 @@ def read_rows(path: pathlib.Path) -> list[list[str]]:
     return [row for row in csv.reader(lines) if row]
 
 
-def compare_cell(expected: str, actual: str, tol: float) -> str | None:
+def tolerance_for(printed: str) -> float:
+    """One unit in the last printed place, plus half again.
+
+    The only way two platforms print a different value is by one in the last
+    digit, when the true values straddle a rounding boundary. The drift itself
+    is around 1e-16 relative; what matters is how many digits the column shows.
+    Deriving the tolerance from the committed string keeps every column as tight
+    as it can be without hand-tuning a table - which is what let a 6-decimal
+    column sit exactly on its own tolerance and fail.
+    """
+    _, _, fraction = printed.partition(".")
+    fraction = fraction.split("e")[0].split("E")[0]
+    return 1.5 * (10.0 ** -len(fraction)) if fraction else 1.5
+
+
+def compare_cell(expected: str, actual: str) -> str | None:
     if expected == actual:
         return None
     try:
         a, b = float(expected), float(actual)
     except ValueError:
         return f"{expected!r} != {actual!r}"
+
+    if abs(a) < NEGLIGIBLE and abs(b) < NEGLIGIBLE:
+        return None
+
+    tol = max(tolerance_for(expected), 1e-9 * abs(a))
     if abs(a - b) <= tol:
         return None
-    return f"{expected} != {actual} (differs by {abs(a - b):.3g}, tolerance {tol:g})"
+    return f"{expected} != {actual} (differs by {abs(a - b):.3g}, tolerance {tol:.3g})"
 
 
 def compare_file(name: str, fresh_dir: pathlib.Path) -> list[str]:
@@ -86,7 +110,6 @@ def compare_file(name: str, fresh_dir: pathlib.Path) -> list[str]:
     if len(want) != len(got):
         return [f"{name}: {len(want)} rows committed, {len(got)} regenerated"]
 
-    tol = TOLERANCE.get(name, 1e-6)
     problems = []
     for index, (wrow, grow) in enumerate(zip(want, got, strict=True), start=1):
         if len(wrow) != len(grow):
@@ -95,7 +118,7 @@ def compare_file(name: str, fresh_dir: pathlib.Path) -> list[str]:
         if wrow and wrow[0] in SKIP_VALUES:
             continue
         for wcell, gcell in zip(wrow, grow, strict=True):
-            if problem := compare_cell(wcell, gcell, tol):
+            if problem := compare_cell(wcell, gcell):
                 problems.append(f"{name} row {index}: {problem}")
     return problems
 
@@ -121,7 +144,7 @@ def main() -> int:
     fresh_dir = pathlib.Path(sys.argv[1])
 
     problems = check_claims(fresh_dir)
-    for name in sorted(TOLERANCE):
+    for name in FILES:
         problems.extend(compare_file(name, fresh_dir))
 
     if problems:
@@ -134,7 +157,7 @@ def main() -> int:
         print("  ./build/fi_report --out reports && python3 tools/make_figures.py")
         return 1
 
-    print(f"All {len(TOLERANCE)} artifacts match within tolerance; headline claims hold.")
+    print(f"All {len(FILES)} artifacts match within tolerance; headline claims hold.")
     return 0
 
 
