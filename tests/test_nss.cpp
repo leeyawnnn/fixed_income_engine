@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "fi/nss.hpp"
+#include "treasury_fixture.hpp"
 
 using Catch::Approx;
 using fi::fit_nss;
@@ -67,32 +68,28 @@ TEST_CASE("Fit reproduces the input yields", "[nss]") {
     }
 }
 
-TEST_CASE("Fit to real Treasury yields has small residuals", "[nss]") {
-    std::ifstream file(std::string(FI_DATA_DIR) + "/treasury_yields.csv");
-    REQUIRE(file.is_open());
+TEST_CASE("Fit to published Treasury par yields has small residuals", "[nss]") {
+    // Real CMT par yields for the last business day of 2025, read from the
+    // committed Treasury file rather than written into this test.
+    const auto curve = fi::testing::load_cmt_curve("2025-12-31");
+    REQUIRE(curve.points.size() == 13);
 
-    std::vector<double> taus, yields;
-    std::string line;
-    std::getline(file, line);  // header
-    while (std::getline(file, line)) {
-        if (line.empty()) continue;
-        std::stringstream ss(line);
-        std::string tenor_s, yield_s;
-        std::getline(ss, tenor_s, ',');
-        std::getline(ss, yield_s, ',');
-        taus.push_back(std::stod(tenor_s));
-        yields.push_back(std::stod(yield_s) / 100.0);  // percent → decimal
+    std::vector<double> taus;
+    std::vector<double> yields;
+    for (const auto& point : curve.points) {
+        taus.push_back(point.tau);
+        yields.push_back(point.par_yield);
     }
-    REQUIRE(taus.size() == 10);
 
-    auto r = fit_nss(taus, yields);  // multi-start
+    const auto r = fit_nss(taus, yields);  // multi-start over the decay grid
+    REQUIRE(r.converged);
 
-    // RMSE well under 5bp...
-    REQUIRE(r.rmse < 5e-4);
-    // ...and no single tenor mispriced by more than 10bp.
+    // NSS has six parameters against thirteen tenors, so it cannot interpolate;
+    // these bounds say the shape is captured, not that the fit is exact.
+    REQUIRE(r.rmse < 5e-4);  // under 5bp RMSE
     double max_abs = 0.0;
     for (std::size_t i = 0; i < taus.size(); ++i) {
         max_abs = std::max(max_abs, std::abs(r.params.yield(taus[i]) - yields[i]));
     }
-    REQUIRE(max_abs < 1e-3);
+    REQUIRE(max_abs < 1e-3);  // no tenor off by more than 10bp
 }
