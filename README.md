@@ -1,4 +1,4 @@
-# fixed-income-engine
+# fixed_income_engine
 
 A C++20 library for the numerical core of a rates desk: building a discount
 curve from market instruments, valuing bonds and swaps off it, and measuring

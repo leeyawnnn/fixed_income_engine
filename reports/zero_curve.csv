@@ -1,5 +1,5 @@
 # Bootstrapped zero curve and discount factors on a dense grid (log-linear interpolation).
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 tenor_years,zero_rate_pct,discount_factor
 0.01,3.663917,0.99963368

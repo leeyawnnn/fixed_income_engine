@@ -1,5 +1,5 @@
 # Bootstrapped curve at its nodes: continuously compounded zero rate, discount factor, and instantaneous forward.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 scheme,tenor,node_years,zero_rate_pct,discount_factor,instantaneous_forward_pct
 linear-zero,1M,0.084932,3.663917,0.99689302,3.654626

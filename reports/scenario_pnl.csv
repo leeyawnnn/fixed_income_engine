@@ -1,5 +1,5 @@
 # Portfolio P&L under the standard curve scenarios.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 scenario,base_pv,scenario_pv,pnl
 "Parallel +25bp",8771.16,20513.84,11742.69

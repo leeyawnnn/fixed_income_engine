@@ -1,5 +1,5 @@
 # Bootstrap repricing check: curve-implied quote minus market quote, per instrument, per interpolation scheme.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 scheme,instrument,tenor,market_quote_pct,implied_quote_pct,residual_bp
 linear-zero,UST par 1M,1M,3.7400,3.7400000000,1.874e-12

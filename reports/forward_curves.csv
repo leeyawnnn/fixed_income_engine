@@ -1,5 +1,5 @@
 # Instantaneous forward rate on a dense grid, per interpolation scheme. This is where the schemes disagree.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 tenor_years,linear-zero_forward_pct,log-linear-df_forward_pct,monotone-convex_forward_pct
 0.01,3.663917,3.663917,3.672822

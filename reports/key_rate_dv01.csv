@@ -1,5 +1,5 @@
 # Key-rate DV01 by curve node, with the parallel DV01 it is supposed to decompose and the residual between them.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 tenor,node_years,key_rate_dv01
 1M,0.084932,0.0000

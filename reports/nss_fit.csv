@@ -1,5 +1,5 @@
 # Nelson-Siegel-Svensson fitted to the CMT par yields: market yield, fitted yield, residual.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 tenor,tau_years,market_yield_pct,fitted_yield_pct,residual_bp
 1M,0.083333,3.7400,3.722824,-1.7176

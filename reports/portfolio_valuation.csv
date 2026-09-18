@@ -1,5 +1,5 @@
 # Portfolio valuation. Money columns are exact to the minor unit and the rows sum to the total.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 id,currency,notional,pv,fixed_leg,floating_leg,dv01_per_bp,pv01_per_bp,par_rate_pct,rate_offset_bp
 USD-5Y-PAYER,USD,10000000.00,-122488.79,-1814648.70,1692159.91,4641.18,4536.62,3.7300,27.00

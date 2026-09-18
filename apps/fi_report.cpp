@@ -142,7 +142,7 @@ public:
         // Every artifact says what it is and how to remake it, so a file that
         // gets separated from the repository still carries its provenance.
         stream_ << "# " << description << "\n"
-                << "# Produced by: fi_report (fixed-income-engine " << version_string
+                << "# Produced by: fi_report (fixed_income_engine " << version_string
                 << ")\n"
                 << "# Regenerate:  ./build/fi_report --out reports\n";
     }

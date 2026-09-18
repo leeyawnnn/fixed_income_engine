@@ -1,5 +1,5 @@
 # Benchmark notionals that neutralise the book's key-rate exposure, and the exposure that survives.
-# Produced by: fi_report (fixed-income-engine 0.1.0)
+# Produced by: fi_report (fixed_income_engine 0.1.0)
 # Regenerate:  ./build/fi_report --out reports
 hedge_tenor_months,notional
 24,-18994.63

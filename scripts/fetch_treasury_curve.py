@@ -100,7 +100,7 @@ def ssl_context() -> ssl.SSLContext:
 def fetch(year: int, timeout: int = 60) -> str:
     url = URL_TEMPLATE.format(year=year)
     request = urllib.request.Request(
-        url, headers={"User-Agent": "fixed-income-engine/0.1 (+data fetch)"}
+        url, headers={"User-Agent": "fixed_income_engine/0.1 (+data fetch)"}
     )
     with urllib.request.urlopen(
         request, timeout=timeout, context=ssl_context()

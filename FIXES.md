@@ -202,6 +202,6 @@ gh repo edit leeyawnnn/fixed_income_engine \
   --add-topic quantitative-finance --add-topic nelson-siegel
 ```
 
-Note the repository is `fixed_income_engine` and the README title is now
-`fixed-income-engine`. The brief asked for hyphen-case on both; renaming the
-repo breaks existing clone URLs, so I left that to you.
+The README title is `fixed_income_engine`, matching the repository. The brief
+asked for hyphen-case on both; you use underscores for repo names, so the README
+was changed to match the repo rather than the other way round.

@@ -114,7 +114,7 @@ def apply_rcparams() -> None:
             "legend.frameon": False,
             "svg.fonttype": "none",
             # Fixed salt keeps generated element ids stable between runs.
-            "svg.hashsalt": "fixed-income-engine",
+            "svg.hashsalt": "fixed_income_engine",
         }
     )
 
