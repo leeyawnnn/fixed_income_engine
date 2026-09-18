@@ -6,13 +6,14 @@
 
 namespace fi {
 
-int per_year(Frequency f) noexcept { return static_cast<int>(f); }
+int per_year(Frequency f) noexcept {
+    return static_cast<int>(f);
+}
 
 namespace {
 
-std::vector<Cashflow> build_schedule(double face, double coupon_rate,
-                                     Frequency freq, const Date& issue,
-                                     const Date& maturity) {
+std::vector<Cashflow> build_schedule(double face, double coupon_rate, Frequency freq,
+                                     const Date& issue, const Date& maturity) {
     if (!(maturity > issue)) {
         throw std::invalid_argument("Bond: maturity must be after issue date");
     }
@@ -45,8 +46,8 @@ std::vector<Cashflow> build_schedule(double face, double coupon_rate,
 
 }  // namespace
 
-Bond::Bond(double face_value, double coupon_rate, Frequency frequency,
-           Date issue_date, Date maturity_date, DayCount day_count)
+Bond::Bond(double face_value, double coupon_rate, Frequency frequency, Date issue_date,
+           Date maturity_date, DayCount day_count)
     : face_value_(face_value),
       coupon_rate_(coupon_rate),
       frequency_(frequency),

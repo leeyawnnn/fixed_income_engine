@@ -14,7 +14,11 @@ using fi::Frequency;
 using fi::solve_ytm;
 
 TEST_CASE("YTM round-trips the pricing function", "[ytm]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
 
     for (double y : {0.01, 0.03, 0.05, 0.07, 0.12}) {
@@ -27,8 +31,12 @@ TEST_CASE("YTM round-trips the pricing function", "[ytm]") {
 }
 
 TEST_CASE("YTM round-trips a semi-annual bond", "[ytm]") {
-    Bond b{1000.0, 0.04, Frequency::SemiAnnual, Date{2020, 1, 1},
-           Date{2027, 1, 1}, DayCount::Thirty360};
+    Bond b{1000.0,
+           0.04,
+           Frequency::SemiAnnual,
+           Date{2020, 1, 1},
+           Date{2027, 1, 1},
+           DayCount::Thirty360};
 
     const double y = 0.055;
     const double price = b.price_from_yield(y);
@@ -38,7 +46,11 @@ TEST_CASE("YTM round-trips a semi-annual bond", "[ytm]") {
 }
 
 TEST_CASE("Par bond solves to its coupon rate", "[ytm]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
     auto r = solve_ytm(b, 1000.0);
     REQUIRE(r.converged);
@@ -48,7 +60,11 @@ TEST_CASE("Par bond solves to its coupon rate", "[ytm]") {
 TEST_CASE("Deep-discount, very low coupon bond still converges", "[ytm]") {
     // 30Y, 1% annual coupon priced to an 8% yield: a deeply discounted bond,
     // far from the coupon-rate initial guess.
-    Bond b{1000.0, 0.01, Frequency::Annual, Date{2020, 1, 1}, Date{2050, 1, 1},
+    Bond b{1000.0,
+           0.01,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2050, 1, 1},
            DayCount::Thirty360};
 
     const double y = 0.08;
@@ -61,7 +77,11 @@ TEST_CASE("Deep-discount, very low coupon bond still converges", "[ytm]") {
 }
 
 TEST_CASE("Zero-coupon YTM matches the analytic yield", "[ytm]") {
-    Bond z{1000.0, 0.0, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond z{1000.0,
+           0.0,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
 
     const double y = 0.06;
@@ -72,7 +92,11 @@ TEST_CASE("Zero-coupon YTM matches the analytic yield", "[ytm]") {
 }
 
 TEST_CASE("Negative yield is recoverable for a deep premium", "[ytm]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
 
     const double y = -0.01;
@@ -84,7 +108,11 @@ TEST_CASE("Negative yield is recoverable for a deep premium", "[ytm]") {
 }
 
 TEST_CASE("SolverConfig controls iteration budget", "[ytm]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
 
     // One iteration from a poor starting point should not be enough to hit a

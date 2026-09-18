@@ -93,9 +93,8 @@ TEST_CASE("Polymorphic use through the base interface", "[curve]") {
 }
 
 TEST_CASE("Curve construction validates its nodes", "[curve]") {
-    REQUIRE_THROWS_AS(
-        LinearInterpCurve(kRef, DayCount::Thirty360, {1.0, 2.0}, {0.02}),
-        std::invalid_argument);  // size mismatch
+    REQUIRE_THROWS_AS(LinearInterpCurve(kRef, DayCount::Thirty360, {1.0, 2.0}, {0.02}),
+                      std::invalid_argument);  // size mismatch
     REQUIRE_THROWS_AS(
         LinearInterpCurve(kRef, DayCount::Thirty360, {2.0, 1.0}, {0.03, 0.02}),
         std::invalid_argument);  // not increasing

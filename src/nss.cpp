@@ -1,6 +1,7 @@
 #include "fi/nss.hpp"
 
 #include <Eigen/Dense>
+#include <array>
 
 #include <algorithm>
 #include <cmath>
@@ -32,7 +33,9 @@ Vec to_vec(const NSSParams& q) {
     return p;
 }
 
-double clamp_lambda(double v) { return std::clamp(v, 0.01, 60.0); }
+double clamp_lambda(double v) {
+    return std::clamp(v, 0.01, 60.0);
+}
 
 }  // namespace
 
@@ -59,8 +62,8 @@ NSSParams nss_initial_guess(const std::vector<double>& taus,
         if (taus[i] > taus[i_max]) i_max = i;
     }
     NSSParams g;
-    g.beta0 = yields[i_max];                 // long end ≈ level
-    g.beta1 = yields[i_min] - yields[i_max]; // short − long
+    g.beta0 = yields[i_max];                  // long end ≈ level
+    g.beta1 = yields[i_min] - yields[i_max];  // short − long
     g.beta2 = 0.0;
     g.beta3 = 0.0;
     g.lambda1 = 2.0;
@@ -68,8 +71,7 @@ NSSParams nss_initial_guess(const std::vector<double>& taus,
     return g;
 }
 
-NSSFitResult fit_nss(const std::vector<double>& taus,
-                     const std::vector<double>& yields,
+NSSFitResult fit_nss(const std::vector<double>& taus, const std::vector<double>& yields,
                      const NSSParams& initial_guess, const SolverConfig& cfg) {
     if (taus.empty() || taus.size() != yields.size()) {
         throw std::invalid_argument("fit_nss: need matching non-empty data");
@@ -128,8 +130,7 @@ NSSFitResult fit_nss(const std::vector<double>& taus,
                 cost = new_cost;
                 damping = std::max(damping * 0.3, 1e-12);
                 step_accepted = true;
-                if (delta.norm() < cfg.step_tolerance ||
-                    rel < cfg.value_tolerance) {
+                if (delta.norm() < cfg.step_tolerance || rel < cfg.value_tolerance) {
                     result.converged = true;
                 }
                 break;
@@ -154,8 +155,8 @@ NSSFitResult fit_nss(const std::vector<double>& taus,
     const SolverConfig cfg = nss_default_config();
 
     // Decay-scale grid (λ1 < λ2 captures a short and a long hump).
-    static constexpr double kL1[] = {0.5, 1.0, 1.5, 2.0, 3.0, 5.0};
-    static constexpr double kL2[] = {3.0, 5.0, 8.0, 12.0, 20.0, 30.0};
+    static constexpr std::array<double, 6> kL1 = {0.5, 1.0, 1.5, 2.0, 3.0, 5.0};
+    static constexpr std::array<double, 6> kL2 = {3.0, 5.0, 8.0, 12.0, 20.0, 30.0};
 
     NSSFitResult best;
     best.rmse = std::numeric_limits<double>::infinity();

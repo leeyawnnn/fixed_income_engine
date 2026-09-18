@@ -82,8 +82,8 @@ public:
 // zero rate is held flat (matching LinearInterpCurve at the boundary).
 class LogLinearCurve : public Curve {
 public:
-    LogLinearCurve(Date reference_date, DayCount day_count,
-                   std::vector<double> times, std::vector<double> zeros);
+    LogLinearCurve(Date reference_date, DayCount day_count, std::vector<double> times,
+                   std::vector<double> zeros);
 
     using Curve::discount;
     double discount(double t) const override;

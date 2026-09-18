@@ -22,7 +22,11 @@ static double closed_form_price(double c, double F, int n, double periodic_yield
 TEST_CASE("Coupon schedule is generated correctly", "[bond]") {
     // 10Y, 5% annual coupon, $1000 face. Under 30/360 the year fractions are
     // exact integers, anchored to the maturity date.
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
 
     const auto& cfs = b.cashflows();
@@ -34,13 +38,21 @@ TEST_CASE("Coupon schedule is generated correctly", "[bond]") {
 }
 
 TEST_CASE("Bond priced at its coupon rate is at par", "[bond]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
     REQUIRE(b.price_from_yield(0.05) == Approx(1000.0).margin(1e-9));
 }
 
 TEST_CASE("Bond priced above its coupon rate trades at a discount", "[bond]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
 
     const double price = b.price_from_yield(0.06);
@@ -53,15 +65,23 @@ TEST_CASE("Bond priced above its coupon rate trades at a discount", "[bond]") {
 }
 
 TEST_CASE("Bond priced below its coupon rate trades at a premium", "[bond]") {
-    Bond b{1000.0, 0.05, Frequency::Annual, Date{2020, 1, 1}, Date{2030, 1, 1},
+    Bond b{1000.0,
+           0.05,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2030, 1, 1},
            DayCount::Thirty360};
     REQUIRE(b.price_from_yield(0.04) > 1000.0);
 }
 
 TEST_CASE("Semi-annual bond at par", "[bond]") {
     // 5Y, 5% coupon paid semi-annually -> 10 periods of 25, par at 5% yield.
-    Bond b{1000.0, 0.05, Frequency::SemiAnnual, Date{2020, 1, 1},
-           Date{2025, 1, 1}, DayCount::Thirty360};
+    Bond b{1000.0,
+           0.05,
+           Frequency::SemiAnnual,
+           Date{2020, 1, 1},
+           Date{2025, 1, 1},
+           DayCount::Thirty360};
     REQUIRE(b.cashflows().size() == 10);
     REQUIRE(b.price_from_yield(0.05) == Approx(1000.0).margin(1e-9));
 
@@ -71,7 +91,11 @@ TEST_CASE("Semi-annual bond at par", "[bond]") {
 
 TEST_CASE("Zero-coupon bond price equals face times discount factor", "[bond]") {
     // 5Y zero, $1000 face. Only one cashflow: principal at maturity.
-    Bond z{1000.0, 0.0, Frequency::Annual, Date{2020, 1, 1}, Date{2025, 1, 1},
+    Bond z{1000.0,
+           0.0,
+           Frequency::Annual,
+           Date{2020, 1, 1},
+           Date{2025, 1, 1},
            DayCount::Thirty360};
 
     REQUIRE(z.cashflows().size() == 1);

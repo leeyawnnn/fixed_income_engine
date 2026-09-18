@@ -8,7 +8,9 @@ namespace fi {
 
 namespace {
 
-double clamp01(double x) { return std::clamp(x, 0.0, 1.0); }
+double clamp01(double x) {
+    return std::clamp(x, 0.0, 1.0);
+}
 
 std::string fmt(double v) {
     std::ostringstream os;
@@ -20,8 +22,7 @@ std::string fmt(double v) {
 
 Scenario parallel_scenario(double bp) {
     const double d = bp * 1e-4;
-    return {"Parallel " + (bp >= 0 ? std::string("+") : std::string()) +
-                fmt(bp) + "bp",
+    return {"Parallel " + (bp >= 0 ? std::string("+") : std::string()) + fmt(bp) + "bp",
             [d](double) { return d; }};
 }
 
@@ -96,8 +97,8 @@ std::string scenarios_report_md(const std::vector<ScenarioPnL>& results) {
     os << "| Scenario | Base PV | Scenario PV | P&L |\n";
     os << "|---|---:|---:|---:|\n";
     for (const ScenarioPnL& r : results) {
-        os << "| " << r.name << " | " << fmt(r.base_pv) << " | "
-           << fmt(r.scenario_pv) << " | " << fmt(r.pnl) << " |\n";
+        os << "| " << r.name << " | " << fmt(r.base_pv) << " | " << fmt(r.scenario_pv)
+           << " | " << fmt(r.pnl) << " |\n";
     }
     return os.str();
 }

@@ -19,8 +19,8 @@ struct Value {
     bool bval = false;
     double nval = 0.0;
     std::string sval;
-    std::vector<Value> items;                              // Array
-    std::vector<std::pair<std::string, Value>> members;   // Object
+    std::vector<Value> items;                            // Array
+    std::vector<std::pair<std::string, Value>> members;  // Object
 
     bool is_null() const { return type == Type::Null; }
     double number() const {
@@ -70,15 +70,17 @@ private:
     const std::string& s_;
     std::size_t i_ = 0;
 
-    [[noreturn]] void err(const std::string& m) {
+    [[noreturn]] static void err(const std::string& m) {
         throw std::runtime_error("json: " + m);
     }
     char peek() const { return i_ < s_.size() ? s_[i_] : '\0'; }
     void skip_ws() {
         while (i_ < s_.size()) {
             char c = s_[i_];
-            if (c == ' ' || c == '\t' || c == '\n' || c == '\r') ++i_;
-            else break;
+            if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+                ++i_;
+            else
+                break;
         }
     }
 
@@ -105,7 +107,10 @@ private:
         v.type = Value::Type::Object;
         ++i_;  // '{'
         skip_ws();
-        if (peek() == '}') { ++i_; return v; }
+        if (peek() == '}') {
+            ++i_;
+            return v;
+        }
         while (true) {
             skip_ws();
             if (peek() != '"') err("expected string key");
@@ -128,7 +133,10 @@ private:
         v.type = Value::Type::Array;
         ++i_;  // '['
         skip_ws();
-        if (peek() == ']') { ++i_; return v; }
+        if (peek() == ']') {
+            ++i_;
+            return v;
+        }
         while (true) {
             v.items.push_back(value());
             skip_ws();
@@ -147,7 +155,10 @@ private:
             if (i_ >= s_.size()) err("unterminated string");
             char c = s_[i_++];
             if (c == '"') break;
-            if (c != '\\') { out += c; continue; }
+            if (c != '\\') {
+                out += c;
+                continue;
+            }
             if (i_ >= s_.size()) err("bad escape");
             char e = s_[i_++];
             switch (e) {
@@ -165,10 +176,14 @@ private:
                     for (int k = 0; k < 4; ++k) {
                         char h = s_[i_++];
                         code <<= 4;
-                        if (h >= '0' && h <= '9') code |= h - '0';
-                        else if (h >= 'a' && h <= 'f') code |= h - 'a' + 10;
-                        else if (h >= 'A' && h <= 'F') code |= h - 'A' + 10;
-                        else err("bad hex digit");
+                        if (h >= '0' && h <= '9')
+                            code |= h - '0';
+                        else if (h >= 'a' && h <= 'f')
+                            code |= h - 'a' + 10;
+                        else if (h >= 'A' && h <= 'F')
+                            code |= h - 'A' + 10;
+                        else
+                            err("bad hex digit");
                     }
                     out += (code < 128) ? static_cast<char>(code) : '?';
                     break;
@@ -182,14 +197,22 @@ private:
     Value boolean() {
         Value v;
         v.type = Value::Type::Bool;
-        if (s_.compare(i_, 4, "true") == 0) { v.bval = true; i_ += 4; }
-        else if (s_.compare(i_, 5, "false") == 0) { v.bval = false; i_ += 5; }
-        else err("invalid literal");
+        if (s_.compare(i_, 4, "true") == 0) {
+            v.bval = true;
+            i_ += 4;
+        } else if (s_.compare(i_, 5, "false") == 0) {
+            v.bval = false;
+            i_ += 5;
+        } else
+            err("invalid literal");
         return v;
     }
 
     Value null() {
-        if (s_.compare(i_, 4, "null") == 0) { i_ += 4; return Value{}; }
+        if (s_.compare(i_, 4, "null") == 0) {
+            i_ += 4;
+            return Value{};
+        }
         err("invalid literal");
     }
 

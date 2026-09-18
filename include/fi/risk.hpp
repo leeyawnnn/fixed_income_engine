@@ -25,8 +25,7 @@ struct RiskMeasures {
 };
 
 // One-pass computation of all measures, valued at `valuation_date`.
-RiskMeasures risk_measures(const Bond& bond, double yield,
-                           const Date& valuation_date);
+RiskMeasures risk_measures(const Bond& bond, double yield, const Date& valuation_date);
 inline RiskMeasures risk_measures(const Bond& bond, double yield) {
     return risk_measures(bond, yield, bond.issue_date());
 }
@@ -46,7 +45,9 @@ inline double modified_duration(const Bond& b, double y) {
 inline double convexity(const Bond& b, double y) {
     return convexity(b, y, b.issue_date());
 }
-inline double dv01(const Bond& b, double y) { return dv01(b, y, b.issue_date()); }
+inline double dv01(const Bond& b, double y) {
+    return dv01(b, y, b.issue_date());
+}
 
 // Central finite-difference DV01 (per 1bp), for cross-checking the analytic
 // value. `bump` is the yield perturbation used for the difference.

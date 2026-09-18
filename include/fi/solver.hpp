@@ -41,8 +41,8 @@ SolverResult newton_pure(F&& f, DF&& df, double guess, const SolverConfig& cfg =
 // Requires f(x_low) and f(x_high) to straddle zero; if they don't, falls back
 // to plain Newton from `guess`.
 template <class F, class DF>
-SolverResult newton_bisection(F&& f, DF&& df, double guess, double x_low,
-                              double x_high, const SolverConfig& cfg = {}) {
+SolverResult newton_bisection(F&& f, DF&& df, double guess, double x_low, double x_high,
+                              const SolverConfig& cfg = {}) {
     double fl = f(x_low);
     double fh = f(x_high);
     if (fl == 0.0) return {x_low, 0, true};
@@ -54,14 +54,18 @@ SolverResult newton_bisection(F&& f, DF&& df, double guess, double x_low,
 
     // Orient the bracket so that f(xl) < 0 < f(xh).
     double xl, xh;
-    if (fl < 0.0) { xl = x_low; xh = x_high; }
-    else          { xl = x_high; xh = x_low; }
+    if (fl < 0.0) {
+        xl = x_low;
+        xh = x_high;
+    } else {
+        xl = x_high;
+        xh = x_low;
+    }
 
     const double bracket_lo = std::min(x_low, x_high);
     const double bracket_hi = std::max(x_low, x_high);
-    double rts = (guess > bracket_lo && guess < bracket_hi)
-                     ? guess
-                     : 0.5 * (x_low + x_high);
+    double rts =
+        (guess > bracket_lo && guess < bracket_hi) ? guess : 0.5 * (x_low + x_high);
 
     double dx_old = std::abs(x_high - x_low);
     double dx = dx_old;
@@ -89,7 +93,10 @@ SolverResult newton_bisection(F&& f, DF&& df, double guess, double x_low,
             std::abs(dx) <= cfg.step_tolerance) {
             return {rts, it, true};
         }
-        if (fval < 0.0) xl = rts; else xh = rts;
+        if (fval < 0.0)
+            xl = rts;
+        else
+            xh = rts;
     }
     return {rts, cfg.max_iterations, false};
 }

@@ -5,6 +5,8 @@
 
 namespace fi {
 
-const char* library_version() noexcept { return version_string; }
+const char* library_version() noexcept {
+    return version_string;
+}
 
 }  // namespace fi

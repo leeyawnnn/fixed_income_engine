@@ -41,8 +41,7 @@ NSSParams nss_initial_guess(const std::vector<double>& taus,
 
 // Fit the six NSS parameters to (τ_i, y_i) by Levenberg-Marquardt, minimizing
 // Σ (y(τ_i) − y_i)². Eigen solves the damped normal equations each step.
-NSSFitResult fit_nss(const std::vector<double>& taus,
-                     const std::vector<double>& yields,
+NSSFitResult fit_nss(const std::vector<double>& taus, const std::vector<double>& yields,
                      const NSSParams& initial_guess, const SolverConfig& cfg);
 
 // Convenience overloads: an NSS-tuned config (200 iters, 1e-12 tol) and/or the

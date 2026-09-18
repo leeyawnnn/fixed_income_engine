@@ -6,11 +6,9 @@ namespace fi {
 
 double year_fraction(const Date& d1, const Date& d2, DayCount dc) {
     switch (dc) {
-        case DayCount::Act360:
-            return static_cast<double>(days_between(d1, d2)) / 360.0;
+        case DayCount::Act360: return static_cast<double>(days_between(d1, d2)) / 360.0;
 
-        case DayCount::Act365:
-            return static_cast<double>(days_between(d1, d2)) / 365.0;
+        case DayCount::Act365: return static_cast<double>(days_between(d1, d2)) / 365.0;
 
         case DayCount::Thirty360: {
             // US (NASD) 30/360 bond basis.
@@ -30,8 +28,8 @@ double year_fraction(const Date& d1, const Date& d2, DayCount dc) {
 
 const char* to_string(DayCount dc) noexcept {
     switch (dc) {
-        case DayCount::Act360:    return "Act/360";
-        case DayCount::Act365:    return "Act/365";
+        case DayCount::Act360: return "Act/360";
+        case DayCount::Act365: return "Act/365";
         case DayCount::Thirty360: return "30/360";
     }
     return "Unknown";

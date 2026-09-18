@@ -26,8 +26,8 @@ public:
     // coupon_rate is the *annual* rate (0.05 == 5%). The per-period coupon is
     // face_value * coupon_rate / per_year(frequency). Throws if maturity is not
     // after issue, or the frequency does not divide 12.
-    Bond(double face_value, double coupon_rate, Frequency frequency,
-         Date issue_date, Date maturity_date, DayCount day_count);
+    Bond(double face_value, double coupon_rate, Frequency frequency, Date issue_date,
+         Date maturity_date, DayCount day_count);
 
     // The generated schedule, ascending by date. The maturity cashflow includes
     // the principal. Zero-amount coupons (e.g. a zero-coupon bond's interim

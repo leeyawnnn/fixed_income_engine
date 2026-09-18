@@ -33,8 +33,7 @@ SolverResult solve_ytm(const Bond& bond, double target_price,
     return newton_bisection(residual, derivative, guess, -0.99, 10.0, cfg);
 }
 
-SolverResult solve_ytm(const Bond& bond, double target_price,
-                       const SolverConfig& cfg) {
+SolverResult solve_ytm(const Bond& bond, double target_price, const SolverConfig& cfg) {
     return solve_ytm(bond, target_price, bond.issue_date(), cfg);
 }
 

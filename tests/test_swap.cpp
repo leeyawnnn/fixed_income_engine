@@ -23,12 +23,16 @@ using fi::SwapQuote;
 
 namespace {
 
-Swap make_swap(double notional, double rate, SwapDirection dir,
-               const Date& ref, const Date& maturity) {
-    return Swap{notional,         rate,
-                dir,              ref,
-                maturity,         Frequency::SemiAnnual,
-                DayCount::Thirty360, Frequency::Quarterly,
+Swap make_swap(double notional, double rate, SwapDirection dir, const Date& ref,
+               const Date& maturity) {
+    return Swap{notional,
+                rate,
+                dir,
+                ref,
+                maturity,
+                Frequency::SemiAnnual,
+                DayCount::Thirty360,
+                Frequency::Quarterly,
                 DayCount::Act360};
 }
 
@@ -112,13 +116,12 @@ TEST_CASE("Self-discounted floating leg telescopes to DF(start) − DF(end)", "[
     auto curve = flat_curve(ref, 0.03);
     Swap s = make_swap(1.0, 0.0, SwapDirection::Payer, ref, Date{2030, 1, 1});
 
-    const double expected =
-        curve->discount(ref) - curve->discount(Date{2030, 1, 1});
+    const double expected = curve->discount(ref) - curve->discount(Date{2030, 1, 1});
     REQUIRE(s.floating_leg_pv(*curve) == Approx(expected).margin(1e-12));
 }
 
 TEST_CASE("Swap rejects bad construction", "[swap]") {
     const Date ref{2024, 1, 1};
-    REQUIRE_THROWS(make_swap(1e6, 0.04, SwapDirection::Payer, Date{2030, 1, 1},
-                             Date{2024, 1, 1}));
+    REQUIRE_THROWS(
+        make_swap(1e6, 0.04, SwapDirection::Payer, Date{2030, 1, 1}, Date{2024, 1, 1}));
 }

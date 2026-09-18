@@ -20,7 +20,8 @@ Curve::Curve(Date reference_date, DayCount day_count, std::vector<double> times,
             throw std::invalid_argument("Curve: node times must be positive");
         }
         if (i > 0 && !(times_[i] > times_[i - 1])) {
-            throw std::invalid_argument("Curve: node times must be strictly increasing");
+            throw std::invalid_argument(
+                "Curve: node times must be strictly increasing");
         }
     }
 }
@@ -62,8 +63,8 @@ double LinearInterpCurve::discount(double t) const {
 
 std::unique_ptr<Curve> LinearInterpCurve::with_zero_rates(
     std::vector<double> zeros) const {
-    return std::make_unique<LinearInterpCurve>(reference_date(), day_count(),
-                                               times_, std::move(zeros));
+    return std::make_unique<LinearInterpCurve>(reference_date(), day_count(), times_,
+                                               std::move(zeros));
 }
 
 LogLinearCurve::LogLinearCurve(Date reference_date, DayCount day_count,
@@ -89,8 +90,8 @@ double LogLinearCurve::discount(double t) const {
 
 std::unique_ptr<Curve> LogLinearCurve::with_zero_rates(
     std::vector<double> zeros) const {
-    return std::make_unique<LogLinearCurve>(reference_date(), day_count(),
-                                            times_, std::move(zeros));
+    return std::make_unique<LogLinearCurve>(reference_date(), day_count(), times_,
+                                            std::move(zeros));
 }
 
 }  // namespace fi

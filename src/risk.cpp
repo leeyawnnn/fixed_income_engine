@@ -4,15 +4,14 @@
 
 namespace fi {
 
-RiskMeasures risk_measures(const Bond& bond, double yield,
-                           const Date& valuation_date) {
-    const double m = static_cast<double>(per_year(bond.frequency()));
+RiskMeasures risk_measures(const Bond& bond, double yield, const Date& valuation_date) {
+    const auto m = static_cast<double>(per_year(bond.frequency()));
     const DayCount dc = bond.day_count();
     const double base = 1.0 + yield / m;
 
-    double price = 0.0;        // Σ PV
+    double price = 0.0;          // Σ PV
     double t_weighted_pv = 0.0;  // Σ τ·PV
-    double d2 = 0.0;           // d²P/dy²
+    double d2 = 0.0;             // d²P/dy²
 
     for (const Cashflow& cf : bond.cashflows()) {
         if (cf.date <= valuation_date) continue;

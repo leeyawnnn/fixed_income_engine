@@ -9,8 +9,7 @@ namespace fi {
 namespace {
 
 // Payment dates, anchored to maturity and stepped backwards (EOM-safe).
-std::vector<Date> schedule(const Date& start, const Date& maturity,
-                           Frequency freq) {
+std::vector<Date> schedule(const Date& start, const Date& maturity, Frequency freq) {
     const int step = 12 / per_year(freq);
     std::vector<Date> dates;
     for (int k = 0;; ++k) {
@@ -24,10 +23,9 @@ std::vector<Date> schedule(const Date& start, const Date& maturity,
 
 }  // namespace
 
-Swap::Swap(double notional, double fixed_rate, SwapDirection direction,
-           Date start, Date maturity, Frequency fixed_frequency,
-           DayCount fixed_day_count, Frequency float_frequency,
-           DayCount float_day_count)
+Swap::Swap(double notional, double fixed_rate, SwapDirection direction, Date start,
+           Date maturity, Frequency fixed_frequency, DayCount fixed_day_count,
+           Frequency float_frequency, DayCount float_day_count)
     : notional_(notional),
       fixed_rate_(fixed_rate),
       direction_(direction),
@@ -56,8 +54,7 @@ double Swap::fixed_leg_pv(const Curve& discount) const {
     return notional_ * fixed_rate_ * annuity(discount);
 }
 
-double Swap::floating_leg_pv(const Curve& discount,
-                             const Curve& projection) const {
+double Swap::floating_leg_pv(const Curve& discount, const Curve& projection) const {
     double pv = 0.0;
     Date prev = start_;
     for (const Date& d : schedule(start_, maturity_, float_frequency_)) {
@@ -73,8 +70,7 @@ double Swap::floating_leg_pv(const Curve& discount,
 double Swap::pv(const Curve& discount, const Curve& projection) const {
     const double fixed = fixed_leg_pv(discount);
     const double floating = floating_leg_pv(discount, projection);
-    return direction_ == SwapDirection::Payer ? floating - fixed
-                                              : fixed - floating;
+    return direction_ == SwapDirection::Payer ? floating - fixed : fixed - floating;
 }
 
 double Swap::par_rate(const Curve& discount, const Curve& projection) const {

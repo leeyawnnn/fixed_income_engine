@@ -46,6 +46,7 @@ Frequency freq_from_int(int f) {
         case 2: return Frequency::SemiAnnual;
         case 4: return Frequency::Quarterly;
         case 12: return Frequency::Monthly;
+        default: break;
     }
     throw std::runtime_error("unsupported frequency: " + std::to_string(f));
 }
@@ -63,8 +64,10 @@ Args parse_args(int argc, char** argv) {
     Args a;
     for (int i = 1; i < argc; ++i) {
         std::string s = argv[i];
-        if (s == "--quotes" && i + 1 < argc) a.quotes = argv[++i];
-        else if (s == "--portfolio" && i + 1 < argc) a.portfolio = argv[++i];
+        if (s == "--quotes" && i + 1 < argc)
+            a.quotes = argv[++i];
+        else if (s == "--portfolio" && i + 1 < argc)
+            a.portfolio = argv[++i];
     }
     return a;
 }
@@ -104,10 +107,10 @@ int main(int argc, char** argv) {
             const Date mat = add_tenor(ref, std::stod(tenor_s));
             const double rate = std::stod(rate_s);
             if (kind == "deposit")
-                instruments.push_back(DepositQuote{mat, rate, DayCount::Act360});
+                instruments.emplace_back(DepositQuote{mat, rate, DayCount::Act360});
             else if (kind == "swap")
-                instruments.push_back(SwapQuote{mat, rate, Frequency::SemiAnnual,
-                                                DayCount::Thirty360});
+                instruments.emplace_back(
+                    SwapQuote{mat, rate, Frequency::SemiAnnual, DayCount::Thirty360});
             else
                 throw std::runtime_error("unknown instrument: " + kind);
         }
@@ -162,10 +165,9 @@ int main(int argc, char** argv) {
                 book.emplace_back(
                     s["notional"].number(), s["fixed_rate"].number(),
                     s["direction"].as_string() == "payer" ? SwapDirection::Payer
-                                                           : SwapDirection::Receiver,
-                    ref, add_tenor(ref, s["tenor_years"].number()),
-                    freq_from_int(ff), DayCount::Thirty360, freq_from_int(gf),
-                    DayCount::Act360);
+                                                          : SwapDirection::Receiver,
+                    ref, add_tenor(ref, s["tenor_years"].number()), freq_from_int(ff),
+                    DayCount::Thirty360, freq_from_int(gf), DayCount::Act360);
             }
         }
 
@@ -200,10 +202,10 @@ int main(int argc, char** argv) {
             std::cout << "  " << std::setw(7) << nt[i] << "y : " << krd[i] << "\n";
         std::cout << std::setprecision(6) << "Implied forward rates between nodes:\n";
         double prev_t = 0.0;
-        for (std::size_t i = 0; i < nt.size(); ++i) {
-            std::cout << "  [" << prev_t << ", " << nt[i] << "] = "
-                      << curve->forward_rate(prev_t, nt[i]) << "\n";
-            prev_t = nt[i];
+        for (const double t : nt) {
+            std::cout << "  [" << prev_t << ", " << t
+                      << "] = " << curve->forward_rate(prev_t, t) << "\n";
+            prev_t = t;
         }
         std::cout << "\n";
 

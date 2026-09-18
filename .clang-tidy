@@ -1,13 +1,22 @@
-# Checks that catch real defects in numerical C++ without fighting the domain's
-# conventions. Notably disabled:
-#   readability-identifier-length     - `t`, `dc`, `z`, `df` are the standard
-#                                       names in curve/rate code; spelling them
-#                                       out makes formulas harder to check
-#                                       against the papers they come from.
-#   *-magic-numbers                   - 360.0, 365.0, 30.0, 1e-4 are the
-#                                       conventions themselves, not tunables.
-#   readability-identifier-naming     - not configured; the codebase is already
-#                                       internally consistent.
+# The goal is catching defects, not enforcing a house style on top of
+# .clang-format. Checks are enabled in families and then narrowed where a rule
+# argues with the domain rather than with the code.
+#
+# Deliberately off, with reasons:
+#   readability-identifier-length     t, dc, z, df, tau are the names the rates
+#                                     literature uses; expanding them makes the
+#                                     formulas harder to check against source.
+#   *-magic-numbers                   360.0, 365.0, 30.0, 1e-4 ARE the
+#                                     conventions. Naming them adds indirection.
+#   modernize-use-nodiscard           would decorate ~56 trivial accessors.
+#   misc-const-correctness            would const-qualify nearly every local.
+#   readability-isolate-declaration   `int y1 = ..., y2 = ...` in the 30/360
+#                                     rule reads better grouped.
+#   performance-enum-size             Frequency's int base is load-bearing:
+#                                     per_year() casts it straight to int.
+#   misc-no-recursion                 json.hpp is a recursive-descent parser.
+#   readability-use-anyofallof        std::any_of is not clearer in the node
+#                                     validation loops.
 Checks: >
   bugprone-*,
   performance-*,
@@ -16,16 +25,23 @@ Checks: >
   portability-*,
   misc-*,
   -bugprone-easily-swappable-parameters,
-  -misc-non-private-member-variables-in-classes,
+  -misc-const-correctness,
   -misc-include-cleaner,
+  -misc-no-recursion,
+  -misc-non-private-member-variables-in-classes,
+  -modernize-return-braced-init-list,
+  -modernize-use-nodiscard,
   -modernize-use-trailing-return-type,
-  -readability-identifier-length,
-  -readability-magic-numbers,
-  -readability-math-missing-parentheses,
+  -performance-enum-size,
+  -readability-avoid-nested-conditional-operator,
   -readability-braces-around-statements,
   -readability-function-cognitive-complexity,
-  -readability-avoid-nested-conditional-operator
+  -readability-identifier-length,
+  -readability-isolate-declaration,
+  -readability-magic-numbers,
+  -readability-math-missing-parentheses,
+  -readability-use-anyofallof
 
 WarningsAsErrors: '*'
-HeaderFilterRegex: 'include/fi/.*\.hpp$'
+HeaderFilterRegex: '.*/include/fi/.*\.hpp$'
 FormatStyle: file

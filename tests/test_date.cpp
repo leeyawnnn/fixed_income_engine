@@ -16,7 +16,8 @@ TEST_CASE("Date stores and reports calendar fields", "[date]") {
 }
 
 TEST_CASE("Date rejects impossible calendar dates", "[date]") {
-    REQUIRE_THROWS_AS(Date(2023, 2, 29), std::invalid_argument);  // 2023 not a leap year
+    REQUIRE_THROWS_AS(Date(2023, 2, 29),
+                      std::invalid_argument);  // 2023 not a leap year
     REQUIRE_THROWS_AS(Date(2024, 13, 1), std::invalid_argument);
     REQUIRE_THROWS_AS(Date(2024, 4, 31), std::invalid_argument);  // April has 30 days
 }

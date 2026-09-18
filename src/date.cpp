@@ -42,9 +42,15 @@ Date Date::from_serial(std::int64_t serial_days) {
     return Date{year_month_day{sd}};
 }
 
-int Date::year() const noexcept { return static_cast<int>(ymd_.year()); }
-unsigned Date::month() const noexcept { return static_cast<unsigned>(ymd_.month()); }
-unsigned Date::day() const noexcept { return static_cast<unsigned>(ymd_.day()); }
+int Date::year() const noexcept {
+    return static_cast<int>(ymd_.year());
+}
+unsigned Date::month() const noexcept {
+    return static_cast<unsigned>(ymd_.month());
+}
+unsigned Date::day() const noexcept {
+    return static_cast<unsigned>(ymd_.day());
+}
 
 std::int64_t Date::serial() const noexcept {
     return std::chrono::sys_days{ymd_}.time_since_epoch().count();
@@ -73,11 +79,15 @@ std::string Date::to_string() const {
         std::string s = std::to_string(v);
         return s.size() < 2 ? "0" + s : s;
     };
-    int y = year();
+    const int y = year();
     std::string ys = std::to_string(y < 0 ? -y : y);
-    while (ys.size() < 4) ys = "0" + ys;
-    if (y < 0) ys = "-" + ys;
-    return ys + "-" + pad2(month()) + "-" + pad2(day());
+    ys.insert(0, 4 > ys.size() ? 4 - ys.size() : 0, '0');
+    if (y < 0) ys.insert(0, 1, '-');
+    ys += '-';
+    ys += pad2(month());
+    ys += '-';
+    ys += pad2(day());
+    return ys;
 }
 
 std::int64_t days_between(const Date& start, const Date& end) noexcept {

@@ -24,8 +24,7 @@ std::vector<Date> fixed_schedule(const Date& start, const Date& maturity,
 }
 
 // Fixed-leg annuity Σ τ_j · DF(t_j) for a unit-rate fixed leg.
-double fixed_annuity(const Curve& curve, const Date& start,
-                     const SwapQuote& q) {
+double fixed_annuity(const Curve& curve, const Date& start, const SwapQuote& q) {
     double a = 0.0;
     Date prev = start;
     for (const Date& d : fixed_schedule(start, q.maturity, q.fixed_frequency)) {
@@ -36,16 +35,15 @@ double fixed_annuity(const Curve& curve, const Date& start,
 }
 
 Date instrument_maturity(const BootstrapInstrument& inst) {
-    if (auto* d = std::get_if<DepositQuote>(&inst)) return d->maturity;
-    if (auto* f = std::get_if<FuturesQuote>(&inst)) return f->end;
+    if (const auto* d = std::get_if<DepositQuote>(&inst)) return d->maturity;
+    if (const auto* f = std::get_if<FuturesQuote>(&inst)) return f->end;
     return std::get<SwapQuote>(inst).maturity;
 }
 
 }  // namespace
 
 double implied_deposit_rate(const Curve& curve, const DepositQuote& q) {
-    const double tau =
-        year_fraction(curve.reference_date(), q.maturity, q.day_count);
+    const double tau = year_fraction(curve.reference_date(), q.maturity, q.day_count);
     const double df = curve.discount(q.maturity);
     return (1.0 / df - 1.0) / tau;
 }
@@ -80,26 +78,27 @@ std::unique_ptr<Curve> bootstrap_curve(const Date& reference_date,
     };
     const auto add_node = [&](double t, double df) {
         if (!(t > 0.0)) {
-            throw std::invalid_argument("bootstrap: instrument maturity must be after reference date");
+            throw std::invalid_argument(
+                "bootstrap: instrument maturity must be after reference date");
         }
         times.push_back(t);
         zeros.push_back(-std::log(df) / t);  // continuously-compounded zero
     };
 
     for (const BootstrapInstrument& inst : instruments) {
-        if (auto* dep = std::get_if<DepositQuote>(&inst)) {
+        if (const auto* dep = std::get_if<DepositQuote>(&inst)) {
             const double tau =
                 year_fraction(reference_date, dep->maturity, dep->day_count);
             add_node(time_of(dep->maturity), 1.0 / (1.0 + dep->rate * tau));
 
-        } else if (auto* fut = std::get_if<FuturesQuote>(&inst)) {
+        } else if (const auto* fut = std::get_if<FuturesQuote>(&inst)) {
             if (times.empty()) {
-                throw std::invalid_argument("bootstrap: a futures/FRA needs a prior short-end node");
+                throw std::invalid_argument(
+                    "bootstrap: a futures/FRA needs a prior short-end node");
             }
             LogLinearCurve current{reference_date, curve_day_count, times, zeros};
             const double df_start = current.discount(fut->start);
-            const double tau =
-                year_fraction(fut->start, fut->end, fut->day_count);
+            const double tau = year_fraction(fut->start, fut->end, fut->day_count);
             add_node(time_of(fut->end), df_start / (1.0 + fut->rate * tau));
 
         } else {

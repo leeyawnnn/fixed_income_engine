@@ -5,8 +5,7 @@
 using fi::json::parse;
 
 TEST_CASE("JSON parses scalars, arrays and nested objects", "[json]") {
-    auto v = parse(
-        R"({"a":1.5,"b":"hi","c":[1,2,3],"d":true,"e":null,"f":{"g":-2}})");
+    auto v = parse(R"({"a":1.5,"b":"hi","c":[1,2,3],"d":true,"e":null,"f":{"g":-2}})");
 
     REQUIRE(v.contains("a"));
     REQUIRE(v["a"].number() == 1.5);
@@ -28,7 +27,7 @@ TEST_CASE("JSON handles whitespace, escapes and exponents", "[json]") {
 
 TEST_CASE("JSON rejects malformed input", "[json]") {
     REQUIRE_THROWS(parse("{bad}"));
-    REQUIRE_THROWS(parse(R"({"a":1,})"));   // trailing comma
+    REQUIRE_THROWS(parse(R"({"a":1,})"));  // trailing comma
     REQUIRE_THROWS(parse(R"("unterminated)"));
-    REQUIRE_THROWS(parse("[1,2"));          // unclosed array
+    REQUIRE_THROWS(parse("[1,2"));  // unclosed array
 }

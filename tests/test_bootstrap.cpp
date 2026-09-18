@@ -49,8 +49,7 @@ TEST_CASE("Deposit + future + swap reprice to their quotes", "[bootstrap]") {
 
     const DepositQuote dep{Date{2024, 4, 1}, 0.050, DayCount::Act360};
     // Future starts at the deposit's maturity (a curve node), ends 3M later.
-    const FuturesQuote fut{Date{2024, 4, 1}, Date{2024, 7, 1}, 0.052,
-                           DayCount::Act360};
+    const FuturesQuote fut{Date{2024, 4, 1}, Date{2024, 7, 1}, 0.052, DayCount::Act360};
     const SwapQuote sw{Date{2025, 1, 1}, 0.053, Frequency::SemiAnnual,
                        DayCount::Thirty360};
 
