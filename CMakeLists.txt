@@ -50,7 +50,14 @@ include(FetchContent)
 # Eigen is hosted on GitLab and has no GitHub mirror (verified 2026-09-18:
 # https://github.com/libeigen/eigen returns 404), so the GitLab release tarball
 # is the only pinnable official source.
-find_package(Eigen3 3.3 QUIET NO_MODULE)
+#
+# NO_*_PACKAGE_REGISTRY is not optional here: building Eigen through
+# FetchContent runs `export(PACKAGE Eigen3)`, which writes the *build tree*
+# path into ~/.cmake/packages/Eigen3. Every later find_package(Eigen3) on that
+# machine then resolves to some other project's build directory, which may
+# since have been deleted. Only real installed locations are acceptable.
+find_package(Eigen3 3.3 QUIET NO_MODULE
+             NO_CMAKE_PACKAGE_REGISTRY NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
 if(TARGET Eigen3::Eigen)
     message(STATUS "fi: using system Eigen3 ${Eigen3_VERSION}")
 elseif(FI_OFFLINE)
@@ -64,6 +71,9 @@ else()
     set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
     set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "" FORCE)
     set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+    # Stop Eigen's own CMake writing this build tree into the user package
+    # registry and leaking it into unrelated projects on this machine.
+    set(CMAKE_EXPORT_NO_PACKAGE_REGISTRY ON)
     FetchContent_Declare(
         Eigen3
         URL      https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz
@@ -100,7 +110,8 @@ add_library(fi::fi ALIAS fi)
 # Tests
 # ---------------------------------------------------------------------------
 if(FI_BUILD_TESTS)
-    find_package(Catch2 3 QUIET)
+    find_package(Catch2 3 QUIET
+                 NO_CMAKE_PACKAGE_REGISTRY NO_CMAKE_SYSTEM_PACKAGE_REGISTRY)
     if(TARGET Catch2::Catch2WithMain)
         message(STATUS "fi: using system Catch2 ${Catch2_VERSION}")
     elseif(FI_OFFLINE)

@@ -1,0 +1,20 @@
+# Google style with a 4-space indent and a slightly wider column limit, which
+# is what the existing sources were written to.
+---
+Language:        Cpp
+BasedOnStyle:    Google
+Standard:        c++20
+
+IndentWidth:     4
+ContinuationIndentWidth: 4
+AccessModifierOffset: -4
+ColumnLimit:     88
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortCaseLabelsOnASingleLine: true
+SpacesBeforeTrailingComments: 2
+IncludeBlocks:   Preserve
+SortIncludes:    CaseSensitive

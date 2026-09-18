@@ -1,0 +1,31 @@
+# Checks that catch real defects in numerical C++ without fighting the domain's
+# conventions. Notably disabled:
+#   readability-identifier-length     - `t`, `dc`, `z`, `df` are the standard
+#                                       names in curve/rate code; spelling them
+#                                       out makes formulas harder to check
+#                                       against the papers they come from.
+#   *-magic-numbers                   - 360.0, 365.0, 30.0, 1e-4 are the
+#                                       conventions themselves, not tunables.
+#   readability-identifier-naming     - not configured; the codebase is already
+#                                       internally consistent.
+Checks: >
+  bugprone-*,
+  performance-*,
+  modernize-*,
+  readability-*,
+  portability-*,
+  misc-*,
+  -bugprone-easily-swappable-parameters,
+  -misc-non-private-member-variables-in-classes,
+  -misc-include-cleaner,
+  -modernize-use-trailing-return-type,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -readability-math-missing-parentheses,
+  -readability-braces-around-statements,
+  -readability-function-cognitive-complexity,
+  -readability-avoid-nested-conditional-operator
+
+WarningsAsErrors: '*'
+HeaderFilterRegex: 'include/fi/.*\.hpp$'
+FormatStyle: file
