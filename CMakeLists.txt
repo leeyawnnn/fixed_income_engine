@@ -150,6 +150,7 @@ if(FI_BUILD_TESTS)
         tests/test_nss.cpp
         tests/test_swap.cpp
         tests/test_sensitivity.cpp
+        tests/test_analytics.cpp
         tests/test_scenario.cpp
         tests/test_json.cpp
     )
