@@ -1,12 +1,16 @@
-// curve_demo — end-to-end driver for the fixed-income engine.
+// curve_demo - the deposit-plus-par-swap bootstrap path, end to end.
 //
-//   curve_demo [--quotes data/illustrative_swap_quotes.csv] [--portfolio
-//   data/portfolio.json]
+//   curve_demo [--quotes FILE] [--portfolio FILE]
 //
-// Loads market quotes, bootstraps a zero curve, fits Nelson-Siegel-Svensson,
-// prices the portfolio, and runs the standard scenario set. Writes curve.csv
-// and scenarios_report.md, and prints a summary. Run from the repo root so the
+// Loads quotes, bootstraps a zero curve, fits Nelson-Siegel-Svensson, prices
+// the portfolio and runs the standard scenario set, printing a summary and
+// writing curve.csv and scenarios_report.md. Run from the repo root so the
 // default data/ paths resolve.
+//
+// Its default quote file is data/illustrative_swap_quotes.csv, which is
+// hand-written and NOT market data - no free USD swap curve exists to replace
+// it. Nothing this program prints belongs in the README. The numbers the README
+// quotes come from fi_report, which runs on real published Treasury data.
 #include <cmath>
 #include <fstream>
 #include <iomanip>
