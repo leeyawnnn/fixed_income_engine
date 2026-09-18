@@ -1,7 +1,9 @@
 # Build output
 build/
+build-*/
 cmake-build-*/
 out/
+_deps/
 
 # CMake
 CMakeCache.txt
@@ -9,14 +11,44 @@ CMakeFiles/
 cmake_install.cmake
 CTestTestfile.cmake
 Testing/
+install_manifest.txt
 
-# Generated demo outputs
+# Compiled objects / libraries / binaries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.d
+*.gcda
+*.gcno
+*.gcov
+*.profraw
+*.profdata
+
+# Generated demo outputs (regenerate with the apps; artifacts under reports/
+# and data/ are committed deliberately and are not matched here)
 curve.csv
 scenarios_report.md
 
-# Editor / OS
+# Python (scripts/ and tools/)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+
+# Editor / OS / tooling indexes
 .DS_Store
 .idea/
 .vscode/
+.cache/
 compile_commands.json
+.clangd/
 *.swp
+*~

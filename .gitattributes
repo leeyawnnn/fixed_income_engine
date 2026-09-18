@@ -1,0 +1,18 @@
+# Normalise line endings for text we author.
+*.cpp   text eol=lf
+*.hpp   text eol=lf
+*.py    text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.cff   text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+*.csv   text eol=lf
+
+# Downloaded market data is third-party content, not code we wrote. Marking it
+# vendored keeps GitHub's language stats reporting this as the C++ repo it is.
+data/**             linguist-vendored
+
+# Everything under reports/ is produced by tools/make_figures.py and the
+# validation app; none of it is hand-authored.
+reports/**          linguist-generated
