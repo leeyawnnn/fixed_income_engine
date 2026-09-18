@@ -14,14 +14,30 @@
 
 namespace fi::json {
 
+struct Value;
+
+// One key/value entry of a JSON object.
+//
+// This is a named struct rather than std::pair<std::string, Value> because
+// std::pair does not support incomplete types, and Value is necessarily
+// incomplete while its own members are being declared. libc++ happens to accept
+// the pair form; libstdc++ rejects it with a static_assert, so the pair version
+// built on macOS and failed on Linux under clang.
+//
+// std::vector, unlike std::pair, is explicitly allowed to be instantiated with
+// an incomplete type as long as the type is complete before any member of the
+// vector is used -- which is why `std::vector<Member>` below is fine with
+// Member defined after Value.
+struct Member;
+
 struct Value {
     enum class Type { Null, Bool, Number, String, Array, Object };
     Type type = Type::Null;
     bool bval = false;
     double nval = 0.0;
     std::string sval;
-    std::vector<Value> items;                            // Array
-    std::vector<std::pair<std::string, Value>> members;  // Object
+    std::vector<Value> items;     // Array
+    std::vector<Member> members;  // Object
 
     bool is_null() const { return type == Type::Null; }
     double number() const {
@@ -40,18 +56,29 @@ struct Value {
         if (type != Type::Array) throw std::runtime_error("json: not an array");
         return items;
     }
-    bool contains(const std::string& k) const {
-        if (type != Type::Object) return false;
-        for (const auto& m : members)
-            if (m.first == k) return true;
-        return false;
-    }
-    const Value& operator[](const std::string& k) const {
-        for (const auto& m : members)
-            if (m.first == k) return m.second;
-        throw std::runtime_error("json: missing key '" + k + "'");
-    }
+    // Defined out of line, below Member: their bodies read Member's fields, and
+    // Member is still incomplete at the closing brace of Value.
+    bool contains(const std::string& k) const;
+    const Value& operator[](const std::string& k) const;
 };
+
+struct Member {
+    std::string key;
+    Value value;
+};
+
+inline bool Value::contains(const std::string& k) const {
+    if (type != Type::Object) return false;
+    for (const auto& m : members)
+        if (m.key == k) return true;
+    return false;
+}
+
+inline const Value& Value::operator[](const std::string& k) const {
+    for (const auto& m : members)
+        if (m.key == k) return m.value;
+    throw std::runtime_error("json: missing key '" + k + "'");
+}
 
 namespace detail {
 
@@ -119,7 +146,7 @@ private:
             skip_ws();
             if (peek() != ':') err("expected ':'");
             ++i_;
-            v.members.emplace_back(std::move(key), value());
+            v.members.push_back(Member{std::move(key), value()});
             skip_ws();
             char c = peek();
             ++i_;
