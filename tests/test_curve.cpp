@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 #include "fi/curve.hpp"

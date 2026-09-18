@@ -2,8 +2,10 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <iomanip>
 #include <sstream>
+#include <utility>
 
 namespace fi {
 

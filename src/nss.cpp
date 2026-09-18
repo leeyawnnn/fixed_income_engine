@@ -2,6 +2,7 @@
 
 #include <Eigen/Dense>
 #include <array>
+#include <cstddef>
 
 #include <algorithm>
 #include <cmath>

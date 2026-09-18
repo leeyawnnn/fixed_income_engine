@@ -3,6 +3,7 @@
 #include <chrono>
 #include <compare>
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 
 namespace fi {

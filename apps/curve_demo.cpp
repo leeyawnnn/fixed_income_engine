@@ -12,6 +12,7 @@
 // it. Nothing this program prints belongs in the README. The numbers the README
 // quotes come from fi_report, which runs on real published Treasury data.
 #include <cmath>
+#include <cstddef>
 #include <fstream>
 #include <iomanip>
 #include <iostream>

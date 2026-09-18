@@ -1,7 +1,10 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
+#include <utility>
 #include <vector>
 
 #include "fi/date.hpp"

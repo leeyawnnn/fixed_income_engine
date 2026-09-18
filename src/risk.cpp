@@ -3,7 +3,9 @@
 #include <Eigen/Dense>
 
 #include <cmath>
+#include <cstddef>
 #include <stdexcept>
+#include <utility>
 
 namespace fi {
 

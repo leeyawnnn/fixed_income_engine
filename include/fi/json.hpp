@@ -5,6 +5,7 @@
 // null / bool / number / string / array / object with the common string
 // escapes. Throws std::runtime_error on malformed input.
 
+#include <cstddef>
 #include <cstdlib>
 #include <stdexcept>
 #include <string>

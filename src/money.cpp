@@ -1,6 +1,7 @@
 #include "fi/money.hpp"
 
 #include <cmath>
+#include <cstddef>
 #include <limits>
 #include <stdexcept>
 
