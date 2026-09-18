@@ -45,13 +45,26 @@ public:
 
     // Fixed rate that makes the swap worth zero (direction-independent).
     double par_rate(const Curve& discount, const Curve& projection) const;
-    double par_rate(const Curve& discount) const { return par_rate(discount, discount); }
+    double par_rate(const Curve& discount) const {
+        return par_rate(discount, discount);
+    }
 
     double notional() const noexcept { return notional_; }
     double fixed_rate() const noexcept { return fixed_rate_; }
     SwapDirection direction() const noexcept { return direction_; }
     Date start() const noexcept { return start_; }
     Date maturity() const noexcept { return maturity_; }
+
+    // Leg conventions. `float_day_count()` does not enter pv() by design: the
+    // projected coupon L_j and the accrual τ_j are taken on the same basis, so
+    // L_j·τ_j collapses to DF_proj(t_{j-1})/DF_proj(t_j) − 1 and the day count
+    // cancels. It is still part of the trade's terms, and it is what a basis or
+    // multi-curve extension would need, so the swap carries it and reports can
+    // print it.
+    Frequency fixed_frequency() const noexcept { return fixed_frequency_; }
+    DayCount fixed_day_count() const noexcept { return fixed_day_count_; }
+    Frequency float_frequency() const noexcept { return float_frequency_; }
+    DayCount float_day_count() const noexcept { return float_day_count_; }
 
 private:
     double notional_;
