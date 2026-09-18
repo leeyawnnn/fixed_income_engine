@@ -185,6 +185,7 @@ int main(int argc, char** argv) {
         };
 
         std::vector<std::unique_ptr<Curve>> curves;
+        curves.reserve(schemes.size());
         for (const Interpolation scheme : schemes) {
             curves.push_back(
                 bootstrap_curve(as_of, DayCount::Act365, instruments, scheme));
@@ -369,8 +370,9 @@ int main(int argc, char** argv) {
         }
 
         // --- 8. Bucketed hedge ------------------------------------------------
-        std::vector<Swap> hedges;
         const std::vector<int> hedge_tenors = {24, 60, 84, 120, 360};
+        std::vector<Swap> hedges;
+        hedges.reserve(hedge_tenors.size());
         for (const int months : hedge_tenors) {
             hedges.emplace_back(1.0, 0.04, SwapDirection::Receiver, as_of,
                                 as_of.add_months(months), Frequency::SemiAnnual,
@@ -442,24 +444,25 @@ int main(int argc, char** argv) {
         {
             std::ofstream meta(args.out + "/run.meta.json");
             meta << "{\n"
-                 << "  \"produced_by\": \"./build/fi_report --out " << args.out
+                 << R"(  "produced_by": "./build/fi_report --out )" << args.out
                  << "\",\n"
-                 << "  \"engine_version\": \"" << version_string << "\",\n"
-                 << "  \"curve_as_of\": \"" << args.as_of << "\",\n"
-                 << "  \"data_source\": \"data/treasury_par_yields_2025.csv (US "
-                    "Treasury Daily Par Yield Curve Rates, CMT)\",\n"
-                 << "  \"instruments\": " << instruments.size() << ",\n"
-                 << "  \"interpolation_schemes\": [";
+                 << R"(  "engine_version": ")" << version_string << "\",\n"
+                 << R"(  "curve_as_of": ")" << args.as_of << "\",\n"
+                 << R"j(  "data_source": "data/treasury_par_yields_2025.csv )j"
+                    R"j((US Treasury Daily Par Yield Curve Rates, CMT)",)j"
+                 << "\n"
+                 << R"(  "instruments": )" << instruments.size() << ",\n"
+                 << R"(  "interpolation_schemes": [)";
             for (std::size_t i = 0; i < schemes.size(); ++i) {
-                meta << (i ? ", " : "") << '"' << to_string(schemes[i]) << '"';
+                meta << (i > 0 ? ", " : "") << '"' << to_string(schemes[i]) << '"';
             }
             meta << "],\n"
-                 << "  \"worst_repricing_residual_bp\": "
+                 << R"(  "worst_repricing_residual_bp": )"
                  << scientific(worst_residual_bp, 3) << ",\n"
-                 << "  \"nss_rmse_bp\": " << fixed(nss_rmse_bp, 4) << ",\n"
-                 << "  \"portfolio_total_pv\": \""
+                 << R"(  "nss_rmse_bp": )" << fixed(nss_rmse_bp, 4) << ",\n"
+                 << R"(  "portfolio_total_pv": ")"
                  << valuation.total_pv.to_string_with_currency() << "\",\n"
-                 << "  \"portfolio_dv01_per_bp\": " << fixed(valuation.total_dv01, 2)
+                 << R"(  "portfolio_dv01_per_bp": )" << fixed(valuation.total_dv01, 2)
                  << ",\n"
                  << "  \"key_rate_residual_pct_of_parallel\": "
                  << fixed(key_rates.relative_residual * 100.0, 6) << "\n"

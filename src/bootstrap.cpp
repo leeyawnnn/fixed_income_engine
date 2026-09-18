@@ -1,6 +1,7 @@
 #include "fi/bootstrap.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
@@ -51,14 +52,14 @@ double par_bond_annuity(const Curve& curve, const Date& start, const ParBondQuot
 
 std::string tenor_label(const Date& reference_date, const Date& maturity) {
     const double years = year_fraction(reference_date, maturity, DayCount::Act365);
-    char buffer[32];
+    std::array<char, 32> buffer{};
     if (years < 0.95) {
-        std::snprintf(buffer, sizeof(buffer), "%gM",
+        std::snprintf(buffer.data(), buffer.size(), "%gM",
                       std::round(years * 12.0 * 2.0) / 2.0);
     } else {
-        std::snprintf(buffer, sizeof(buffer), "%gY", std::round(years));
+        std::snprintf(buffer.data(), buffer.size(), "%gY", std::round(years));
     }
-    return buffer;
+    return buffer.data();
 }
 
 }  // namespace
@@ -91,14 +92,19 @@ Date instrument_maturity(const BootstrapInstrument& inst) noexcept {
     if (const auto* d = std::get_if<DepositQuote>(&inst)) return d->maturity;
     if (const auto* f = std::get_if<FuturesQuote>(&inst)) return f->end;
     if (const auto* b = std::get_if<ParBondQuote>(&inst)) return b->maturity;
-    return std::get<SwapQuote>(inst).maturity;
+    // get_if for the last alternative too: std::get throws bad_variant_access,
+    // which would escape a noexcept function and terminate. A valueless variant
+    // is only reachable after an exception during assignment.
+    const auto* s = std::get_if<SwapQuote>(&inst);
+    return s != nullptr ? s->maturity : Date{};
 }
 
 double quoted_rate(const BootstrapInstrument& inst) noexcept {
     if (const auto* d = std::get_if<DepositQuote>(&inst)) return d->rate;
     if (const auto* f = std::get_if<FuturesQuote>(&inst)) return f->rate;
     if (const auto* b = std::get_if<ParBondQuote>(&inst)) return b->par_yield;
-    return std::get<SwapQuote>(inst).rate;
+    const auto* s = std::get_if<SwapQuote>(&inst);
+    return s != nullptr ? s->rate : 0.0;
 }
 
 double repricing_residual(const Curve& curve, const BootstrapInstrument& inst) {

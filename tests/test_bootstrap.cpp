@@ -90,9 +90,9 @@ TEST_CASE("A longer swap ladder reprices across all tenors", "[bootstrap]") {
     auto curve = bootstrap_curve(ref, DayCount::Act365, instruments);
 
     for (const auto& inst : instruments) {
-        if (auto* d = std::get_if<DepositQuote>(&inst)) {
+        if (const auto* d = std::get_if<DepositQuote>(&inst)) {
             REQUIRE(implied_deposit_rate(*curve, *d) == Approx(d->rate).margin(1e-9));
-        } else if (auto* s = std::get_if<SwapQuote>(&inst)) {
+        } else if (const auto* s = std::get_if<SwapQuote>(&inst)) {
             REQUIRE(par_swap_rate(*curve, *s) == Approx(s->rate).margin(1e-9));
         }
     }

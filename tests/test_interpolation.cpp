@@ -140,7 +140,8 @@ TEST_CASE("monotone convex forwards stay non-negative on the Treasury curve",
     const auto curve = bootstrap_curve(cmt.as_of, DayCount::Act365, instruments,
                                        Interpolation::MonotoneConvex);
 
-    for (double t = 0.01; t < 30.0; t += 0.01) {
+    for (int step = 1; step < 3000; ++step) {
+        const double t = step * 0.01;
         INFO("t = " << t);
         REQUIRE(curve->instantaneous_forward(t) >= 0.0);
     }
@@ -168,7 +169,8 @@ TEST_CASE("the positivity collar cannot rescue a negative discrete forward",
     REQUIRE(curve->forward_rate(1.0, 2.0) == Approx(discrete).margin(1e-12));
 
     double most_negative = 0.0;
-    for (double t = 1.05; t < 2.0; t += 0.05) {
+    for (int step = 1; step < 20; ++step) {
+        const double t = 1.0 + step * 0.05;
         most_negative = std::min(most_negative, curve->instantaneous_forward(t));
     }
     REQUIRE(most_negative < 0.0);

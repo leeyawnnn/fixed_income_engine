@@ -40,7 +40,9 @@ Checks: >
   -readability-isolate-declaration,
   -readability-magic-numbers,
   -readability-math-missing-parentheses,
-  -readability-use-anyofallof
+  -readability-use-anyofallof,
+  -misc-use-anonymous-namespace,
+  -clang-analyzer-optin.performance.Padding
 
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*/include/fi/.*\.hpp$'

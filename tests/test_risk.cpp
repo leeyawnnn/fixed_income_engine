@@ -1,6 +1,7 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include <array>
 #include <cmath>
 
 #include "fi/bond.hpp"
@@ -50,18 +51,19 @@ TEST_CASE("Modified duration and DV01 satisfy their definitions", "[risk]") {
 
 TEST_CASE("Analytic DV01 matches finite-difference DV01 to 1e-6", "[risk]") {
     // Across coupons, maturities and yields.
+    // Fields ordered widest-first so the struct carries no padding.
     struct Case {
         double coupon;
-        int years;
         double y;
+        int years;
         Frequency f;
     };
-    const Case cases[] = {
-        {0.05, 10, 0.05, Frequency::Annual},
-        {0.03, 10, 0.06, Frequency::SemiAnnual},
-        {0.07, 5, 0.04, Frequency::SemiAnnual},
-        {0.0, 30, 0.08, Frequency::Annual},  // long zero, largest curvature
-    };
+    const std::array<Case, 4> cases = {{
+        {0.05, 0.05, 10, Frequency::Annual},
+        {0.03, 0.06, 10, Frequency::SemiAnnual},
+        {0.07, 0.04, 5, Frequency::SemiAnnual},
+        {0.0, 0.08, 30, Frequency::Annual},  // long zero, largest curvature
+    }};
     for (const auto& c : cases) {
         Bond b{1000.0,
                c.coupon,
