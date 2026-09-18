@@ -145,6 +145,7 @@ if(FI_BUILD_TESTS)
         tests/test_ytm.cpp
         tests/test_risk.cpp
         tests/test_curve.cpp
+        tests/test_interpolation.cpp
         tests/test_bootstrap.cpp
         tests/test_nss.cpp
         tests/test_swap.cpp
