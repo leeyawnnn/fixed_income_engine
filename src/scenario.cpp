@@ -1,6 +1,7 @@
 #include "fi/scenario.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <iomanip>
 #include <sstream>
 
@@ -12,9 +13,16 @@ double clamp01(double x) {
     return std::clamp(x, 0.0, 1.0);
 }
 
+// Basis points with just enough decimals: 25 rather than 25.00, but 12.5 kept
+// as 12.5. Scenario names are read off a chart axis, where trailing zeros are
+// noise.
 std::string fmt(double v) {
     std::ostringstream os;
-    os << std::fixed << std::setprecision(2) << v;
+    if (v == std::floor(v)) {
+        os << std::fixed << std::setprecision(0) << v;
+    } else {
+        os << std::fixed << std::setprecision(1) << v;
+    }
     return os.str();
 }
 

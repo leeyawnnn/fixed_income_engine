@@ -1,6 +1,7 @@
 // curve_demo — end-to-end driver for the fixed-income engine.
 //
-//   curve_demo [--quotes data/illustrative_swap_quotes.csv] [--portfolio data/portfolio.json]
+//   curve_demo [--quotes data/illustrative_swap_quotes.csv] [--portfolio
+//   data/portfolio.json]
 //
 // Loads market quotes, bootstraps a zero curve, fits Nelson-Siegel-Svensson,
 // prices the portfolio, and runs the standard scenario set. Writes curve.csv

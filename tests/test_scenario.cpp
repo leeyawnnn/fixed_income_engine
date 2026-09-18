@@ -109,7 +109,10 @@ TEST_CASE("Standard scenario set and report render", "[scenario]") {
 
     const std::string md = scenarios_report_md(results);
     REQUIRE(md.find("# Scenario P&L Report") != std::string::npos);
-    REQUIRE(md.find("Parallel +100.00bp") != std::string::npos);
-    REQUIRE(md.find("Butterfly") != std::string::npos);
+    // Scenario names are read off a chart axis, so whole numbers of basis
+    // points carry no decimals while a half basis point keeps one.
+    REQUIRE(md.find("Parallel +100bp") != std::string::npos);
+    REQUIRE(md.find("Parallel -25bp") != std::string::npos);
+    REQUIRE(md.find("Butterfly (belly +25/wings -12.5bp)") != std::string::npos);
     REQUIRE(md.find("| P&L |") != std::string::npos);
 }
